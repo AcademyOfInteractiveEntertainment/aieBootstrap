@@ -16,7 +16,7 @@ public:
 
 	Texture();
 	Texture(const char* filename);
-	Texture(unsigned int width, unsigned int height, unsigned int* pixels = nullptr);
+	Texture(unsigned int width, unsigned int height, Format format, unsigned char* pixels = nullptr);
 	virtual ~Texture();
 
 	bool load(const char* filename);

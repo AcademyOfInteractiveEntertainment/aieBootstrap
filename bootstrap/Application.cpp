@@ -79,11 +79,11 @@ void Application::run() {
 		fpsInterval += currTime - prevTime;
 		fpsCount++;
 
-		// update the fps every half second
-		if (fpsInterval > 0.5f) {
-			m_fps = fpsCount * 2; // multiply by 2 because we are updating every half second
+		// update the fps every second
+		if (fpsInterval >= 1.0f) {
+			m_fps = fpsCount;
 			fpsCount = 0;
-			fpsInterval = 0;
+			fpsInterval -= 1.0f;
 		}
 
 		glfwPollEvents();

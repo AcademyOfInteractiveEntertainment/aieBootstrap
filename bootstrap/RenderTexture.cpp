@@ -3,7 +3,8 @@
 
 namespace aie {
 
-RenderTexture::RenderTexture(unsigned int width, unsigned int height) : Texture(width, height) {
+RenderTexture::RenderTexture(unsigned int width, unsigned int height)
+	: Texture(width, height, Texture::RGBA) {
 
 	glBindTexture(GL_TEXTURE_2D, m_glHandle);
 

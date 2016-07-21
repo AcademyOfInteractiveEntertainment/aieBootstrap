@@ -17,7 +17,7 @@ Renderer2D::Renderer2D() {
 	m_cameraY = 0;
 
 	unsigned int pixels[1] = {0xFFFFFFFF};
-	m_nullTexture = new Texture(1, 1, pixels);
+	m_nullTexture = new Texture(1, 1, Texture::RED, (unsigned char*)pixels);
 
 	m_currentVertex = 0;
 	m_currentIndex = 0;
