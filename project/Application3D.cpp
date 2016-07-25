@@ -18,10 +18,7 @@ Application3D::~Application3D() {
 }
 
 bool Application3D::startup() {
-
-	if (createWindow("AIE", 1280, 720, false) == false)
-		return false;
-
+	
 	setBackgroundColour(0.25f, 0.25f, 0.25f);
 
 	// initialise gizmo primitive counts
@@ -38,7 +35,6 @@ void Application3D::shutdown() {
 
 	delete m_camera;
 	Gizmos::destroy();
-	destroyWindow();
 }
 
 void Application3D::update(float deltaTime) {

@@ -3,12 +3,8 @@
 
 int main() {
 	
-//	auto app = new Application2D();
-	auto app = new Application3D();
-	if (app->startup())
-		app->run();
-	app->shutdown();
-
+	auto app = new Application2D(); // or Application3D or whatever
+	app->run("AIE", 1280, 720, false);
 	delete app;
 
 	return 0;

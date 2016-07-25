@@ -6,6 +6,7 @@
 #include "RenderTexture.h"
 #include "Input.h"
 #include "SoundManager.h"
+#include "imgui_glfw3.h"
 
 namespace aie {
 
@@ -53,12 +54,16 @@ bool Application::createWindow(const char* title, int width, int height, bool fu
 
 	// start sound manager
 	SoundManager::create();
+
+	// imgui
+	ImGui_Init(m_window, true);
 	
 	return true;
 }
 
 void Application::destroyWindow() {
 
+	ImGui_Shutdown();
 	SoundManager::destroy();
 	Input::destroy();
 
@@ -66,37 +71,51 @@ void Application::destroyWindow() {
 	glfwTerminate();
 }
 
-void Application::run() {
+void Application::run(const char* title, int width, int height, bool fullscreen) {
 
-	double prevTime = glfwGetTime();
-	double currTime = 0;
-	unsigned int fpsCount = 0;
-	double fpsInterval = 0;
+	// start game loop if successfully initialised
+	if (createWindow(title,width,height, fullscreen) &&
+		startup()) {
 
-	while (!m_gameOver) {
-		currTime = glfwGetTime();
+		double prevTime = glfwGetTime();
+		double currTime = 0;
+		unsigned int fpsCount = 0;
+		double fpsInterval = 0;
 
-		fpsInterval += currTime - prevTime;
-		fpsCount++;
+		while (!m_gameOver) {
 
-		// update the fps every second
-		if (fpsInterval >= 1.0f) {
-			m_fps = fpsCount;
-			fpsCount = 0;
-			fpsInterval -= 1.0f;
+			currTime = glfwGetTime();
+			fpsInterval += currTime - prevTime;
+			fpsCount++;
+
+			// update the fps every second
+			if (fpsInterval >= 1.0f) {
+				m_fps = fpsCount;
+				fpsCount = 0;
+				fpsInterval -= 1.0f;
+			}
+
+			glfwPollEvents();
+
+			ImGui_NewFrame();
+
+			update((float)(currTime - prevTime));
+
+			draw();
+
+			// draw IMGUI after all 3D stuff
+			ImGui::Render();
+
+			glfwSwapBuffers(m_window);
+
+			m_gameOver = m_gameOver || glfwWindowShouldClose(m_window) == GLFW_TRUE;
+			prevTime = currTime;
 		}
-
-		glfwPollEvents();
-
-		update((float)(currTime - prevTime));
-
-		draw();
-
-		glfwSwapBuffers(m_window);
-
-		m_gameOver = m_gameOver || glfwWindowShouldClose(m_window) == GLFW_TRUE;
-		prevTime = currTime;
 	}
+
+	// cleanup
+	shutdown();
+	destroyWindow();
 }
 
 bool Application::hasWindowClosed() {

@@ -12,7 +12,7 @@ public:
 	Application();
 	virtual ~Application();
 
-	void run();
+	void run(const char* title, int width, int height, bool fullscreen);
 
 	virtual bool startup() = 0;
 	virtual void shutdown() = 0;
@@ -24,7 +24,7 @@ public:
 
 	void setShowCursor(bool visible);
 
-	// sets m_gameOver = true. This will close the application safelly
+	// sets m_gameOver to true which will close the application safely
 	void quit() { m_gameOver = true; }
 
 	GLFWwindow* getWindowPtr() const { return m_window; }
@@ -36,9 +36,8 @@ public:
 	unsigned int getWindowWidth()	const;
 	unsigned int getWindowHeight()	const;
 
-	// returns the with/height of the render target
-	// if no alternative render target is specified, the width/height 
-	// of the backbuffer is returned (aks the window size)
+	// returns the width/height of the render target or
+	// width/height of the window if render target is null
 	unsigned int getViewWidth() const;
 	unsigned int getViewHeight() const;
 
@@ -61,7 +60,6 @@ protected:
 	// if set to false, the main game loop will exit
 	bool m_gameOver;
 	
-	// fps calculation
 	unsigned int m_fps;
 
 	RenderTexture*	m_currentRenderTarget;

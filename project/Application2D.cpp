@@ -12,10 +12,7 @@ Application2D::~Application2D() {
 }
 
 bool Application2D::startup() {
-
-	if (createWindow("AIE", 1280, 720, false) == false)
-		return false;
-
+	
 	m_2dRenderer = new aie::Renderer2D();
 
 	m_texture = new aie::Texture("./textures/crate.png");
@@ -33,7 +30,6 @@ void Application2D::shutdown() {
 	delete m_font;
 	delete m_texture;
 	delete m_2dRenderer;
-	destroyWindow();
 }
 
 void Application2D::update(float deltaTime) {

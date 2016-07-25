@@ -1,10 +1,7 @@
 #pragma once
 
 #include "Application.h"
-
-namespace aie {
-	class Camera;
-};
+#include "Camera.h"
 
 class Application3D : public aie::Application {
 public:
