@@ -16,6 +16,9 @@
     <Filter Include="Year2Extensions">
       <UniqueIdentifier>{1de1f6a7-6784-499d-8ac3-ea925a4b6b97}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Imgui">
+      <UniqueIdentifier>{cba2816a-aa90-4b47-94a7-9353fa642a2d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -25,9 +28,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="gl_core_4_4.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="imgui_glfw3.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Texture.cpp">
@@ -60,11 +60,14 @@
     <ClCompile Include="Camera.cpp">
       <Filter>Year2Extensions</Filter>
     </ClCompile>
+    <ClCompile Include="imgui_glfw3.cpp">
+      <Filter>Imgui</Filter>
+    </ClCompile>
     <ClCompile Include="..\dependencies\imgui\imgui.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Imgui</Filter>
     </ClCompile>
     <ClCompile Include="..\dependencies\imgui\imgui_draw.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Imgui</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -75,9 +78,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="gl_core_4_4.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="imgui_glfw3.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Texture.h">
@@ -110,14 +110,17 @@
     <ClInclude Include="Camera.h">
       <Filter>Year2Extensions</Filter>
     </ClInclude>
-    <ClInclude Include="..\dependencies\imgui\imconfig.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="..\dependencies\imgui\imgui_internal.h">
+      <Filter>Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui_glfw3.h">
+      <Filter>Imgui</Filter>
     </ClInclude>
     <ClInclude Include="..\dependencies\imgui\imgui.h">
-      <Filter>Header Files</Filter>
+      <Filter>Imgui</Filter>
     </ClInclude>
-    <ClInclude Include="..\dependencies\imgui\imgui_internal.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="..\dependencies\imgui\imconfig.h">
+      <Filter>Imgui</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
