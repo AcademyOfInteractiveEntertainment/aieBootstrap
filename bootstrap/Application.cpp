@@ -3,7 +3,7 @@
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 #include <iostream>
-#include "RenderTexture.h"
+#include "RenderTarget.h"
 #include "Input.h"
 #include "SoundManager.h"
 #include "imgui_glfw3.h"
@@ -167,7 +167,7 @@ unsigned int Application::getViewHeight() const {
 		return getWindowHeight();
 }
 
-void Application::setRenderTarget(RenderTexture* renderTarget) {
+void Application::setRenderTarget(RenderTarget* renderTarget) {
 	m_currentRenderTarget = renderTarget;
 	if (m_currentRenderTarget != nullptr) {
 		glBindFramebuffer(GL_FRAMEBUFFER, m_currentRenderTarget->getFrameBufferHandle());

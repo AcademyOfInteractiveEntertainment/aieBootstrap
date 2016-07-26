@@ -102,7 +102,7 @@
     <ClCompile Include="imgui_glfw3.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="OBJMesh.cpp" />
-    <ClCompile Include="RenderTexture.cpp" />
+    <ClCompile Include="RenderTarget.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="Renderer2D.cpp" />
     <ClCompile Include="SoundManager.cpp" />
@@ -121,7 +121,7 @@
     <ClInclude Include="imgui_glfw3.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="OBJMesh.h" />
-    <ClInclude Include="RenderTexture.h" />
+    <ClInclude Include="RenderTarget.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="Renderer2D.h" />
     <ClInclude Include="SoundManager.h" />

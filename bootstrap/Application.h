@@ -4,7 +4,7 @@ struct GLFWwindow;
 
 namespace aie {
 
-class RenderTexture;
+class RenderTarget;
 
 class Application {
 public:
@@ -41,8 +41,8 @@ public:
 	unsigned int getViewWidth() const;
 	unsigned int getViewHeight() const;
 
-	void setRenderTarget(RenderTexture *renderTarget);
-	RenderTexture* getRenderTarget() const { return m_currentRenderTarget; }
+	void setRenderTarget(RenderTarget *renderTarget);
+	RenderTarget* getRenderTarget() const { return m_currentRenderTarget; }
 
 	void setBackgroundColour(float r, float g, float b, float a = 1.0f);
 
@@ -62,7 +62,7 @@ protected:
 	
 	unsigned int m_fps;
 
-	RenderTexture*	m_currentRenderTarget;
+	RenderTarget*	m_currentRenderTarget;
 };
 
 } // namespace aie

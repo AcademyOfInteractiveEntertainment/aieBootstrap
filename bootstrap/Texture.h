@@ -21,6 +21,8 @@ public:
 
 	bool load(const char* filename);
 
+	void create(unsigned int width, unsigned int height, Format format, unsigned char* pixels = nullptr);
+
 	const std::string& getFilename() const { return m_filename; }
 
 	unsigned int getWidth() const { return m_width; }

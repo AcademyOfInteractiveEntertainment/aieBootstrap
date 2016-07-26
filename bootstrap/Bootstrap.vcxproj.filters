@@ -45,9 +45,6 @@
     <ClCompile Include="SoundManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="RenderTexture.cpp">
-      <Filter>Year2Extensions</Filter>
-    </ClCompile>
     <ClCompile Include="Shader.cpp">
       <Filter>Year2Extensions</Filter>
     </ClCompile>
@@ -68,6 +65,9 @@
     </ClCompile>
     <ClCompile Include="..\dependencies\imgui\imgui_draw.cpp">
       <Filter>Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderTarget.cpp">
+      <Filter>Year2Extensions</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -101,9 +101,6 @@
     <ClInclude Include="OBJMesh.h">
       <Filter>Year2Extensions</Filter>
     </ClInclude>
-    <ClInclude Include="RenderTexture.h">
-      <Filter>Year2Extensions</Filter>
-    </ClInclude>
     <ClInclude Include="Shader.h">
       <Filter>Year2Extensions</Filter>
     </ClInclude>
@@ -121,6 +118,9 @@
     </ClInclude>
     <ClInclude Include="..\dependencies\imgui\imconfig.h">
       <Filter>Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderTarget.h">
+      <Filter>Year2Extensions</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
