@@ -1,7 +1,10 @@
 #pragma once
 
 #include <vector>
+#include <functional>
 #include <map>
+
+struct GLFWwindow;
 
 namespace aie {
 
@@ -152,6 +155,7 @@ public:
 
 	int getMouseX();
 	int getMouseY();
+	int getMouseScroll();
 	void getMouseXY(int* x, int* y);
 
 	enum EKeyStatus {
@@ -160,6 +164,19 @@ public:
 		JUST_PRESSED,
 		DOWN,		
 	};
+
+	typedef std::function<void(GLFWwindow* window, int key, int scancode, int action, int mods)> KeyCallback;
+	typedef std::function<void(GLFWwindow* window, unsigned int character)> CharCallback;
+	typedef std::function<void(GLFWwindow* window, int button, int action, int mods)> MouseButtonCallback;
+	typedef std::function<void(GLFWwindow* window, double xoffset, double yoffset)> MouseScrollCallback;
+	typedef std::function<void(GLFWwindow* window, double x, double y)> MouseMoveCallback;
+
+	// attatch input observers
+	void attachKeyObserver(const KeyCallback& callback) { m_keyCallbacks.push_back(callback); }
+	void attachCharObserver(const CharCallback& callback) { m_charCallbacks.push_back(callback); }
+	void attachMouseButtonObserver(const MouseButtonCallback& callback) { m_mouseButtonCallbacks.push_back(callback); }
+	void attachMouseMoveObserver(const MouseMoveCallback& callback) { m_mouseMoveCallbacks.push_back(callback); }
+	void attachMouseScrollObserver(const MouseScrollCallback& callback) { m_mouseScrollCallbacks.push_back(callback); }
 
 protected:
 
@@ -195,6 +212,7 @@ private:
 
 	int m_mouseX;
 	int m_mouseY;
+	int m_mouseScroll;
 
 	// These methods are called by glfw function pointers
 	// GLFWkeyFun and GLFWcharFun - see constructor for setup
@@ -211,6 +229,12 @@ private:
 
 	void onMousePressed(int mouseButtonID);
 	void onMouseReleased(int mouseButtonID);
+
+	std::vector<KeyCallback>			m_keyCallbacks;
+	std::vector<CharCallback>			m_charCallbacks;
+	std::vector<MouseMoveCallback>		m_mouseMoveCallbacks;
+	std::vector<MouseButtonCallback>	m_mouseButtonCallbacks;
+	std::vector<MouseScrollCallback>	m_mouseScrollCallbacks;
 };
 
 } // namespace aie

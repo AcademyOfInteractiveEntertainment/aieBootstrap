@@ -55,12 +55,12 @@ protected:
 
 	void clearScreen();
 
-	GLFWwindow*	m_window;
+	GLFWwindow*		m_window;
 
 	// if set to false, the main game loop will exit
-	bool m_gameOver;
+	bool			m_gameOver;
 	
-	unsigned int m_fps;
+	unsigned int	m_fps;
 
 	RenderTarget*	m_currentRenderTarget;
 };

@@ -18,6 +18,8 @@
 #include <GLFW/glfw3native.h>
 #endif
 
+#include "Input.h"
+
 namespace aie {
 
 // Data
@@ -312,10 +314,10 @@ bool ImGui_Init(GLFWwindow* window, bool install_callbacks) {
 #endif
 
     if (install_callbacks) {
-        glfwSetMouseButtonCallback(window, ImGui_MouseButtonCallback);
-        glfwSetScrollCallback(window, ImGui_ScrollCallback);
-        glfwSetKeyCallback(window, ImGui_KeyCallback);
-        glfwSetCharCallback(window, ImGui_CharCallback);
+		Input::getInstance()->attachKeyObserver(ImGui_KeyCallback);
+		Input::getInstance()->attachCharObserver(ImGui_CharCallback);
+		Input::getInstance()->attachMouseScrollObserver(ImGui_ScrollCallback);
+		Input::getInstance()->attachMouseButtonObserver(ImGui_MouseButtonCallback);
     }
 
 	int w = 0, h = 0;

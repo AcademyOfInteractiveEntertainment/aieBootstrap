@@ -6,38 +6,85 @@ namespace aie {
 Input* Input::m_instance = nullptr;
 
 Input::Input() {
-	auto KeyPressCallback = [](GLFWwindow *pWindow, int key, int scancode, int action, int mods) {
-		if( action == GLFW_PRESS )
-			Input::getInstance()->onKeyPressed( key );
-		if( action == GLFW_RELEASE )
-			Input::getInstance()->onKeyReleased( key );
-		if( action == GLFW_REPEAT )
+/*	auto KeyPressCallback = [](GLFWwindow* window, int key, int scancode, int action, int mods) {
+		if ( action == GLFW_PRESS )
+			Input::getInstance()->onKeyPressed(key);
+		if ( action == GLFW_RELEASE )
+			Input::getInstance()->onKeyReleased(key);
+		if ( action == GLFW_REPEAT )
 			Input::getInstance()->onKeyRepeate(key);
 	};
 
-	auto CharacterInputCallback = [](GLFWwindow *pWindow, unsigned int character) {
+	auto CharacterInputCallback = [](GLFWwindow* window, unsigned int character) {
 		Input::getInstance()->onCharInput(character);
 	};
 
-	auto MouseInputCallback = [](GLFWwindow *pWindow, int button, int action, int mods) {
+	auto MouseInputCallback = [](GLFWwindow* window, int button, int action, int mods) {
 		if (action == GLFW_PRESS)
-			Input::getInstance()->onMousePressed( button );
+			Input::getInstance()->onMousePressed(button);
 		if (action == GLFW_RELEASE)
-			Input::getInstance()->onMouseReleased( button );
+			Input::getInstance()->onMouseReleased(button);
 	};
 
-	auto MouseMoveCallback = [](GLFWwindow *pWindow, double mx, double my) {
-		Input::getInstance()->onMouseMove( (int)mx, (int)my );
+	auto MouseMoveCallback = [](GLFWwindow* window, double x, double y) {
+		Input::getInstance()->onMouseMove((int)x, (int)y);
+	};
+	*/
+	auto KeyPressCallback = [](GLFWwindow* window, int key, int scancode, int action, int mods) {
+
+		if (action == GLFW_PRESS)
+			Input::getInstance()->onKeyPressed(key);
+		else if (action == GLFW_RELEASE)
+			Input::getInstance()->onKeyReleased(key);
+		else if (action == GLFW_REPEAT)
+			Input::getInstance()->onKeyRepeate(key);
+
+		for (auto& f : Input::getInstance()->m_keyCallbacks)
+			f(window, key, scancode, action, mods);
 	};
 
-	GLFWwindow *pWindow = glfwGetCurrentContext();
-	glfwSetKeyCallback(pWindow, KeyPressCallback);
-	glfwSetCharCallback(pWindow, CharacterInputCallback);
-	glfwSetMouseButtonCallback(pWindow, MouseInputCallback);
-	glfwSetCursorPosCallback(pWindow, MouseMoveCallback );
+	auto CharacterInputCallback = [](GLFWwindow* window, unsigned int character) {
 
+		Input::getInstance()->onCharInput(character);
+
+		for (auto& f : Input::getInstance()->m_charCallbacks)
+			f(window, character);
+	};
+
+	auto MouseMoveCallback = [](GLFWwindow* window, double x, double y) {
+
+		Input::getInstance()->onMouseMove((int)x, (int)y);
+
+		for (auto& f : Input::getInstance()->m_mouseMoveCallbacks)
+			f(window, x, y);
+	};
+
+	auto MouseInputCallback = [](GLFWwindow* window, int button, int action, int mods) {
+
+		if (action == GLFW_PRESS)
+			Input::getInstance()->onMousePressed(button);
+		else if (action == GLFW_RELEASE)
+			Input::getInstance()->onMouseReleased(button);
+
+		for (auto& f : Input::getInstance()->m_mouseButtonCallbacks)
+			f(window, button, action, mods);
+	};
+
+	auto MouseScrollCallback = [](GLFWwindow* window, double xoffset, double yoffset) {
+		for (auto& f : Input::getInstance()->m_mouseScrollCallbacks)
+			f(window, xoffset, yoffset);
+	};
+
+	GLFWwindow* window = glfwGetCurrentContext();
+	glfwSetKeyCallback(window, KeyPressCallback);
+	glfwSetCharCallback(window, CharacterInputCallback);
+	glfwSetMouseButtonCallback(window, MouseInputCallback);
+	glfwSetCursorPosCallback(window, MouseMoveCallback);
+	glfwSetScrollCallback(window, MouseScrollCallback);
+	
 	m_mouseX = 0;
 	m_mouseY = 0;
+	m_mouseScroll = 0;
 }
 
 Input::~Input() {
@@ -46,13 +93,13 @@ Input::~Input() {
 
 void Input::onKeyPressed(int keyID) {
 	m_keyStatus[keyID] = JUST_PRESSED;
-	m_keysToUpdate.push_back( keyID );
-	m_pressedKeys.push_back( keyID );
+	m_keysToUpdate.push_back(keyID);
+	m_pressedKeys.push_back(keyID);
 }
 
 void Input::onKeyReleased(int keyID) {
 	m_keyStatus[keyID] = JUST_RELEASED;
-	m_keysToUpdate.push_back( keyID );
+	m_keysToUpdate.push_back(keyID);
 }
 
 void Input::onKeyRepeate(int key) {
@@ -60,7 +107,7 @@ void Input::onKeyRepeate(int key) {
 }
 
 void Input::onCharInput(unsigned int character) {
-	m_pressedCharacters.push_back( character );
+	m_pressedCharacters.push_back(character);
 }
 
 void Input::onMouseMove(int newXPos, int newYPos) {
@@ -140,9 +187,13 @@ int Input::getMouseY() {
 	return m_mouseY;
 }
 
+int Input::getMouseScroll() {
+	return m_mouseScroll;
+}
+
 void Input::getMouseXY(int* x, int* y) {
 	if ( x != nullptr ) *x = m_mouseX;
 	if ( y != nullptr) *y = m_mouseY;
 }
 
-}
+} // namespace aie

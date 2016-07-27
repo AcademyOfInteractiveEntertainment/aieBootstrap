@@ -39,6 +39,15 @@ Texture::~Texture() {
 }
 
 bool Texture::load(const char* filename) {
+
+	if (m_glHandle != 0) {
+		glDeleteTextures(1, &m_glHandle);
+		m_glHandle = 0;
+		m_width = 0;
+		m_height = 0;
+		m_filename = "";
+	}
+
 	int x = 0, y = 0, comp = 0;
 	unsigned char* data = stbi_load(filename, &x, &y, &comp, STBI_default);
 
@@ -82,6 +91,11 @@ bool Texture::load(const char* filename) {
 }
 
 void Texture::create(unsigned int width, unsigned int height, Format format, unsigned char* pixels) {
+
+	if (m_glHandle != 0) {
+		glDeleteTextures(1, &m_glHandle);
+		m_glHandle = 0;
+	}
 
 	m_width = width;
 	m_height = height;

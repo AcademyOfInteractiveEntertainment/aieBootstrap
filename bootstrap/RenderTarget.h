@@ -10,16 +10,16 @@ public:
 	RenderTarget(unsigned int targetCount, unsigned int width, unsigned int height);
 	virtual ~RenderTarget();
 
-	unsigned int getFrameBufferHandle() const { return m_fbo; }
-
-	unsigned int	getTargetCount() const { return m_targetCount; }
-	const Texture&	getTarget(unsigned int target) const { return m_targets[target]; }
-
 	void bind();
 	void unbind();
 
 	unsigned int	getWidth() const { return m_width; }
 	unsigned int	getHeight() const { return m_height; }
+
+	unsigned int	getFrameBufferHandle() const { return m_fbo; }
+
+	unsigned int	getTargetCount() const { return m_targetCount; }
+	const Texture&	getTarget(unsigned int target) const { return m_targets[target]; }
 
 protected:
 
