@@ -3,7 +3,7 @@ The base project code used for the Advanced Diploma of Professional Game Develop
 
 Bootstrap is a static library that can be linked against to implement real-time graphical applications with OpenGL as the base API.
 
-To build and run the provided sample projects ensure that Bootstrap is the first project built, and ensure you have set the Working Directory to the bin folder, ie.e "$(SolutionDir)bin\".
+To build and run the provided sample projects ensure that Bootstrap is the first project built, and ensure you have set the Working Directory to the bin folder, i.e. <b>"$(SolutionDir)bin\"</b>.
 
 To create an application simply derive from the ```aie::Application``` class like so:
 ```c++
