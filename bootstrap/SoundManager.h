@@ -24,6 +24,11 @@ public:
 
 protected:
 
+	friend class Audio;
+
+	void initialiseSound(Audio* audio, const char* filename);
+	void releaseSound(Audio* audio);
+
 	// only the "Application" class can create, destroy, and update this class.
 	friend class Application;
 

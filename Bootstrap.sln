@@ -6,8 +6,14 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Bootstrap", "bootstrap\Bootstrap.vcxproj", "{AF59BB0B-E059-4773-83DC-728A949647DA}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Project2D", "Project2D\Project2D.vcxproj", "{3F428D0C-1CC8-47C3-818A-A3C2972C74C9}"
+	ProjectSection(ProjectDependencies) = postProject
+		{AF59BB0B-E059-4773-83DC-728A949647DA} = {AF59BB0B-E059-4773-83DC-728A949647DA}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Project3D", "Project3D\Project3D.vcxproj", "{EA21C4DF-E331-4FCF-8513-14A3F56B77F3}"
+	ProjectSection(ProjectDependencies) = postProject
+		{AF59BB0B-E059-4773-83DC-728A949647DA} = {AF59BB0B-E059-4773-83DC-728A949647DA}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

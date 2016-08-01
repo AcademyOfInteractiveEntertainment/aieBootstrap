@@ -113,6 +113,16 @@ void SoundManager::update() {
 }
 
 Audio* SoundManager::createSound(const char* filename) {
+	// create Audio instance and add to linked list.
+	return new Audio(filename);
+}
+
+void SoundManager::destroySound(Audio* audio) {
+	// delete audio instance.
+	delete audio;
+}
+
+void SoundManager::initialiseSound(Audio* audio, const char* filename) {
 	SNDFILE *infile;
 	SF_INFO audioInfo;
 	ALuint bufferID;
@@ -122,7 +132,7 @@ Audio* SoundManager::createSound(const char* filename) {
 	if (!(infile = sf_open(filename, SFM_READ, &audioInfo))) {
 		printf("Not able to open input file %s.\n", filename);
 		puts(sf_strerror(nullptr));
-		return nullptr;
+		return;
 	}
 
 	//Allocate enough memory to store the sound data.
@@ -132,7 +142,7 @@ Audio* SoundManager::createSound(const char* filename) {
 	if (pAudioData == nullptr) {
 		printf("Not able to allocate memory for input file %s.\n", filename);
 		sf_close(infile);
-		return nullptr;
+		return;
 	}
 
 	//Read in the sound data from the file using libsndfile.
@@ -153,20 +163,18 @@ Audio* SoundManager::createSound(const char* filename) {
 	free(pAudioData);
 	sf_close(infile);
 
-	//Create Audio instance and add to linked list.
-	Audio* pAudio = new Audio(this, bufferID);
+	// Create Audio instance and add to linked list.
+	audio->m_bufferID = bufferID;
 	if (m_audioList != nullptr) {
-		pAudio->m_next = m_audioList->m_next;
-		m_audioList->m_next = pAudio;
+		audio->m_next = m_audioList->m_next;
+		m_audioList->m_next = audio;
 	}
 	else
-		m_audioList = pAudio;
-
-	return pAudio;
+		m_audioList = audio;
 }
 
-void SoundManager::destroySound(Audio* audio) {
-	if (audio != nullptr)
+void SoundManager::releaseSound(Audio* audio) {
+	if (audio == nullptr)
 		return;
 
 	//Stop sound if it is playing.
@@ -190,13 +198,10 @@ void SoundManager::destroySound(Audio* audio) {
 		pPrev->m_next = pCurrent->m_next;
 	else
 		m_audioList = pCurrent->m_next;
-
-	//Delete audio instance.
-	delete audio;
 }
 
 void SoundManager::playSoundInternal(Audio* audio) {
-	if (audio != nullptr)
+	if (audio == nullptr)
 		return;
 
 	//Check if sound has already been bound to a source.

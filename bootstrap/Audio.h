@@ -7,6 +7,9 @@ class SoundManager;
 class Audio {
 public:
 
+	Audio(const char* filename);
+	~Audio();
+
 	// control playback.
 	void play();
 	void stop();
@@ -28,10 +31,7 @@ protected:
 
 	// only available to the SoundManager.
 	friend class SoundManager;
-
-	Audio(SoundManager* soundManager, unsigned int bufferID);
-	~Audio();
-	
+		
 	unsigned int	m_bufferID;
 	int				m_sourceID;
 	bool			m_looping;

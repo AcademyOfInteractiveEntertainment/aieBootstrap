@@ -33,4 +33,4 @@ protected:
 	Texture*		m_targets;
 };
 
-}
+} // namespace aie

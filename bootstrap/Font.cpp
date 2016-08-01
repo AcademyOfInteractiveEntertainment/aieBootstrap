@@ -23,6 +23,7 @@ Font::Font(const char* trueTypeFontFile, unsigned short fontHeight)
 		fread(ttf_buffer, 1, 4096 * 1024, file);
 		fclose(file);
 
+		// determine size of texture image
 		m_sizeOfBytesX = fontHeight / 16 * 128;
 		m_sizeOfBytesY = fontHeight / 16 * 128;
 

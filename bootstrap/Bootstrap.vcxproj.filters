@@ -51,9 +51,6 @@
     <ClCompile Include="OBJMesh.cpp">
       <Filter>Year2Extensions</Filter>
     </ClCompile>
-    <ClCompile Include="Gizmos.cpp">
-      <Filter>Year2Extensions</Filter>
-    </ClCompile>
     <ClCompile Include="Camera.cpp">
       <Filter>Year2Extensions</Filter>
     </ClCompile>
@@ -68,6 +65,9 @@
     </ClCompile>
     <ClCompile Include="RenderTarget.cpp">
       <Filter>Year2Extensions</Filter>
+    </ClCompile>
+    <ClCompile Include="Gizmos.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -95,9 +95,6 @@
     <ClInclude Include="SoundManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Gizmos.h">
-      <Filter>Year2Extensions</Filter>
-    </ClInclude>
     <ClInclude Include="OBJMesh.h">
       <Filter>Year2Extensions</Filter>
     </ClInclude>
@@ -121,6 +118,9 @@
     </ClInclude>
     <ClInclude Include="RenderTarget.h">
       <Filter>Year2Extensions</Filter>
+    </ClInclude>
+    <ClInclude Include="Gizmos.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

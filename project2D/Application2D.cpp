@@ -19,6 +19,8 @@ bool Application2D::startup() {
 
 	m_font = new aie::Font("./font/consolas.ttf", 32);
 
+	m_audio = new aie::Audio("./audio/powerup3.wav");
+
 	m_cameraX = 0;
 	m_cameraY = 0;
 
@@ -26,7 +28,8 @@ bool Application2D::startup() {
 }
 
 void Application2D::shutdown() {
-
+	
+	delete m_audio;
 	delete m_font;
 	delete m_texture;
 	delete m_2dRenderer;
@@ -49,6 +52,9 @@ void Application2D::update(float deltaTime) {
 
 	if (input->isKeyDown(aie::INPUT_KEY_RIGHT))
 		m_cameraX += 500.0f * deltaTime;
+
+	if (input->wasKeyPressed(aie::INPUT_KEY_SPACE))
+		m_audio->play();
 }
 
 void Application2D::draw() {
@@ -66,15 +72,15 @@ void Application2D::draw() {
 	m_2dRenderer->drawLine(300, 300, 600, 400, 10, 1);
 
 	m_2dRenderer->setRenderColour(1, 0, 0, 1);
-	m_2dRenderer->drawSprite(nullptr, 400, 400, 50, 50, 3.14159f * 0.25f);
+	m_2dRenderer->drawSprite(nullptr, 400, 400, 50, 50, 3.14159f * 0.25f, 1);
 
 	m_2dRenderer->setRenderColour(0x00ff00ff);
-	m_2dRenderer->drawText(m_font, "OMG BBQ!", 200, 400);
+	m_2dRenderer->drawText(m_font, "Press Space for sound!", 200, 0);
 	m_2dRenderer->drawText(m_font, "Yeaaahhhhh", 200, 300);
 
 	char fps[32];
 	sprintf_s(fps, 32, "FPS: %i", getFPS());
-	m_2dRenderer->drawText(m_font, fps, 200, 100);
+	m_2dRenderer->drawText(m_font, fps, 0, 0);
 
 	// done drawing sprites
 	m_2dRenderer->end();

@@ -4,15 +4,18 @@
 
 namespace aie {
 
-Audio::Audio(SoundManager* soundManager, unsigned int bufferID) {
-	m_soundManager = soundManager;
-	m_bufferID = bufferID;
-	m_sourceID = -1;
-	m_next = nullptr;
-	m_looping = false;
+Audio::Audio(const char* filename)
+	: m_soundManager(SoundManager::getInstance()),
+	m_bufferID(0),
+	m_sourceID(-1),
+	m_next(nullptr),
+	m_looping(false) {
+
+	m_soundManager->initialiseSound(this, filename);
 }
 
 Audio::~Audio() {
+	m_soundManager->releaseSound(this);
 }
 
 void Audio::play() {
