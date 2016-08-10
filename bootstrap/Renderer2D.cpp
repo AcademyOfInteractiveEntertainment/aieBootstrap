@@ -17,7 +17,7 @@ Renderer2D::Renderer2D() {
 	m_cameraY = 0;
 
 	unsigned int pixels[1] = {0xFFFFFFFF};
-	m_nullTexture = new Texture(1, 1, Texture::RED, (unsigned char*)pixels);
+	m_nullTexture = new Texture(1, 1, Texture::RGBA, (unsigned char*)pixels);
 
 	m_currentVertex = 0;
 	m_currentIndex = 0;
@@ -45,7 +45,6 @@ Renderer2D::Renderer2D() {
 						void main() { vColour = colour; vTexCoord = texcoord; vTextureID = position.w; \
 						gl_Position = projectionMatrix * vec4(position.x, position.y, position.z, 1.0f); }";
 
-
 	char* fragmentShader = "#version 150\n \
 						in vec4 vColour; \
 						in vec2 vTexCoord; \
@@ -53,11 +52,16 @@ Renderer2D::Renderer2D() {
 						out vec4 fragColour; \
 						const int TEXTURE_STACK_SIZE = 16; \
 						uniform sampler2D textureStack[TEXTURE_STACK_SIZE]; \
-						uniform int fontTexture[TEXTURE_STACK_SIZE]; \
-						void main() { int id = int(vTextureID); \
-						if(id < TEXTURE_STACK_SIZE) { vec4 rgba = texture2D(textureStack[id], vTexCoord); \
-							if (fontTexture[id] == 1) rgba = rgba.rrrr; fragColour = rgba * vColour; } \
-						else fragColour = vColour; if (fragColour.a < 0.1f) discard; }";
+						uniform int isFontTexture[TEXTURE_STACK_SIZE]; \
+						void main() { \
+							int id = int(vTextureID); \
+							if (id < TEXTURE_STACK_SIZE) { \
+								vec4 rgba = texture2D(textureStack[id], vTexCoord); \
+								if (isFontTexture[id] == 1) \
+									rgba = rgba.rrrr; \
+								fragColour = rgba * vColour; \
+							} else fragColour = vColour; \
+						if (fragColour.a < 0.1f) discard; }";
 	
 	unsigned int vs = glCreateShader(GL_VERTEX_SHADER);
 	unsigned int fs = glCreateShader(GL_FRAGMENT_SHADER);
@@ -486,7 +490,7 @@ void Renderer2D::drawText(Font * font, const char* text, float xPos, float yPos,
 		font->m_glHandle == 0)
 		return;
 
-	stbtt_aligned_quad Q;
+	stbtt_aligned_quad Q = {};
 
 	if (shouldFlush() || m_currentTexture >= TEXTURE_STACK_SIZE - 1)
 		flushBatch();
@@ -513,7 +517,7 @@ void Renderer2D::drawText(Font * font, const char* text, float xPos, float yPos,
 			m_fontTexture[m_currentTexture - 1] = 1;
 		}
 
-		stbtt_GetBakedQuad((stbtt_bakedchar*)font->m_glyphData, font->m_sizeOfBytesX, font->m_sizeOfBytesY, (unsigned char)*text, &xPos, &yPos, &Q, 1);
+		stbtt_GetBakedQuad((stbtt_bakedchar*)font->m_glyphData, font->m_textureWidth, font->m_textureHeight, (unsigned char)*text, &xPos, &yPos, &Q, 1);
 
 		int index = m_currentVertex;
 
@@ -585,7 +589,7 @@ void Renderer2D::flushBatch() {
 		return; char buf[32];
 
 	for (int i = 0; i < TEXTURE_STACK_SIZE; ++i) {
-		sprintf_s(buf, "fontTexture[%i]", i);
+		sprintf_s(buf, "isFontTexture[%i]", i);
 		glUniform1i(glGetUniformLocation(m_shader, buf), m_fontTexture[i]);
 	}
 
@@ -662,4 +666,4 @@ void Renderer2D::rotateAround(float inX, float inY, float& outX, float& outY, fl
 	outY = inX * sin + inY * cos;
 }
 
-}
+} // namespace aie

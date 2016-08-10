@@ -23,6 +23,7 @@ bool Application2D::startup() {
 
 	m_cameraX = 0;
 	m_cameraY = 0;
+	m_timer = 0;
 
 	return true;
 }
@@ -36,6 +37,8 @@ void Application2D::shutdown() {
 }
 
 void Application2D::update(float deltaTime) {
+
+	m_timer += deltaTime;
 
 	// input example
 	aie::Input* input = aie::Input::getInstance();
@@ -53,8 +56,13 @@ void Application2D::update(float deltaTime) {
 	if (input->isKeyDown(aie::INPUT_KEY_RIGHT))
 		m_cameraX += 500.0f * deltaTime;
 
+	// example of audio
 	if (input->wasKeyPressed(aie::INPUT_KEY_SPACE))
 		m_audio->play();
+
+	// exit the application
+	if (input->isKeyDown(aie::INPUT_KEY_ESCAPE))
+		quit();
 }
 
 void Application2D::draw() {
@@ -62,6 +70,7 @@ void Application2D::draw() {
 	// wipe the screen to the background colour
 	clearScreen();
 
+	// set the camera position before we begin rendering
 	m_2dRenderer->setCameraPos(m_cameraX, m_cameraY);
 
 	// begin drawing sprites
@@ -74,13 +83,17 @@ void Application2D::draw() {
 	m_2dRenderer->setRenderColour(1, 0, 0, 1);
 	m_2dRenderer->drawSprite(nullptr, 400, 400, 50, 50, 3.14159f * 0.25f, 1);
 
+	m_2dRenderer->setRenderColour(0, 0, 1, 1);
+	m_2dRenderer->drawSprite(nullptr, 600, 400, 50, 50, m_timer, 1);
+	
 	m_2dRenderer->setRenderColour(0x00ff00ff);
-	m_2dRenderer->drawText(m_font, "Press Space for sound!", 200, 0);
-	m_2dRenderer->drawText(m_font, "Yeaaahhhhh", 200, 300);
+	m_2dRenderer->drawText(m_font, "abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ", 0, 0);
+	m_2dRenderer->drawText(m_font, "~!@#$%^&*()_+`-=[]{}|;:',./<>?\n\t", 0, 32);
 
 	char fps[32];
 	sprintf_s(fps, 32, "FPS: %i", getFPS());
-	m_2dRenderer->drawText(m_font, fps, 0, 0);
+	m_2dRenderer->drawText(m_font, fps, 0, 720 - 32);
+	m_2dRenderer->drawText(m_font, "Press Space for sound!", 0, 720 - 64);
 
 	// done drawing sprites
 	m_2dRenderer->end();

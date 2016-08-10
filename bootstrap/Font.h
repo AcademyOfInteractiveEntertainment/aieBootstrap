@@ -17,7 +17,7 @@ private:
 
 	void*			m_glyphData;
 	unsigned int	m_glHandle, m_pixelBufferHandle;
-	unsigned short	m_sizeOfBytesX, m_sizeOfBytesY;
+	unsigned short	m_textureWidth, m_textureHeight;
 };
 
 } // namespace aie
