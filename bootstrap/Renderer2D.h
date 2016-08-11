@@ -5,6 +5,7 @@ namespace aie {
 class Texture;
 class Font;
 
+// a class for rendering 2D sprites and font
 class Renderer2D {
 public:
 
@@ -15,18 +16,18 @@ public:
 	virtual void begin();
 	virtual void end();
 
-	// if texture is null then it renders a coloured sprite
-	// depth is in the range [0,100] with lower being closer
+	// if texture is nullptr then it renders a coloured sprite
+	// depth is in the range [0,100] with lower being closer to the viewer
 	virtual void drawSprite(Texture* texture, float xPos, float yPos, float width = 0.0f, float height = 0.0f, float rotation = 0.0f, float depth = 0.0f, float xOrigin = 0.5f, float yOrigin = 0.5f);
 	virtual void drawSpriteTransformed3x3(Texture* texture, float* transformMat3x3, float width = 0.0f, float height = 0.0f, float depth = 0.0f, float xOrigin = 0.5f, float yOrigin = 0.5f);
 	virtual void drawSpriteTransformed4x4(Texture* texture, float* transformMat4x4, float width = 0.0f, float height = 0.0f, float depth = 0.0f, float xOrigin = 0.5f, float yOrigin = 0.5f);
 
 	// draws a simple coloured line with a given thickness
-	// depth is in the range [0,100] with lower being closer
+	// depth is in the range [0,100] with lower being closer to the viewer
 	virtual void drawLine(float x1, float y1, float x2, float y2, float thickness = 1.0f, float depth = 0.0f );
 
 	// draws simple text on the screen horizontally
-	// depth is in the range [0,100] with lower being closer
+	// depth is in the range [0,100] with lower being closer to the viewer
 	virtual void drawText(Font* font, const char* text, float xPos, float yPos, float depth = 0.0f);
 
 	// sets the tint colour for all subsequent draw calls
@@ -87,7 +88,8 @@ protected:
 	// helper method used to rotate sprites around a pivot
 	void	rotateAround(float inX, float inY, float& outX, float& outY, float sin, float cos);
 
-	float m_projectionMatrix[16];
+	// data used for a virtual camera
+	float	m_projectionMatrix[16];
 };
 
 } // namespace aie

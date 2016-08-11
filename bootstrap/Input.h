@@ -8,6 +8,7 @@ struct GLFWwindow;
 
 namespace aie {
 
+// a giant list of input codes for keyboard and mouse
 enum EInputCodes : int {
 	INPUT_KEY_UNKNOWN			= -1,
 	INPUT_KEY_SPACE				= 32,
@@ -135,43 +136,49 @@ enum EInputCodes : int {
 	INPUT_MOUSE_BUTTON_8		= 7,
 };
 
+// a singleton class that manages Input from the keyboard and mouse
 class Input {
 public:
 
+	// returns access to the singleton instance
 	static Input* getInstance() { return m_instance;  }
 
+	// query the keyboard state
 	bool isKeyDown(int inputKeyID);
 	bool isKeyUp(int inputKeyID);
+
+	// returns true if the key was pressed / released this frame
 	bool wasKeyPressed(int inputKeyID);
 	bool wasKeyReleased(int inputKeyID);
 
-	const std::vector<unsigned int>& getPressedKeys() const;
+	// returns access to all keys that are currently pressed
+	const std::vector<int>& getPressedKeys() const;
 	const std::vector<unsigned int>& getPressedCharacters() const;
 
+	// query the mouse button state
 	bool isMouseButtonDown(int inputMouseID);
 	bool isMouseButtonUp(int inputMouseID);
+
+	// returns true if the button was pressed / released this frame
 	bool wasMouseButtonPressed(int inputMouseID);
 	bool wasMouseButtonReleased(int inputMouseID);
 
+	// query the mouse position
 	int getMouseX();
 	int getMouseY();
-	int getMouseScroll();
 	void getMouseXY(int* x, int* y);
 
-	enum EKeyStatus {
-		JUST_RELEASED,
-		UP,
-		JUST_PRESSED,
-		DOWN,		
-	};
+	// query how far the mouse wheel has been moved 
+	double getMouseScroll();
 
+	// delgates for attaching input observers to the Input class
 	typedef std::function<void(GLFWwindow* window, int key, int scancode, int action, int mods)> KeyCallback;
 	typedef std::function<void(GLFWwindow* window, unsigned int character)> CharCallback;
 	typedef std::function<void(GLFWwindow* window, int button, int action, int mods)> MouseButtonCallback;
 	typedef std::function<void(GLFWwindow* window, double xoffset, double yoffset)> MouseScrollCallback;
 	typedef std::function<void(GLFWwindow* window, double x, double y)> MouseMoveCallback;
 
-	// attatch input observers
+	// functions for attatching input observers
 	void attachKeyObserver(const KeyCallback& callback) { m_keyCallbacks.push_back(callback); }
 	void attachCharObserver(const CharCallback& callback) { m_charCallbacks.push_back(callback); }
 	void attachMouseButtonObserver(const MouseButtonCallback& callback) { m_mouseButtonCallbacks.push_back(callback); }
@@ -186,33 +193,38 @@ protected:
 	// singleton pointer
 	static Input* m_instance;
 
-	// only want the "Application" class to be able to create / destroy
+	// only want the Application class to be able to create / destroy
 	static void create()			{ m_instance = new Input(); }
 	static void destroy()			{ delete m_instance; }
 
 	// should be called once by the application each frame
-	// just before glfwPollEvents
 	void update();
 
 private:
+
+	enum EKeyStatus {
+		JUST_RELEASED,
+		UP,
+		JUST_PRESSED,
+		DOWN,
+	};
 
 	// constructor private for singleton
 	Input();
 	~Input();
 
-
 	std::vector<int>			m_keysToUpdate;
 	std::map<int, int>			m_keyStatus;
 
-	std::vector<unsigned int>	m_pressedKeys;
+	std::vector<int>			m_pressedKeys;
 	std::vector<unsigned int>	m_pressedCharacters;
 
 	std::vector<int>			m_mouseToUpdate;
 	std::map<int, int>			m_mouseState;
 
-	int m_mouseX;
-	int m_mouseY;
-	int m_mouseScroll;
+	int		m_mouseX;
+	int		m_mouseY;
+	double	m_mouseScroll;
 
 	// These methods are called by glfw function pointers
 	// GLFWkeyFun and GLFWcharFun - see constructor for setup

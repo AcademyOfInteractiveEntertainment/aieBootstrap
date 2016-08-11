@@ -15,11 +15,12 @@ bool Application2D::startup() {
 	
 	m_2dRenderer = new aie::Renderer2D();
 
-	m_texture = new aie::Texture("./textures/crate.png");
+	m_texture = new aie::Texture("./textures/numbered_grid.tga");
+	m_shipTexture = new aie::Texture("./textures/ship.png");
 
 	m_font = new aie::Font("./font/consolas.ttf", 32);
 
-	m_audio = new aie::Audio("./audio/powerup3.wav");
+	m_audio = new aie::Audio("./audio/powerup.wav");
 
 	m_cameraX = 0;
 	m_cameraY = 0;
@@ -33,6 +34,7 @@ void Application2D::shutdown() {
 	delete m_audio;
 	delete m_font;
 	delete m_texture;
+	delete m_shipTexture;
 	delete m_2dRenderer;
 }
 
@@ -76,15 +78,18 @@ void Application2D::draw() {
 	// begin drawing sprites
 	m_2dRenderer->begin();
 
+	// demonstrate animation
+	m_2dRenderer->setUVRect(int(m_timer) % 8 / 8.0f, 0, 1.f / 8, 1.f / 8);
 	m_2dRenderer->drawSprite(m_texture, 200, 200, 100, 100);
+
+	// demonstrate spinning sprite
+	m_2dRenderer->setUVRect(0,0,1,1);
+	m_2dRenderer->drawSprite(m_shipTexture, 600, 400, 0, 0, m_timer, 1);
 
 	m_2dRenderer->drawLine(300, 300, 600, 400, 10, 1);
 
 	m_2dRenderer->setRenderColour(1, 0, 0, 1);
 	m_2dRenderer->drawSprite(nullptr, 400, 400, 50, 50, 3.14159f * 0.25f, 1);
-
-	m_2dRenderer->setRenderColour(0, 0, 1, 1);
-	m_2dRenderer->drawSprite(nullptr, 600, 400, 50, 50, m_timer, 1);
 	
 	m_2dRenderer->setRenderColour(0x00ff00ff);
 	m_2dRenderer->drawText(m_font, "abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ", 0, 0);

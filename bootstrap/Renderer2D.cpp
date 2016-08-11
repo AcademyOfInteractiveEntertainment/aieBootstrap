@@ -496,7 +496,7 @@ void Renderer2D::drawText(Font * font, const char* text, float xPos, float yPos,
 		flushBatch();
 
 	glActiveTexture(GL_TEXTURE0 + m_currentTexture++);
-	glBindTexture(GL_TEXTURE_2D, font->getHandle());
+	glBindTexture(GL_TEXTURE_2D, font->getTextureHandle());
 	glActiveTexture(GL_TEXTURE0);
 	m_fontTexture[m_currentTexture - 1] = 1;
 
@@ -512,7 +512,7 @@ void Renderer2D::drawText(Font * font, const char* text, float xPos, float yPos,
 				flushBatch();
 
 			glActiveTexture(GL_TEXTURE0 + m_currentTexture++);
-			glBindTexture(GL_TEXTURE_2D, font->getHandle());
+			glBindTexture(GL_TEXTURE_2D, font->getTextureHandle());
 			glActiveTexture(GL_TEXTURE0);
 			m_fontTexture[m_currentTexture - 1] = 1;
 		}

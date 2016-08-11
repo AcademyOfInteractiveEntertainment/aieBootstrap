@@ -77,39 +77,47 @@ void Application::run(const char* title, int width, int height, bool fullscreen)
 	if (createWindow(title,width,height, fullscreen) &&
 		startup()) {
 
+		// variables for timing
 		double prevTime = glfwGetTime();
 		double currTime = 0;
-		unsigned int fpsCount = 0;
+		double deltaTime = 0;
+		unsigned int frames = 0;
 		double fpsInterval = 0;
 
+		// loop while game is running
 		while (!m_gameOver) {
 
+			// update delta time
 			currTime = glfwGetTime();
-			fpsInterval += currTime - prevTime;
-			fpsCount++;
+			deltaTime = currTime - prevTime;
+			prevTime = currTime;
 
-			// update the fps every second
+			// update fps every second
+			frames++;
+			fpsInterval += deltaTime;
 			if (fpsInterval >= 1.0f) {
-				m_fps = fpsCount;
-				fpsCount = 0;
+				m_fps = frames;
+				frames = 0;
 				fpsInterval -= 1.0f;
 			}
 
+			// update window events (input etc)
 			glfwPollEvents();
 
+			// clear imgui
 			ImGui_NewFrame();
 
-			update((float)(currTime - prevTime));
-
+			update(float(deltaTime));
 			draw();
 
-			// draw IMGUI after all 3D stuff
+			// draw IMGUI last
 			ImGui::Render();
 
+			//present backbuffer to the monitor
 			glfwSwapBuffers(m_window);
 
+			// should the game exit?
 			m_gameOver = m_gameOver || glfwWindowShouldClose(m_window) == GLFW_TRUE;
-			prevTime = currTime;
 		}
 	}
 

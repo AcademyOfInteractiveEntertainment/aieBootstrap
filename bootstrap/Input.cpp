@@ -6,30 +6,7 @@ namespace aie {
 Input* Input::m_instance = nullptr;
 
 Input::Input() {
-/*	auto KeyPressCallback = [](GLFWwindow* window, int key, int scancode, int action, int mods) {
-		if ( action == GLFW_PRESS )
-			Input::getInstance()->onKeyPressed(key);
-		if ( action == GLFW_RELEASE )
-			Input::getInstance()->onKeyReleased(key);
-		if ( action == GLFW_REPEAT )
-			Input::getInstance()->onKeyRepeate(key);
-	};
 
-	auto CharacterInputCallback = [](GLFWwindow* window, unsigned int character) {
-		Input::getInstance()->onCharInput(character);
-	};
-
-	auto MouseInputCallback = [](GLFWwindow* window, int button, int action, int mods) {
-		if (action == GLFW_PRESS)
-			Input::getInstance()->onMousePressed(button);
-		if (action == GLFW_RELEASE)
-			Input::getInstance()->onMouseReleased(button);
-	};
-
-	auto MouseMoveCallback = [](GLFWwindow* window, double x, double y) {
-		Input::getInstance()->onMouseMove((int)x, (int)y);
-	};
-	*/
 	auto KeyPressCallback = [](GLFWwindow* window, int key, int scancode, int action, int mods) {
 
 		if (action == GLFW_PRESS)
@@ -71,6 +48,9 @@ Input::Input() {
 	};
 
 	auto MouseScrollCallback = [](GLFWwindow* window, double xoffset, double yoffset) {
+
+		Input::getInstance()->m_mouseScroll += yoffset;
+
 		for (auto& f : Input::getInstance()->m_mouseScrollCallbacks)
 			f(window, xoffset, yoffset);
 	};
@@ -155,7 +135,7 @@ bool Input::wasKeyReleased(int inputKeyID) {
 	return m_keyStatus[inputKeyID] == JUST_RELEASED;
 }
 
-const std::vector<unsigned int> &Input::getPressedKeys() const {
+const std::vector<int> &Input::getPressedKeys() const {
 	return m_pressedKeys;
 }
 
@@ -187,7 +167,7 @@ int Input::getMouseY() {
 	return m_mouseY;
 }
 
-int Input::getMouseScroll() {
+double Input::getMouseScroll() {
 	return m_mouseScroll;
 }
 

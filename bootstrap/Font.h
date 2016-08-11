@@ -2,6 +2,7 @@
 
 namespace aie {
 
+// a class that wraps up a True Type Font within an OpenGL texture
 class Font {
 
 	friend class Renderer2D;
@@ -11,7 +12,8 @@ public:
 	Font(const char* trueTypeFontFile, unsigned short fontHeight);
 	~Font();
 
-	unsigned int	getHandle() const { return m_glHandle; }
+	// returns the OpenGL texture handle
+	unsigned int	getTextureHandle() const { return m_glHandle; }
 
 private:
 

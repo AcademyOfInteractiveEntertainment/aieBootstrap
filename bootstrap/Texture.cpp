@@ -7,7 +7,7 @@
 namespace aie {
 
 Texture::Texture() 
-	: m_filename(""),
+	: m_filename("none"),
 	m_width(0),
 	m_height(0),
 	m_glHandle(0),
@@ -15,7 +15,7 @@ Texture::Texture()
 }
 
 Texture::Texture(const char * filename)
-	: m_filename(""),
+	: m_filename("none"),
 	m_width(0),
 	m_height(0),
 	m_glHandle(0),
@@ -25,7 +25,7 @@ Texture::Texture(const char * filename)
 }
 
 Texture::Texture(unsigned int width, unsigned int height, Format format, unsigned char* pixels)
-	: m_filename(""),
+	: m_filename("none"),
 	m_width(width),
 	m_height(height),
 	m_format(format) {
@@ -45,7 +45,7 @@ bool Texture::load(const char* filename) {
 		m_glHandle = 0;
 		m_width = 0;
 		m_height = 0;
-		m_filename = "";
+		m_filename = "none";
 	}
 
 	int x = 0, y = 0, comp = 0;
@@ -95,6 +95,7 @@ void Texture::create(unsigned int width, unsigned int height, Format format, uns
 	if (m_glHandle != 0) {
 		glDeleteTextures(1, &m_glHandle);
 		m_glHandle = 0;
+		m_filename = "none";
 	}
 
 	m_width = width;
@@ -128,4 +129,4 @@ void Texture::create(unsigned int width, unsigned int height, Format format, uns
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
-}
+} // namespace aie

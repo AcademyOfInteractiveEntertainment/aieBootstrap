@@ -4,32 +4,34 @@ namespace aie {
 
 class SoundManager;
 
+// a class that wraps up an audio file (mp3, ogg, wav)
 class Audio {
 public:
 
 	Audio(const char* filename);
 	~Audio();
 
-	// control playback.
+	// control playback
 	void play();
 	void stop();
 	void pause();
 
+	// query status
 	bool getIsPlaying();
 	bool getIsPaused();
 
-	// set the sound to loop until it's told to stop.
+	// set the sound to loop until it's told to stop
 	void setLooping(bool looping);
 
-	// change the pitch and tempo of the sound. Positive values only.
+	// change the pitch and tempo of the sound (positive values only)
 	void setPitch(float pitch);
 
-	// change the volumn of the sound. Valid range is 0.0f - 1.0f.
+	// change the volumn of the sound (valid range is [0.0,1.0])
 	void setGain(float gain);
 
 protected:
 
-	// only available to the SoundManager.
+	// only available to the SoundManager
 	friend class SoundManager;
 		
 	unsigned int	m_bufferID;
