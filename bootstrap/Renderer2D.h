@@ -16,6 +16,10 @@ public:
 	virtual void begin();
 	virtual void end();
 
+	// simple shape rendering
+	virtual void drawBox(float xPos, float yPos, float width, float height, float rotation = 0.0f);
+	virtual void drawCircle(float xPos, float yPos, float radius);
+
 	// if texture is nullptr then it renders a coloured sprite
 	// depth is in the range [0,100] with lower being closer to the viewer
 	virtual void drawSprite(Texture* texture, float xPos, float yPos, float width = 0.0f, float height = 0.0f, float rotation = 0.0f, float depth = 0.0f, float xOrigin = 0.5f, float yOrigin = 0.5f);

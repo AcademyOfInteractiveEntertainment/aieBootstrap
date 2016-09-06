@@ -176,6 +176,61 @@ void Renderer2D::end() {
 	m_renderBegun = false;
 }
 
+void Renderer2D::drawBox(float xPos, float yPos, float width, float height, float rotation) {
+	drawSprite(nullptr, xPos, yPos, width, height, rotation);
+}
+
+void Renderer2D::drawCircle(float xPos, float yPos, float radius) {
+
+	if (shouldFlush())
+		flushBatch();
+	unsigned int textureID = pushTexture(m_nullTexture);
+
+	int startIndex = m_currentVertex;
+
+	// centre vertex
+	m_vertices[m_currentVertex].pos[0] = xPos;
+	m_vertices[m_currentVertex].pos[1] = yPos;
+	m_vertices[m_currentVertex].pos[2] = 0;
+	m_vertices[m_currentVertex].pos[3] = (float)textureID;
+	m_vertices[m_currentVertex].color[0] = m_r;
+	m_vertices[m_currentVertex].color[1] = m_g;
+	m_vertices[m_currentVertex].color[2] = m_b;
+	m_vertices[m_currentVertex].color[3] = m_a;
+	m_vertices[m_currentVertex].texcoord[0] = 0;
+	m_vertices[m_currentVertex].texcoord[1] = 0;
+	m_currentVertex++;
+
+	float rotDelta = glm::pi<float>() * 2 / 32;
+
+	// 32 segment sphere
+	for (int i = 0; i < 32; ++i) {
+
+		m_vertices[m_currentVertex].pos[0] = glm::sin(rotDelta * i) * radius + xPos;
+		m_vertices[m_currentVertex].pos[1] = glm::cos(rotDelta * i) * radius + yPos;
+		m_vertices[m_currentVertex].pos[2] = 0;
+		m_vertices[m_currentVertex].pos[3] = (float)textureID;
+		m_vertices[m_currentVertex].color[0] = m_r;
+		m_vertices[m_currentVertex].color[1] = m_g;
+		m_vertices[m_currentVertex].color[2] = m_b;
+		m_vertices[m_currentVertex].color[3] = m_a;
+		m_vertices[m_currentVertex].texcoord[0] = 0.5f;
+		m_vertices[m_currentVertex].texcoord[1] = 0.5f;
+		m_currentVertex++;
+
+		if (i == (32-1)) {
+			m_indices[m_currentIndex++] = startIndex;
+			m_indices[m_currentIndex++] = startIndex + 1;
+			m_indices[m_currentIndex++] = m_currentVertex - 1;
+		}
+		else {
+			m_indices[m_currentIndex++] = startIndex;
+			m_indices[m_currentIndex++] = m_currentVertex;
+			m_indices[m_currentIndex++] = m_currentVertex - 1;
+		}
+	}
+}
+
 void Renderer2D::drawSprite(Texture * texture,
 							 float xPos, float yPos, 
 							 float width, float height, 
