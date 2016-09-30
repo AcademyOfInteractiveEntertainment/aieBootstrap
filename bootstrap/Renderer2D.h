@@ -35,7 +35,7 @@ public:
 	virtual void drawText(Font* font, const char* text, float xPos, float yPos, float depth = 0.0f);
 
 	// sets the tint colour for all subsequent draw calls
-	void setRenderColour(float r, float g, float b, float a);
+	void setRenderColour(float r, float g, float b, float a = 1.0f);
 	void setRenderColour(unsigned int colour);
 
 	// can be used to set the texture coordinates of sprites using textures
@@ -49,7 +49,7 @@ public:
 protected:
 
 	// helper methods used during drawing
-	bool shouldFlush();
+	bool shouldFlush(int additionalVertices = 0, int additionalIndices = 0);
 	void flushBatch();
 	unsigned int pushTexture(Texture* texture);
 
@@ -80,9 +80,9 @@ protected:
 		float texcoord[2];
 	};
 
-	// data used for opengl to draw the sprites
-	SBVertex			m_vertices[MAX_SPRITES*4];
-	unsigned short		m_indices[MAX_SPRITES*6];
+	// data used for opengl to draw the sprites (with padding)
+	SBVertex			m_vertices[MAX_SPRITES * 4];
+	unsigned short		m_indices[MAX_SPRITES * 6];
 	int					m_currentVertex, m_currentIndex;
 	unsigned int		m_vao, m_vbo, m_ibo;
 

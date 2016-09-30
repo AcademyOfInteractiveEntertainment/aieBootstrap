@@ -182,7 +182,7 @@ void Renderer2D::drawBox(float xPos, float yPos, float width, float height, floa
 
 void Renderer2D::drawCircle(float xPos, float yPos, float radius) {
 
-	if (shouldFlush())
+	if (shouldFlush(33,96))
 		flushBatch();
 	unsigned int textureID = pushTexture(m_nullTexture);
 
@@ -205,6 +205,9 @@ void Renderer2D::drawCircle(float xPos, float yPos, float radius) {
 
 	// 32 segment sphere
 	for (int i = 0; i < 32; ++i) {
+
+		if (shouldFlush())
+			flushBatch();
 
 		m_vertices[m_currentVertex].pos[0] = glm::sin(rotDelta * i) * radius + xPos;
 		m_vertices[m_currentVertex].pos[1] = glm::cos(rotDelta * i) * radius + yPos;
@@ -633,8 +636,9 @@ void Renderer2D::drawText(Font * font, const char* text, float xPos, float yPos,
 	}
 }
 
-bool Renderer2D::shouldFlush() {
-	return m_currentVertex >= 2048;
+bool Renderer2D::shouldFlush(int additionalVertices, int additionalIndices) {
+	return (m_currentVertex + additionalVertices) >= (MAX_SPRITES * 4) || 
+		(m_currentIndex + additionalIndices) >= (MAX_SPRITES * 6);
 }
 
 void Renderer2D::flushBatch() {
