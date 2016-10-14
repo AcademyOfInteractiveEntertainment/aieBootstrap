@@ -105,12 +105,12 @@ void Input::onMouseReleased(int mouseButtonID) {
 	m_mouseToUpdate.push_back(mouseButtonID);
 }
 
-void Input::update() {
+void Input::clearStatus() {
 	for (auto& key : m_keysToUpdate)
-		key += 1;
+		m_keyStatus[key] += 1;
 
 	for (auto& state : m_mouseToUpdate)
-		state += 1;
+		m_mouseToUpdate[state] += 1;
 
 	m_mouseToUpdate.clear();
 	m_keysToUpdate.clear();

@@ -197,8 +197,9 @@ protected:
 	static void create()			{ m_instance = new Input(); }
 	static void destroy()			{ delete m_instance; }
 
-	// should be called once by the application each frame
-	void update();
+	// should be called once by the application each frame after the current update
+	// or before glfwPollEvents
+	void clearStatus();
 
 private:
 

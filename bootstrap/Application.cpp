@@ -101,6 +101,9 @@ void Application::run(const char* title, int width, int height, bool fullscreen)
 				fpsInterval -= 1.0f;
 			}
 
+			// clear input
+			Input::getInstance()->clearStatus();
+
 			// update window events (input etc)
 			glfwPollEvents();
 
