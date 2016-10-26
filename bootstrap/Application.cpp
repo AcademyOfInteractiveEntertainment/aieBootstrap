@@ -3,7 +3,6 @@
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 #include <iostream>
-#include "RenderTarget.h"
 #include "Input.h"
 #include "SoundManager.h"
 #include "imgui_glfw3.h"
@@ -13,8 +12,7 @@ namespace aie {
 Application::Application()
 	: m_window(nullptr),
 	m_gameOver(false),
-	m_fps(0),
-	m_currentRenderTarget(nullptr) {
+	m_fps(0) {
 }
 
 Application::~Application() {
@@ -164,28 +162,8 @@ unsigned int Application::getWindowHeight() const {
 	return h;
 }
 
-unsigned int Application::getViewWidth() const {
-	if (m_currentRenderTarget != nullptr)
-		return m_currentRenderTarget->getWidth();
-	else
-		return getWindowWidth();
-}
-
-unsigned int Application::getViewHeight() const {
-	if (m_currentRenderTarget != nullptr)
-		return m_currentRenderTarget->getHeight();
-	else
-		return getWindowHeight();
-}
-
-void Application::setRenderTarget(RenderTarget* renderTarget) {
-	m_currentRenderTarget = renderTarget;
-	if (m_currentRenderTarget != nullptr) {
-		glBindFramebuffer(GL_FRAMEBUFFER, m_currentRenderTarget->getFrameBufferHandle());
-	}
-	else {
-		glBindFramebuffer(GL_FRAMEBUFFER, 0);
-	}
+float Application::getTime() const {
+	return (float)glfwGetTime();
 }
 
 } // namespace aie

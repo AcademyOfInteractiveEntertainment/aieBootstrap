@@ -5,8 +5,6 @@ struct GLFWwindow;
 
 namespace aie {
 
-class RenderTarget;
-
 // this is the pure-virtual base class that wraps up an application for us.
 // we derive our own applications from this class
 class Application {
@@ -53,14 +51,9 @@ public:
 	// returns the width / height of the game window
 	unsigned int getWindowWidth() const;
 	unsigned int getWindowHeight() const;
-
-	// returns the width / height of the render target or
-	// width / height of the window if render target is null
-	unsigned int getViewWidth() const;
-	unsigned int getViewHeight() const;
-
-	void setRenderTarget(RenderTarget* renderTarget);
-	RenderTarget* getRenderTarget() const { return m_currentRenderTarget; }
+	
+	// returns time since application started
+	float getTime() const;
 
 protected:
 
@@ -74,7 +67,6 @@ protected:
 	
 	unsigned int	m_fps;
 
-	RenderTarget*	m_currentRenderTarget;
 };
 
 } // namespace aie

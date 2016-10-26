@@ -1,5 +1,4 @@
 #include "Application3D.h"
-#include "Camera.h"
 #include "Gizmos.h"
 #include "Input.h"
 #include <glm/glm.hpp>
@@ -25,23 +24,28 @@ bool Application3D::startup() {
 	// initialise gizmo primitive counts
 	Gizmos::create(10000, 10000, 10000, 10000);
 
-	// create a simple camera
-	m_camera = new aie::FlyCamera();
-	m_camera->setLookAt(vec3(10), vec3(0), vec3(0, 1, 0));
+	// create simple camera transforms
+	m_viewMatrix = glm::lookAt(vec3(10), vec3(0), vec3(0, 1, 0));
+	m_projectionMatrix = glm::perspective(glm::pi<float>() * 0.25f,
+										  getWindowWidth() / (float)getWindowHeight(),
+										  0.1f, 1000.f);
 
 	return true;
 }
 
 void Application3D::shutdown() {
 
-	delete m_camera;
 	Gizmos::destroy();
 }
 
 void Application3D::update(float deltaTime) {
 
-	// update camera
-	m_camera->update(deltaTime);
+	// query time since application started
+	float time = getTime();
+
+	// rotate camera
+	m_viewMatrix = glm::lookAt(vec3(glm::sin(time) * 10, 10, glm::cos(time) * 10),
+							   vec3(0), vec3(0, 1, 0));
 
 	// wipe the gizmos clean for this frame
 	Gizmos::clear();
@@ -60,6 +64,19 @@ void Application3D::update(float deltaTime) {
 
 	// add a transform so that we can see the axis
 	Gizmos::addTransform(mat4(1));
+
+	// demonstrate a few shapes
+	Gizmos::addAABBFilled(vec3(0), vec3(1), vec4(0, 0.5f, 1, 0.25f));
+	Gizmos::addSphere(vec3(5, 0, 5), 1, 8, 8, vec4(1, 0, 0, 0.5f));
+	Gizmos::addRing(vec3(5, 0, -5), 1, 1.5f, 8, vec4(0, 1, 0, 1));
+	Gizmos::addDisk(vec3(-5, 0, 5), 1, 16, vec4(1, 1, 0, 1));
+	Gizmos::addArc(vec3(-5, 0, -5), 0, 2, 1, 8, vec4(1, 0, 1, 1));
+
+	// quit if we press escape
+	aie::Input* input = aie::Input::getInstance();
+
+	if (input->isKeyDown(aie::INPUT_KEY_ESCAPE))
+		quit();
 }
 
 void Application3D::draw() {
@@ -67,5 +84,10 @@ void Application3D::draw() {
 	// wipe the screen to the background colour
 	clearScreen();
 
-	Gizmos::draw(m_camera->getProjectionView());
+	// update perspective in case window resized
+	m_projectionMatrix = glm::perspective(glm::pi<float>() * 0.25f,
+										  getWindowWidth() / (float)getWindowHeight(),
+										  0.1f, 1000.f);
+
+	Gizmos::draw(m_projectionMatrix * m_viewMatrix);
 }

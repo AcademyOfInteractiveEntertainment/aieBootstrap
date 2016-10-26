@@ -35,6 +35,7 @@ public:
 	unsigned int getWidth() const { return m_width; }
 	unsigned int getHeight() const { return m_height; }
 	unsigned int getFormat() const { return m_format; }
+	const unsigned char* getPixels() const { return m_loadedPixels; }
 
 protected:
 
@@ -43,6 +44,7 @@ protected:
 	unsigned int	m_height;
 	unsigned int	m_glHandle;
 	unsigned int	m_format;
+	unsigned char*	m_loadedPixels;
 };
 
 } // namespace aie

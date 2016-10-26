@@ -13,9 +13,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Year2Extensions">
-      <UniqueIdentifier>{1de1f6a7-6784-499d-8ac3-ea925a4b6b97}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Imgui">
       <UniqueIdentifier>{cba2816a-aa90-4b47-94a7-9353fa642a2d}</UniqueIdentifier>
     </Filter>
@@ -45,15 +42,6 @@
     <ClCompile Include="SoundManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Shader.cpp">
-      <Filter>Year2Extensions</Filter>
-    </ClCompile>
-    <ClCompile Include="OBJMesh.cpp">
-      <Filter>Year2Extensions</Filter>
-    </ClCompile>
-    <ClCompile Include="Camera.cpp">
-      <Filter>Year2Extensions</Filter>
-    </ClCompile>
     <ClCompile Include="imgui_glfw3.cpp">
       <Filter>Imgui</Filter>
     </ClCompile>
@@ -62,9 +50,6 @@
     </ClCompile>
     <ClCompile Include="..\dependencies\imgui\imgui_draw.cpp">
       <Filter>Imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="RenderTarget.cpp">
-      <Filter>Year2Extensions</Filter>
     </ClCompile>
     <ClCompile Include="Gizmos.cpp">
       <Filter>Source Files</Filter>
@@ -95,15 +80,6 @@
     <ClInclude Include="SoundManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="OBJMesh.h">
-      <Filter>Year2Extensions</Filter>
-    </ClInclude>
-    <ClInclude Include="Shader.h">
-      <Filter>Year2Extensions</Filter>
-    </ClInclude>
-    <ClInclude Include="Camera.h">
-      <Filter>Year2Extensions</Filter>
-    </ClInclude>
     <ClInclude Include="..\dependencies\imgui\imgui_internal.h">
       <Filter>Imgui</Filter>
     </ClInclude>
@@ -115,9 +91,6 @@
     </ClInclude>
     <ClInclude Include="..\dependencies\imgui\imconfig.h">
       <Filter>Imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="RenderTarget.h">
-      <Filter>Year2Extensions</Filter>
     </ClInclude>
     <ClInclude Include="Gizmos.h">
       <Filter>Header Files</Filter>
