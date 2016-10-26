@@ -35,7 +35,7 @@ Input::Input() {
 		Input::getInstance()->onMouseMove((int)x, h - (int)y);
 
 		for (auto& f : Input::getInstance()->m_mouseMoveCallbacks)
-			f(window, x, y);
+			f(window, x, h - y);
 	};
 
 	auto MouseInputCallback = [](GLFWwindow* window, int button, int action, int mods) {
