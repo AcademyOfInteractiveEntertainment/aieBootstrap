@@ -90,6 +90,16 @@ void Application::run(const char* title, int width, int height, bool fullscreen)
 			deltaTime = currTime - prevTime;
 			prevTime = currTime;
 
+			// clear input
+			Input::getInstance()->clearStatus();
+
+			// update window events (input etc)
+			glfwPollEvents();
+
+			// skip if minimised
+			if (glfwGetWindowAttrib(m_window, GLFW_ICONIFIED) != 0)
+				continue;
+
 			// update fps every second
 			frames++;
 			fpsInterval += deltaTime;
@@ -98,12 +108,6 @@ void Application::run(const char* title, int width, int height, bool fullscreen)
 				frames = 0;
 				fpsInterval -= 1.0f;
 			}
-
-			// clear input
-			Input::getInstance()->clearStatus();
-
-			// update window events (input etc)
-			glfwPollEvents();
 
 			// clear imgui
 			ImGui_NewFrame();
