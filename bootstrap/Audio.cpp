@@ -9,9 +9,10 @@ Audio::Audio(const char* filename)
 	m_bufferID(0),
 	m_sourceID(-1),
 	m_next(nullptr),
+    m_gain(1.0f),
+    m_pitch(1.0f),
 	m_looping(false) {
-
-	m_soundManager->initialiseSound(this, filename);
+    m_soundManager->initialiseSound(this, filename);
 }
 
 Audio::~Audio() {
