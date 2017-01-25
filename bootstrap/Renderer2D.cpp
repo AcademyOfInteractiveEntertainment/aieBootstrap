@@ -652,6 +652,10 @@ void Renderer2D::flushBatch() {
 		glUniform1i(glGetUniformLocation(m_shader, buf), m_fontTexture[i]);
 	}
 
+	int depthFunc = GL_LESS;
+	glGetIntegerv(GL_DEPTH_FUNC, &depthFunc);
+	glDepthFunc(GL_LEQUAL);
+
 	glBindVertexArray(m_vao);
 	glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo);
@@ -662,6 +666,8 @@ void Renderer2D::flushBatch() {
 	glDrawElements(GL_TRIANGLES, m_currentIndex, GL_UNSIGNED_SHORT, 0);
 
 	glBindVertexArray(0);
+
+	glDepthFunc(depthFunc);
 
 	// clear the active textures
 	for (unsigned int i = 0; i < m_currentTexture; i++) {
