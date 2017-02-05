@@ -205,7 +205,7 @@ void Gizmos::addAABB(const glm::vec3& center,
 		vX = (*transform * glm::vec4(vX,0)).xyz();
 		vY = (*transform * glm::vec4(vY,0)).xyz();
 		vZ = (*transform * glm::vec4(vZ,0)).xyz();
-		c = (*transform * glm::vec4(c, 1)).xyz();
+		c = (*transform)[3].xyz() + c;
 	}
 
 	// top verts
@@ -251,7 +251,7 @@ void Gizmos::addAABBFilled(const glm::vec3& center,
 		vX = (*transform * glm::vec4(vX, 0)).xyz();
 		vY = (*transform * glm::vec4(vY, 0)).xyz();
 		vZ = (*transform * glm::vec4(vZ, 0)).xyz();
-		tempCenter = (*transform * glm::vec4(center, 1)).xyz();
+		tempCenter = (*transform)[3].xyz() + tempCenter;
 	}
 
 	// top verts
@@ -313,7 +313,7 @@ void Gizmos::addCylinderFilled(const glm::vec3& center, float radius, float fHal
 
 	glm::vec4 white(1,1,1,1);
 
-	glm::vec3 tempCenter = transform != nullptr ? (*transform * glm::vec4(center, 1)).xyz() : center;
+	glm::vec3 tempCenter = transform != nullptr ? (*transform)[3].xyz() + center : center;
 
 	float segmentSize = (2 * glm::pi<float>()) / segments;
 
@@ -353,7 +353,7 @@ void Gizmos::addRing(const glm::vec3& center, float innerRadius, float outerRadi
 	glm::vec4 vSolid = fillColour;
 	vSolid.w = 1;
 
-	glm::vec3 tempCenter = transform != nullptr ? (*transform * glm::vec4(center, 1)).xyz() : center;
+	glm::vec3 tempCenter = transform != nullptr ? (*transform)[3].xyz() + center : center;
 
 	float fSegmentSize = (2 * glm::pi<float>()) / segments;
 
@@ -391,7 +391,7 @@ void Gizmos::addDisk(const glm::vec3& center, float radius,
 	glm::vec4 vSolid = fillColour;
 	vSolid.w = 1;
 
-	glm::vec3 tempCenter = transform != nullptr ? (*transform * glm::vec4(center, 1)).xyz() : center;
+	glm::vec3 tempCenter = transform != nullptr ? (*transform)[3].xyz() + center : center;
 
 	float fSegmentSize = (2 * glm::pi<float>()) / segments;
 
@@ -422,7 +422,7 @@ void Gizmos::addArc(const glm::vec3& center, float rotation,
 	glm::vec4 vSolid = fillColour;
 	vSolid.w = 1;
 
-	glm::vec3 tempCenter = transform != nullptr ? (*transform * glm::vec4(center, 1)).xyz() : center;
+	glm::vec3 tempCenter = transform != nullptr ? (*transform)[3].xyz() + center : center;
 
 	float fSegmentSize = (2 * arcHalfAngle) / segments;
 
@@ -467,7 +467,7 @@ void Gizmos::addArcRing(const glm::vec3& center, float rotation,
 	glm::vec4 vSolid = fillColour;
 	vSolid.w = 1;
 
-	glm::vec3 tempCenter = transform != nullptr ? (*transform * glm::vec4(center, 1)).xyz() : center;
+	glm::vec3 tempCenter = transform != nullptr ? (*transform)[3].xyz() + center : center;
 
 	float fSegmentSize = (2 * arcHalfAngle) / segments;
 
@@ -529,7 +529,7 @@ void Gizmos::addSphere(const glm::vec3& center, float radius, int rows, int colu
 
 	float DEG2RAD = glm::pi<float>() / 180;
 
-	glm::vec3 tempCenter = transform != nullptr ? (*transform * glm::vec4(center, 1)).xyz() : center;
+	glm::vec3 tempCenter = transform != nullptr ? (*transform)[3].xyz() + center : center;
 	
 	//Lets put everything in radians first
 	float latitiudinalRange = (latMax - latMin) * DEG2RAD;
@@ -589,8 +589,8 @@ void Gizmos::addCapsule(const glm::vec3& center, float height, float radius,
 	glm::vec4 white(1);
 
 	if (rotation) {
-		top = (*rotation) * top;
-		bottom = (*rotation) * bottom;
+		top = (*rotation) * top + (*rotation)[3];
+		bottom = (*rotation) * bottom + (*rotation)[3];
 	}
 
 	glm::vec3 topCenter = center + top.xyz();

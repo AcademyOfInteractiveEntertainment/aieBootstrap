@@ -72,6 +72,10 @@ void Application3D::update(float deltaTime) {
 	Gizmos::addDisk(vec3(-5, 0, 5), 1, 16, vec4(1, 1, 0, 1));
 	Gizmos::addArc(vec3(-5, 0, -5), 0, 2, 1, 8, vec4(1, 0, 1, 1));
 
+	mat4 t = glm::rotate(time, glm::normalize(vec3(1, 1, 1)));
+	t[3] = vec4(-2, 0, 0, 1);
+	Gizmos::addCylinderFilled(vec3(0), 0.5f, 1, 5, vec4(0, 1, 1, 1), &t);
+
 	// quit if we press escape
 	aie::Input* input = aie::Input::getInstance();
 
