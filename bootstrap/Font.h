@@ -14,6 +14,8 @@ public:
 
 	// returns the OpenGL texture handle
 	unsigned int	getTextureHandle() const { return m_glHandle; }
+	
+	unsigned int	getTextureWidth() const {return m_textureWidth; }
 
 private:
 
