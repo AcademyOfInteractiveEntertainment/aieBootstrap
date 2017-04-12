@@ -542,31 +542,6 @@ void Renderer2D::drawLine(float x1, float y1, float x2, float y2, float thicknes
 	setUVRect(uvX, uvY, uvW, uvH);
 }
 
-
-float Renderer2D::measureTextWidth(Font *font, const char *text)
-{
-	stbtt_aligned_quad Q = {};
-	float stringHeight = 0;
-	float stringWidth = 0;
-	float xPos = 0.0f;
-	float yPos = 0.0f;
-
-	while (*text != 0)
-	{
-		stbtt_GetBakedQuad(
-			(stbtt_bakedchar*)font->m_glyphData,
-			font->m_textureWidth,
-			font->m_textureHeight,
-			(unsigned char)*text, &xPos, &yPos, &Q, 1);
-
-		text++;
-	}
-
-	// get the position of the last vert for the last character rendered.
-	return Q.x1; // x0 is the left vert for the quad. x1 is the right vert for the quad.
-
-}
-
 void Renderer2D::drawText(Font * font, const char* text, float xPos, float yPos, float depth) {
 
 	if (font == nullptr ||

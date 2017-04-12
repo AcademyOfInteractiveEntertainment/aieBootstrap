@@ -46,10 +46,6 @@ public:
 	void setCameraPos(float x, float y) { m_cameraX = x; m_cameraY = y; }
 	void getCameraPos(float& x, float& y) const { x = m_cameraX; y = m_cameraY; }
 
-	// returns the width in pixels for the given text.
-	// this is usefull for center alligning text.
-	float measureTextWidth(Font *font, const char *text);
-
 protected:
 
 	// helper methods used during drawing

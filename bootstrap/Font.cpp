@@ -73,4 +73,99 @@ Font::~Font() {
 	glDeleteBuffers(1, &m_pixelBufferHandle);
 }
 
+float Font::getStringWidth(const char* str) {
+
+	stbtt_aligned_quad Q = {};
+	float xPos = 0.0f;
+	float yPos = 0.0f;
+
+	while (*str != 0) {
+		stbtt_GetBakedQuad(
+			(stbtt_bakedchar*)m_glyphData,
+			m_textureWidth,
+			m_textureHeight,
+			(unsigned char)*str, &xPos, &yPos, &Q, 1);
+
+		str++;
+	}
+
+	// get the position of the last vert for the last character rendered
+	return Q.x1;
+}
+
+float Font::getStringHeight(const char* str) {
+
+	stbtt_aligned_quad Q = {};
+	float low = 9999999, high = -9999999;
+	float xPos = 0.0f;
+	float yPos = 0.0f;
+
+	while (*str != 0) {
+		stbtt_GetBakedQuad(
+			(stbtt_bakedchar*)m_glyphData,
+			m_textureWidth,
+			m_textureHeight,
+			(unsigned char)*str, &xPos, &yPos, &Q, 1);
+
+		low = low > Q.y0 ? Q.y0 : low;
+		high = high < Q.y1 ? Q.y1 : high;
+
+		str++;
+	}
+
+	return high - low;
+}
+
+void Font::getStringSize(const char* str, float& width, float& height) {
+
+	stbtt_aligned_quad Q = {};
+	float low = 9999999, high = -9999999;
+	float xPos = 0.0f;
+	float yPos = 0.0f;
+
+	while (*str != 0) {
+		stbtt_GetBakedQuad(
+			(stbtt_bakedchar*)m_glyphData,
+			m_textureWidth,
+			m_textureHeight,
+			(unsigned char)*str, &xPos, &yPos, &Q, 1);
+
+		low = low > Q.y0 ? Q.y0 : low;
+		high = high < Q.y1 ? Q.y1 : high;
+
+		str++;
+	}
+
+	height = high - low;
+	width = Q.x1;
+}
+
+void Font::getStringRectangle(const char* str, float& x0, float& y0, float& x1, float& y1) {
+
+	stbtt_aligned_quad Q = {};
+	y1 = 9999999, y0 = -9999999;
+	x0 = 9999999, x1 = -9999999;
+	float xPos = 0.0f;
+	float yPos = 0.0f;
+
+	while (*str != 0) {
+		stbtt_GetBakedQuad(
+			(stbtt_bakedchar*)m_glyphData,
+			m_textureWidth,
+			m_textureHeight,
+			(unsigned char)*str, &xPos, &yPos, &Q, 1);
+
+		y1 = y1 > Q.y0 ? Q.y0 : y1;
+		y0 = y0 < Q.y1 ? Q.y1 : y0;
+
+		x1 = x1 < Q.x1 ? Q.x1 : x1;
+		x0 = x0 > Q.x0 ? Q.x0 : x0;
+
+		str++;
+	}
+
+	y0 *= -1;
+	y1 *= -1;
+}
+
 } // namepace aie
