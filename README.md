@@ -44,4 +44,7 @@ The ```run()``` method implements a game loop that executes in the following man
   shutdown()
 ```
 
-<iframe src="https://player.vimeo.com/video/213005085" width="640" height="346" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+#Tutorial Videos
+<b>Creating your Git Repo using aieBootstrap</b>
+[![Video: Creating your Git Repo using aieBootstrap](https://i.vimeocdn.com/video/629137423.webp?mw=600&amp;mh=450)](https://vimeo.com/213005085)
+
