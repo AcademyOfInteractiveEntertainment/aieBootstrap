@@ -45,11 +45,14 @@ The ```run()``` method implements a game loop that executes in the following man
 ```
 
 # Tutorial Videos
-<p>
-<b>Creating your Git Repo using aieBootstrap</b><br>
+
+<b>Creating your Git Repo using aieBootstrap</b>
+
 [![Video: Creating your Git Repo using aieBootstrap](https://i.vimeocdn.com/video/629137423.webp?mw=600&amp;mh=450)](https://vimeo.com/213005085/3609374652)
-</p>
-<p>
-<b>Getting Started with aieBootstrap</b><br>
+
+
+
+<b>Getting Started with aieBootstrap</b>
+
 [![Video: Getting Started with aieBootstrap](https://i.vimeocdn.com/video/629873947.webp?mw=600&amp;mh=450)](https://vimeo.com/213607377/77c8867175)
-</p>
+
