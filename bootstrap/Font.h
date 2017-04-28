@@ -14,6 +14,8 @@ public:
 
 	// returns the OpenGL texture handle
 	unsigned int	getTextureHandle() const { return m_glHandle; }
+	
+	unsigned int	getTextureWidth() const {return m_textureWidth; }
 
 	// returns size of string using this font
 	float getStringWidth(const char* str);
