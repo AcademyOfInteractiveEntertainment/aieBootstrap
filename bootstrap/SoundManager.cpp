@@ -194,10 +194,12 @@ void SoundManager::releaseSound(Audio* audio) {
 		pCurrent = pCurrent->m_next;
 	}
 
-	if (pPrev != nullptr)
-		pPrev->m_next = pCurrent->m_next;
-	else
-		m_audioList = pCurrent->m_next;
+	if (pCurrent != nullptr) {
+		if (pPrev != nullptr)
+			pPrev->m_next = pCurrent->m_next;
+		else
+			m_audioList = pCurrent->m_next;
+	}
 }
 
 void SoundManager::playSoundInternal(Audio* audio) {
