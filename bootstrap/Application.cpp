@@ -145,10 +145,7 @@ void Application::setBackgroundColour(float r, float g, float b, float a) {
 }
 
 void Application::setVSync(bool enable) {
-	if (enable)
-		glfwSwapInterval(1);
-	else
-		glfwSwapInterval(0);
+	glfwSwapInterval(enable ? 1 : 0);
 }
 
 void Application::setShowCursor(bool visible) {
