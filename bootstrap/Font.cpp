@@ -52,13 +52,13 @@ Font::Font(const char* trueTypeFontFile, unsigned short fontHeight)
 
 		glGenTextures(1, &m_glHandle);
 		glBindTexture(GL_TEXTURE_2D, m_glHandle);
+
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_R8, m_textureWidth, m_textureHeight, 0, GL_RED, GL_UNSIGNED_BYTE, nullptr);
+
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-
-		glTexStorage2D(GL_TEXTURE_2D, 1, GL_R8, m_textureWidth, m_textureHeight);
-		glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, m_textureWidth, m_textureHeight, GL_RED, GL_UNSIGNED_BYTE, nullptr);
 
 		glBindBuffer(GL_PIXEL_UNPACK_BUFFER, 0);
 
