@@ -7,14 +7,20 @@ Input* Input::m_instance = nullptr;
 
 Input::Input() {
 
-	auto KeyPressCallback = [](GLFWwindow* window, int key, int scancode, int action, int mods) {
+	// track current/previous key and mouse button states
+	m_lastKeys = new int[GLFW_KEY_LAST + 1];
+	m_currentKeys = new int[GLFW_KEY_LAST + 1];
 
-		if (action == GLFW_PRESS)
-			Input::getInstance()->onKeyPressed(key);
-		else if (action == GLFW_RELEASE)
-			Input::getInstance()->onKeyReleased(key);
-		else if (action == GLFW_REPEAT)
-			Input::getInstance()->onKeyRepeate(key);
+	auto window = glfwGetCurrentContext();
+
+	for (int i = GLFW_KEY_SPACE; i <= GLFW_KEY_LAST; ++i)
+		m_lastKeys[i] = m_currentKeys[i] = glfwGetKey(window, i);
+
+	for (int i = 0; i < 8; ++i)
+		m_lastButtons[i] = m_currentButtons[i] = glfwGetMouseButton(window, i);
+
+	// set up callbacks
+	auto KeyPressCallback = [](GLFWwindow* window, int key, int scancode, int action, int mods) {
 
 		for (auto& f : Input::getInstance()->m_keyCallbacks)
 			f(window, key, scancode, action, mods);
@@ -22,7 +28,7 @@ Input::Input() {
 
 	auto CharacterInputCallback = [](GLFWwindow* window, unsigned int character) {
 
-		Input::getInstance()->onCharInput(character);
+		Input::getInstance()->m_pressedCharacters.push_back(character);
 
 		for (auto& f : Input::getInstance()->m_charCallbacks)
 			f(window, character);
@@ -39,12 +45,7 @@ Input::Input() {
 	};
 
 	auto MouseInputCallback = [](GLFWwindow* window, int button, int action, int mods) {
-
-		if (action == GLFW_PRESS)
-			Input::getInstance()->onMousePressed(button);
-		else if (action == GLFW_RELEASE)
-			Input::getInstance()->onMouseReleased(button);
-
+		
 		for (auto& f : Input::getInstance()->m_mouseButtonCallbacks)
 			f(window, button, action, mods);
 	};
@@ -57,7 +58,6 @@ Input::Input() {
 			f(window, xoffset, yoffset);
 	};
 
-	GLFWwindow* window = glfwGetCurrentContext();
 	glfwSetKeyCallback(window, KeyPressCallback);
 	glfwSetCharCallback(window, CharacterInputCallback);
 	glfwSetMouseButtonCallback(window, MouseInputCallback);
@@ -70,26 +70,8 @@ Input::Input() {
 }
 
 Input::~Input() {
-
-}
-
-void Input::onKeyPressed(int keyID) {
-	m_keyStatus[keyID] = JUST_PRESSED;
-	m_keysToUpdate.push_back(keyID);
-	m_pressedKeys.push_back(keyID);
-}
-
-void Input::onKeyReleased(int keyID) {
-	m_keyStatus[keyID] = JUST_RELEASED;
-	m_keysToUpdate.push_back(keyID);
-}
-
-void Input::onKeyRepeate(int key) {
-	m_pressedKeys.push_back(key);
-}
-
-void Input::onCharInput(unsigned int character) {
-	m_pressedCharacters.push_back(character);
+	delete[] m_lastKeys;
+	delete[] m_currentKeys;
 }
 
 void Input::onMouseMove(int newXPos, int newYPos) {
@@ -97,44 +79,46 @@ void Input::onMouseMove(int newXPos, int newYPos) {
 	m_mouseY = newYPos;
 }
 
-void Input::onMousePressed(int mouseButtonID) {
-	m_mouseState[mouseButtonID] = JUST_PRESSED;
-	m_mouseToUpdate.push_back(mouseButtonID);
-}
-
-void Input::onMouseReleased(int mouseButtonID) {
-	m_mouseState[mouseButtonID] = JUST_RELEASED;
-	m_mouseToUpdate.push_back(mouseButtonID);
-}
-
 void Input::clearStatus() {
-	for (auto& key : m_keysToUpdate)
-		m_keyStatus[key] += 1;
 
-	for (auto& state : m_mouseToUpdate)
-		m_mouseState[state] += 1;
+	m_pressedCharacters.clear();
 
-	m_mouseToUpdate.clear();
-	m_keysToUpdate.clear();
+	auto window = glfwGetCurrentContext();
 
 	m_pressedKeys.clear();
-	m_pressedCharacters.clear();
+
+	// update keys
+	for (int i = GLFW_KEY_SPACE; i <= GLFW_KEY_LAST; ++i) {
+
+		m_lastKeys[i] = m_currentKeys[i];
+
+		if ((m_currentKeys[i] = glfwGetKey(window, i)) == GLFW_PRESS)
+			m_pressedKeys.push_back(m_currentKeys[i]);
+	}
+
+	// update mouse
+	for (int i = 0; i < 8 ; ++i) {
+		m_lastButtons[i] = m_currentButtons[i];
+		m_currentButtons[i] = glfwGetMouseButton(window, i);
+	}
 }
 
 bool Input::isKeyDown(int inputKeyID) {
-	return m_keyStatus[inputKeyID] == JUST_PRESSED || m_keyStatus[inputKeyID] == DOWN;
+	return m_currentKeys[inputKeyID] == GLFW_PRESS;
 }
 
 bool Input::isKeyUp(int inputKeyID) {
-	return m_keyStatus[inputKeyID] == JUST_RELEASED || m_keyStatus[inputKeyID] == UP;
+	return m_currentKeys[inputKeyID] == GLFW_RELEASE;
 }
 
 bool Input::wasKeyPressed(int inputKeyID) {
-	return m_keyStatus[inputKeyID] == JUST_PRESSED;
+	return m_currentKeys[inputKeyID] == GLFW_PRESS && 
+		m_lastKeys[inputKeyID] == GLFW_RELEASE;
 }
 
 bool Input::wasKeyReleased(int inputKeyID) {
-	return m_keyStatus[inputKeyID] == JUST_RELEASED;
+	return m_currentKeys[inputKeyID] == GLFW_RELEASE && 
+		m_lastKeys[inputKeyID] == GLFW_PRESS;
 }
 
 const std::vector<int> &Input::getPressedKeys() const {
@@ -146,19 +130,21 @@ const std::vector<unsigned int> &Input::getPressedCharacters() const {
 }
 
 bool Input::isMouseButtonDown(int inputMouseID) {
-	return m_mouseState[inputMouseID] == DOWN;
+	return m_currentButtons[inputMouseID] == GLFW_PRESS;
 }
 
 bool Input::isMouseButtonUp(int inputMouseID) {
-	return m_mouseState[inputMouseID] == UP || m_mouseState[inputMouseID] == JUST_RELEASED;
+	return m_currentButtons[inputMouseID] == GLFW_RELEASE;
 }
 
 bool Input::wasMouseButtonPressed(int inputMouseID) {
-	return m_mouseState[inputMouseID] == JUST_PRESSED;
+	return m_currentButtons[inputMouseID] == GLFW_PRESS && 
+		m_lastButtons[inputMouseID] == GLFW_RELEASE;
 }
 
 bool Input::wasMouseButtonReleased(int inputMouseID) {
-	return m_mouseState[inputMouseID] == JUST_RELEASED;
+	return m_currentButtons[inputMouseID] == GLFW_RELEASE && 
+		m_lastButtons[inputMouseID] == GLFW_PRESS;
 }
 
 int Input::getMouseX() {

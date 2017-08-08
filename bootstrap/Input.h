@@ -203,51 +203,28 @@ protected:
 
 private:
 
-	enum EKeyStatus {
-		JUST_RELEASED,
-		UP,
-		JUST_PRESSED,
-		DOWN,
-	};
-
 	// constructor private for singleton
 	Input();
 	~Input();
 
-	std::vector<int>			m_keysToUpdate;
-	std::map<int, int>			m_keyStatus;
-
 	std::vector<int>			m_pressedKeys;
 	std::vector<unsigned int>	m_pressedCharacters;
-
-	std::vector<int>			m_mouseToUpdate;
-	std::map<int, int>			m_mouseState;
-
+		
 	int		m_mouseX;
 	int		m_mouseY;
 	double	m_mouseScroll;
 
-	// These methods are called by glfw function pointers
-	// GLFWkeyFun and GLFWcharFun - see constructor for setup
-	// The function pointers are called during the GLFWPollEvents function
-	// which is called at the end of the game loop after SwapBuffers
-	// effectivelly at the beginning of each frame.
-	void onKeyPressed(int keyID);
-	void onKeyReleased(int keyID);
-	void onKeyRepeate(int key);
-
-	void onCharInput(unsigned int character);
-
 	void onMouseMove(int newXPos, int newYPos);
-
-	void onMousePressed(int mouseButtonID);
-	void onMouseReleased(int mouseButtonID);
-
+	
 	std::vector<KeyCallback>			m_keyCallbacks;
 	std::vector<CharCallback>			m_charCallbacks;
 	std::vector<MouseMoveCallback>		m_mouseMoveCallbacks;
 	std::vector<MouseButtonCallback>	m_mouseButtonCallbacks;
 	std::vector<MouseScrollCallback>	m_mouseScrollCallbacks;
+
+	// used to track down/up/released/pressed
+	int* m_lastKeys, *m_currentKeys;
+	int m_lastButtons[8], m_currentButtons[8];
 };
 
 } // namespace aie
