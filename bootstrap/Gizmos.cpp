@@ -994,6 +994,10 @@ void Gizmos::draw(const glm::mat4& projectionView) {
 	}
 }
 
+void Gizmos::draw2D(float screenWidth, float screenHeight) {
+	draw2D(glm::ortho(0.f, screenWidth, 0.f, screenHeight));
+}
+
 void Gizmos::draw2D(const glm::mat4& projection) {
 	if ( sm_singleton != nullptr && 
 		(sm_singleton->m_2DlineCount > 0 || 

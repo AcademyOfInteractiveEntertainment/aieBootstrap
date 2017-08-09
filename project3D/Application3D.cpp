@@ -76,6 +76,11 @@ void Application3D::update(float deltaTime) {
 	t[3] = vec4(-2, 0, 0, 1);
 	Gizmos::addCylinderFilled(vec3(0), 0.5f, 1, 5, vec4(0, 1, 1, 1), &t);
 
+	// demonstrate 2D gizmos
+	Gizmos::add2DAABB(glm::vec2(getWindowWidth() / 2, 100),
+					  glm::vec2(getWindowWidth() / 2 * (fmod(getTime(), 3.f) / 3), 20),
+					  vec4(0, 1, 1, 1));
+
 	// quit if we press escape
 	aie::Input* input = aie::Input::getInstance();
 
@@ -93,5 +98,9 @@ void Application3D::draw() {
 										  getWindowWidth() / (float)getWindowHeight(),
 										  0.1f, 1000.f);
 
+	// draw 3D gizmos
 	Gizmos::draw(m_projectionMatrix * m_viewMatrix);
+
+	// draw 2D gizmos using an orthogonal projection matrix (or screen dimensions)
+	Gizmos::draw2D(getWindowWidth(), getWindowHeight());
 }
