@@ -19,9 +19,7 @@ bool Application2D::startup() {
 	m_shipTexture = new aie::Texture("./textures/ship.png");
 
 	m_font = new aie::Font("./font/consolas.ttf", 32);
-
-	m_audio = new aie::Audio("./audio/powerup.wav");
-
+	
 	m_cameraX = 0;
 	m_cameraY = 0;
 	m_timer = 0;
@@ -31,7 +29,6 @@ bool Application2D::startup() {
 
 void Application2D::shutdown() {
 	
-	delete m_audio;
 	delete m_font;
 	delete m_texture;
 	delete m_shipTexture;
@@ -57,10 +54,6 @@ void Application2D::update(float deltaTime) {
 
 	if (input->isKeyDown(aie::INPUT_KEY_RIGHT))
 		m_cameraX += 500.0f * deltaTime;
-
-	// example of audio
-	if (input->wasKeyPressed(aie::INPUT_KEY_SPACE))
-		m_audio->play();
 
 	// exit the application
 	if (input->isKeyDown(aie::INPUT_KEY_ESCAPE))
@@ -105,7 +98,7 @@ void Application2D::draw() {
 	char fps[32];
 	sprintf_s(fps, 32, "FPS: %i", getFPS());
 	m_2dRenderer->drawText(m_font, fps, 0, 720 - 32);
-	m_2dRenderer->drawText(m_font, "Press Space for sound!", 0, 720 - 64);
+	m_2dRenderer->drawText(m_font, "Press ESC to quit!", 0, 720 - 64);
 
 	// done drawing sprites
 	m_2dRenderer->end();

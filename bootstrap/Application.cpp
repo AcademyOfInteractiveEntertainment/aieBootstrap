@@ -4,7 +4,6 @@
 #include <glm/glm.hpp>
 #include <iostream>
 #include "Input.h"
-#include "SoundManager.h"
 #include "imgui_glfw3.h"
 
 namespace aie {
@@ -50,9 +49,6 @@ bool Application::createWindow(const char* title, int width, int height, bool fu
 	// start input manager
 	Input::create();
 
-	// start sound manager
-	SoundManager::create();
-
 	// imgui
 	ImGui_Init(m_window, true);
 	
@@ -62,7 +58,6 @@ bool Application::createWindow(const char* title, int width, int height, bool fu
 void Application::destroyWindow() {
 
 	ImGui_Shutdown();
-	SoundManager::destroy();
 	Input::destroy();
 
 	glfwDestroyWindow(m_window);
@@ -113,7 +108,7 @@ void Application::run(const char* title, int width, int height, bool fullscreen)
 			ImGui_NewFrame();
 
 			update(float(deltaTime));
-            SoundManager::getInstance()->update();
+
 			draw();
 
 			// draw IMGUI last
