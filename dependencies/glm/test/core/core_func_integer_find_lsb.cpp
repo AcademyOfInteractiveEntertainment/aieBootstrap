@@ -1,34 +1,3 @@
-///////////////////////////////////////////////////////////////////////////////////
-/// OpenGL Mathematics (glm.g-truc.net)
-///
-/// Copyright (c) 2005 - 2015 G-Truc Creation (www.g-truc.net)
-/// Permission is hereby granted, free of charge, to any person obtaining a copy
-/// of this software and associated documentation files (the "Software"), to deal
-/// in the Software without restriction, including without limitation the rights
-/// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-/// copies of the Software, and to permit persons to whom the Software is
-/// furnished to do so, subject to the following conditions:
-/// 
-/// The above copyright notice and this permission notice shall be included in
-/// all copies or substantial portions of the Software.
-/// 
-/// Restrictions:
-///		By making use of the Software for military purposes, you choose to make
-///		a Bunny unhappy.
-/// 
-/// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-/// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-/// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-/// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-/// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-/// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-/// THE SOFTWARE.
-///
-/// @file test/core/func_integer_find_lsb.cpp
-/// @date 2014-10-27 / 2014-11-25
-/// @author Christophe Riccio
-///////////////////////////////////////////////////////////////////////////////////
-
 // This has the programs for computing the number of trailing zeros
 // in a word.
 // Max line length is 57, to fit in hacker.book.
@@ -288,8 +257,6 @@ void error(int x, int y) {
    printf("Error for x = %08x, got %d\n", x, y);
 }
 
-/* ------------------------------ main ------------------------------ */
-
 int main()
 {
 #	ifdef NDEBUG
@@ -317,7 +284,7 @@ int main()
 		if (ntz1(test[i]) != test[i+1]) error(test[i], ntz1(test[i]));}
 	TimestampEnd = std::clock();
 
-	printf("ntz1: %d clocks\n", TimestampEnd - TimestampBeg);
+	printf("ntz1: %d clocks\n", static_cast<int>(TimestampEnd - TimestampBeg));
 
 	TimestampBeg = std::clock();
 	for (std::size_t k = 0; k < Count; ++k)
@@ -325,7 +292,7 @@ int main()
 		if (ntz2(test[i]) != test[i+1]) error(test[i], ntz2(test[i]));}
 	TimestampEnd = std::clock();
 
-	printf("ntz2: %d clocks\n", TimestampEnd - TimestampBeg);
+	printf("ntz2: %d clocks\n", static_cast<int>(TimestampEnd - TimestampBeg));
 
 	TimestampBeg = std::clock();
 	for (std::size_t k = 0; k < Count; ++k)
@@ -333,7 +300,7 @@ int main()
 		if (ntz3(test[i]) != test[i+1]) error(test[i], ntz3(test[i]));}
 	TimestampEnd = std::clock();
 
-	printf("ntz3: %d clocks\n", TimestampEnd - TimestampBeg);
+	printf("ntz3: %d clocks\n", static_cast<int>(TimestampEnd - TimestampBeg));
 
 	TimestampBeg = std::clock();
 	for (std::size_t k = 0; k < Count; ++k)
@@ -341,7 +308,7 @@ int main()
 		if (ntz4(test[i]) != test[i+1]) error(test[i], ntz4(test[i]));}
 	TimestampEnd = std::clock();
 
-	printf("ntz4: %d clocks\n", TimestampEnd - TimestampBeg);
+	printf("ntz4: %d clocks\n", static_cast<int>(TimestampEnd - TimestampBeg));
 
 	TimestampBeg = std::clock();
 	for (std::size_t k = 0; k < Count; ++k)
@@ -349,16 +316,21 @@ int main()
 		if (ntz4a(test[i]) != test[i+1]) error(test[i], ntz4a(test[i]));}
 	TimestampEnd = std::clock();
 
-	printf("ntz4a: %d clocks\n", TimestampEnd - TimestampBeg);
+	printf("ntz4a: %d clocks\n", static_cast<int>(TimestampEnd - TimestampBeg));
 
 	TimestampBeg = std::clock();
-	for (std::size_t k = 0; k < Count; ++k)
-	for (i = 0; i < n; i += 2) {
-		m = test[i+1]; if (m > 8) m = 8;
-		if (ntz5(test[i]) != m) error(test[i], ntz5(test[i]));}
+	for(std::size_t k = 0; k < Count; ++k)
+	for(i = 0; i < n; i += 2)
+	{
+		m = test[i+1];
+		if(m > 8)
+			m = 8;
+		if(ntz5(static_cast<char>(test[i])) != m)
+			error(test[i], ntz5(static_cast<char>(test[i])));
+	}
 	TimestampEnd = std::clock();
 
-	printf("ntz5: %d clocks\n", TimestampEnd - TimestampBeg);
+	printf("ntz5: %d clocks\n", static_cast<int>(TimestampEnd - TimestampBeg));
 
 	TimestampBeg = std::clock();
 	for (std::size_t k = 0; k < Count; ++k)
@@ -366,7 +338,7 @@ int main()
 		if (ntz6(test[i]) != test[i+1]) error(test[i], ntz6(test[i]));}
 	TimestampEnd = std::clock();
 
-	printf("ntz6: %d clocks\n", TimestampEnd - TimestampBeg);
+	printf("ntz6: %d clocks\n", static_cast<int>(TimestampEnd - TimestampBeg));
 
 	TimestampBeg = std::clock();
 	for (std::size_t k = 0; k < Count; ++k)
@@ -374,7 +346,7 @@ int main()
 		if (ntz6a(test[i]) != test[i+1]) error(test[i], ntz6a(test[i]));}
 	TimestampEnd = std::clock();
 
-	printf("ntz6a: %d clocks\n", TimestampEnd - TimestampBeg);
+	printf("ntz6a: %d clocks\n", static_cast<int>(TimestampEnd - TimestampBeg));
 
 	TimestampBeg = std::clock();
 	for (std::size_t k = 0; k < Count; ++k)
@@ -382,7 +354,7 @@ int main()
 		if (ntz7(test[i]) != test[i+1]) error(test[i], ntz7(test[i]));}
 	TimestampEnd = std::clock();
 
-	printf("ntz7: %d clocks\n", TimestampEnd - TimestampBeg);
+	printf("ntz7: %d clocks\n", static_cast<int>(TimestampEnd - TimestampBeg));
 
 	TimestampBeg = std::clock();
 	for (std::size_t k = 0; k < Count; ++k)
@@ -390,7 +362,7 @@ int main()
 		if (ntz7_christophe(test[i]) != test[i+1]) error(test[i], ntz7(test[i]));}
 	TimestampEnd = std::clock();
 
-	printf("ntz7_christophe: %d clocks\n", TimestampEnd - TimestampBeg);
+	printf("ntz7_christophe: %d clocks\n", static_cast<int>(TimestampEnd - TimestampBeg));
 
 	TimestampBeg = std::clock();
 	for (std::size_t k = 0; k < Count; ++k)
@@ -398,7 +370,7 @@ int main()
 		if (ntz8(test[i]) != test[i+1]) error(test[i], ntz8(test[i]));}
 	TimestampEnd = std::clock();
 
-	printf("ntz8: %d clocks\n", TimestampEnd - TimestampBeg);
+	printf("ntz8: %d clocks\n", static_cast<int>(TimestampEnd - TimestampBeg));
 
 	TimestampBeg = std::clock();
 	for (std::size_t k = 0; k < Count; ++k)
@@ -406,7 +378,7 @@ int main()
 		if (ntz8a(test[i]) != test[i+1]) error(test[i], ntz8a(test[i]));}
 	TimestampEnd = std::clock();
 
-	printf("ntz8a: %d clocks\n", TimestampEnd - TimestampBeg);
+	printf("ntz8a: %d clocks\n", static_cast<int>(TimestampEnd - TimestampBeg));
 
 	TimestampBeg = std::clock();
 	for (std::size_t k = 0; k < Count; ++k)
@@ -414,7 +386,7 @@ int main()
 		if (ntz9(test[i]) != test[i+1]) error(test[i], ntz9(test[i]));}
 	TimestampEnd = std::clock();
 
-	printf("ntz9: %d clocks\n", TimestampEnd - TimestampBeg);
+	printf("ntz9: %d clocks\n", static_cast<int>(TimestampEnd - TimestampBeg));
 
 	TimestampBeg = std::clock();
 	for (std::size_t k = 0; k < Count; ++k)
@@ -422,10 +394,10 @@ int main()
 		if (ntz10(test[i]) != test[i+1]) error(test[i], ntz10(test[i]));}
 	TimestampEnd = std::clock();
 
-	printf("ntz10: %d clocks\n", TimestampEnd - TimestampBeg);
+	printf("ntz10: %d clocks\n", static_cast<int>(TimestampEnd - TimestampBeg));
 
 	if (errors == 0)
-		printf("Passed all %d cases.\n", sizeof(test)/8);
+		printf("Passed all %d cases.\n", static_cast<int>(sizeof(test)/8));
 
 #	endif//NDEBUG
 }

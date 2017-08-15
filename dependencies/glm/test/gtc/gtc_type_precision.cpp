@@ -1,34 +1,3 @@
-///////////////////////////////////////////////////////////////////////////////////
-/// OpenGL Mathematics (glm.g-truc.net)
-///
-/// Copyright (c) 2005 - 2015 G-Truc Creation (www.g-truc.net)
-/// Permission is hereby granted, free of charge, to any person obtaining a copy
-/// of this software and associated documentation files (the "Software"), to deal
-/// in the Software without restriction, including without limitation the rights
-/// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-/// copies of the Software, and to permit persons to whom the Software is
-/// furnished to do so, subject to the following conditions:
-/// 
-/// The above copyright notice and this permission notice shall be included in
-/// all copies or substantial portions of the Software.
-/// 
-/// Restrictions:
-///		By making use of the Software for military purposes, you choose to make
-///		a Bunny unhappy.
-/// 
-/// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-/// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-/// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-/// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-/// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-/// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-/// THE SOFTWARE.
-///
-/// @file test/gtc/gtc_type_precision.cpp
-/// @date 2010-09-16 / 2014-11-25
-/// @author Christophe Riccio
-///////////////////////////////////////////////////////////////////////////////////
-
 #include <glm/gtc/type_precision.hpp>
 #include <glm/gtc/quaternion.hpp>
 #include <vector>
@@ -271,7 +240,7 @@ static int test_ivec_precision()
 	int Error(0);
 
 	{
-		glm::i8vec2 v1;
+		glm::i8vec2 v1(0);
 		glm::lowp_i8vec2 v2(v1);
 		glm::mediump_i8vec2 v3(v1);
 		glm::highp_i8vec2 v4(v1);
@@ -282,7 +251,7 @@ static int test_ivec_precision()
 	}
 
 	{
-		glm::i8vec3 v1;
+		glm::i8vec3 v1(0);
 		glm::lowp_i8vec3 v2(v1);
 		glm::mediump_i8vec3 v3(v1);
 		glm::highp_i8vec3 v4(v1);
@@ -293,7 +262,7 @@ static int test_ivec_precision()
 	}
 	
 	{
-		glm::i8vec4 v1;
+		glm::i8vec4 v1(0);
 		glm::lowp_i8vec4 v2(v1);
 		glm::mediump_i8vec4 v3(v1);
 		glm::highp_i8vec4 v4(v1);
@@ -304,7 +273,7 @@ static int test_ivec_precision()
 	}
 
 	{
-		glm::i16vec2 v1;
+		glm::i16vec2 v1(0);
 		glm::lowp_i16vec2 v2(v1);
 		glm::mediump_i16vec2 v3(v1);
 		glm::highp_i16vec2 v4(v1);
@@ -315,7 +284,7 @@ static int test_ivec_precision()
 	}
 
 	{
-		glm::i16vec3 v1;
+		glm::i16vec3 v1(0);
 		glm::lowp_i16vec3 v2(v1);
 		glm::mediump_i16vec3 v3(v1);
 		glm::highp_i16vec3 v4(v1);
@@ -326,7 +295,7 @@ static int test_ivec_precision()
 	}
 	
 	{
-		glm::i16vec4 v1;
+		glm::i16vec4 v1(0);
 		glm::lowp_i16vec4 v2(v1);
 		glm::mediump_i16vec4 v3(v1);
 		glm::highp_i16vec4 v4(v1);
@@ -337,7 +306,7 @@ static int test_ivec_precision()
 	}
 
 	{
-		glm::i32vec2 v1;
+		glm::i32vec2 v1(0);
 		glm::lowp_i32vec2 v2(v1);
 		glm::mediump_i32vec2 v3(v1);
 		glm::highp_i32vec2 v4(v1);
@@ -348,7 +317,7 @@ static int test_ivec_precision()
 	}
 
 	{
-		glm::i32vec3 v1;
+		glm::i32vec3 v1(0);
 		glm::lowp_i32vec3 v2(v1);
 		glm::mediump_i32vec3 v3(v1);
 		glm::highp_i32vec3 v4(v1);
@@ -359,7 +328,7 @@ static int test_ivec_precision()
 	}
 	
 	{
-		glm::i32vec4 v1;
+		glm::i32vec4 v1(0);
 		glm::lowp_i32vec4 v2(v1);
 		glm::mediump_i32vec4 v3(v1);
 		glm::highp_i32vec4 v4(v1);
@@ -370,7 +339,7 @@ static int test_ivec_precision()
 	}
 	
 	{
-		glm::i64vec2 v1;
+		glm::i64vec2 v1(0);
 		glm::lowp_i64vec2 v2(v1);
 		glm::mediump_i64vec2 v3(v1);
 		glm::highp_i64vec2 v4(v1);
@@ -381,7 +350,7 @@ static int test_ivec_precision()
 	}
 
 	{
-		glm::i64vec3 v1;
+		glm::i64vec3 v1(0);
 		glm::lowp_i64vec3 v2(v1);
 		glm::mediump_i64vec3 v3(v1);
 		glm::highp_i64vec3 v4(v1);
@@ -392,7 +361,7 @@ static int test_ivec_precision()
 	}
 	
 	{
-		glm::i64vec4 v1;
+		glm::i64vec4 v1(0);
 		glm::lowp_i64vec4 v2(v1);
 		glm::mediump_i64vec4 v3(v1);
 		glm::highp_i64vec4 v4(v1);
@@ -467,7 +436,7 @@ static int test_uvec_precision()
 	int Error(0);
 
 	{
-		glm::u8vec2 v1;
+		glm::u8vec2 v1(0);
 		glm::lowp_u8vec2 v2(v1);
 		glm::mediump_u8vec2 v3(v1);
 		glm::highp_u8vec2 v4(v1);
@@ -478,7 +447,7 @@ static int test_uvec_precision()
 	}
 
 	{
-		glm::u8vec3 v1;
+		glm::u8vec3 v1(0);
 		glm::lowp_u8vec3 v2(v1);
 		glm::mediump_u8vec3 v3(v1);
 		glm::highp_u8vec3 v4(v1);
@@ -489,7 +458,7 @@ static int test_uvec_precision()
 	}
 	
 	{
-		glm::u8vec4 v1;
+		glm::u8vec4 v1(0);
 		glm::lowp_u8vec4 v2(v1);
 		glm::mediump_u8vec4 v3(v1);
 		glm::highp_u8vec4 v4(v1);
@@ -500,7 +469,7 @@ static int test_uvec_precision()
 	}
 
 	{
-		glm::u16vec2 v1;
+		glm::u16vec2 v1(0);
 		glm::lowp_u16vec2 v2(v1);
 		glm::mediump_u16vec2 v3(v1);
 		glm::highp_u16vec2 v4(v1);
@@ -511,7 +480,7 @@ static int test_uvec_precision()
 	}
 
 	{
-		glm::u16vec3 v1;
+		glm::u16vec3 v1(0);
 		glm::lowp_u16vec3 v2(v1);
 		glm::mediump_u16vec3 v3(v1);
 		glm::highp_u16vec3 v4(v1);
@@ -522,7 +491,7 @@ static int test_uvec_precision()
 	}
 	
 	{
-		glm::u16vec4 v1;
+		glm::u16vec4 v1(0);
 		glm::lowp_u16vec4 v2(v1);
 		glm::mediump_u16vec4 v3(v1);
 		glm::highp_u16vec4 v4(v1);
@@ -533,7 +502,7 @@ static int test_uvec_precision()
 	}
 
 	{
-		glm::u32vec2 v1;
+		glm::u32vec2 v1(0);
 		glm::lowp_u32vec2 v2(v1);
 		glm::mediump_u32vec2 v3(v1);
 		glm::highp_u32vec2 v4(v1);
@@ -544,7 +513,7 @@ static int test_uvec_precision()
 	}
 
 	{
-		glm::u32vec3 v1;
+		glm::u32vec3 v1(0);
 		glm::lowp_u32vec3 v2(v1);
 		glm::mediump_u32vec3 v3(v1);
 		glm::highp_u32vec3 v4(v1);
@@ -555,7 +524,7 @@ static int test_uvec_precision()
 	}
 	
 	{
-		glm::u32vec4 v1;
+		glm::u32vec4 v1(0);
 		glm::lowp_u32vec4 v2(v1);
 		glm::mediump_u32vec4 v3(v1);
 		glm::highp_u32vec4 v4(v1);
@@ -566,7 +535,7 @@ static int test_uvec_precision()
 	}
 	
 	{
-		glm::u64vec2 v1;
+		glm::u64vec2 v1(0);
 		glm::lowp_u64vec2 v2(v1);
 		glm::mediump_u64vec2 v3(v1);
 		glm::highp_u64vec2 v4(v1);
@@ -577,7 +546,7 @@ static int test_uvec_precision()
 	}
 
 	{
-		glm::u64vec3 v1;
+		glm::u64vec3 v1(0);
 		glm::lowp_u64vec3 v2(v1);
 		glm::mediump_u64vec3 v3(v1);
 		glm::highp_u64vec3 v4(v1);
@@ -588,7 +557,7 @@ static int test_uvec_precision()
 	}
 	
 	{
-		glm::u64vec4 v1;
+		glm::u64vec4 v1(0);
 		glm::lowp_u64vec4 v2(v1);
 		glm::mediump_u64vec4 v3(v1);
 		glm::highp_u64vec4 v4(v1);
@@ -879,6 +848,7 @@ static int test_fvec_conversion()
 	return Error;
 }
 
+#if GLM_HAS_OPENMP
 static int test_openmp()
 {
 	std::vector<glm::u8vec3> VectorA(1000);
@@ -892,30 +862,40 @@ static int test_openmp()
 	}
 
 	#pragma omp parallel for default(none) shared(VectorA, VectorB, VectorC)
-	for (int i = 0; i < VectorC.size(); ++i)
+	for (int i = 0; i < static_cast<int>(VectorC.size()); ++i)
 	{
 		VectorC[i] = VectorA[i] + VectorB[i];
 	}
 
 	return 0;
 }
+#endif//GLM_HAS_OPENMP
 
 int main()
 {
-	int Error(0);
-	Error += test_openmp();
+	int Error = 0;
+
 	Error += test_scalar_size();
 	Error += test_fvec_size();
+
 	Error += test_fvec_precision();
 	Error += test_fvec_conversion();
+
 	Error += test_dvec_precision();
-	Error += test_ivec_size();
-	Error += test_ivec_precision();
+
 	Error += test_uvec_size();
 	Error += test_uvec_precision();
+	Error += test_ivec_size();
+	Error += test_ivec_precision();
+
 	Error += test_fmat_size();
 	Error += test_dmat_size();
 	Error += test_quat_size();
 	Error += test_quat_precision();
+
+#	if GLM_HAS_OPENMP
+		Error += test_openmp();
+#	endif//
+
 	return Error;
 }

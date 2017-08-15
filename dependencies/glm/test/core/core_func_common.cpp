@@ -1,34 +1,3 @@
-///////////////////////////////////////////////////////////////////////////////////
-/// OpenGL Mathematics (glm.g-truc.net)
-///
-/// Copyright (c) 2005 - 2015 G-Truc Creation (www.g-truc.net)
-/// Permission is hereby granted, free of charge, to any person obtaining a copy
-/// of this software and associated documentation files (the "Software"), to deal
-/// in the Software without restriction, including without limitation the rights
-/// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-/// copies of the Software, and to permit persons to whom the Software is
-/// furnished to do so, subject to the following conditions:
-/// 
-/// The above copyright notice and this permission notice shall be included in
-/// all copies or substantial portions of the Software.
-/// 
-/// Restrictions:
-///		By making use of the Software for military purposes, you choose to make
-///		a Bunny unhappy.
-/// 
-/// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-/// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-/// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-/// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-/// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-/// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-/// THE SOFTWARE.
-///
-/// @file test/core/func_common.cpp
-/// @date 2011-01-15 / 2011-09-13
-/// @author Christophe Riccio
-///////////////////////////////////////////////////////////////////////////////////
-
 #define GLM_FORCE_EXPLICIT_CTOR
 #include <glm/common.hpp>
 #include <glm/gtc/constants.hpp>
@@ -47,12 +16,12 @@ namespace floor_
 		int Error(0);
 
 		{
-			float A(1.1f);
+			float A = 1.1f;
 			float B = glm::floor(A);
 		}
 
 		{
-			double A(1.1f);
+			double A = 1.1;
 			double B = glm::floor(A);
 		}
 
@@ -64,7 +33,7 @@ namespace floor_
 		}
 
 		{
-			glm::dvec1 A(1.1f);
+			glm::dvec1 A(1.1);
 			glm::dvec1 B = glm::floor(A);
 
 			Error += glm::all(glm::epsilonEqual(B, glm::dvec1(1.0), 0.0001)) ? 0 : 1;
@@ -78,7 +47,7 @@ namespace floor_
 		}
 
 		{
-			glm::dvec2 A(1.1f);
+			glm::dvec2 A(1.1);
 			glm::dvec2 B = glm::floor(A);
 
 			Error += glm::all(glm::epsilonEqual(B, glm::dvec2(1.0), 0.0001)) ? 0 : 1;
@@ -92,7 +61,7 @@ namespace floor_
 		}
 
 		{
-			glm::dvec3 A(1.1f);
+			glm::dvec3 A(1.1);
 			glm::dvec3 B = glm::floor(A);
 
 			Error += glm::all(glm::epsilonEqual(B, glm::dvec3(1.0), 0.0001)) ? 0 : 1;
@@ -106,7 +75,7 @@ namespace floor_
 		}
 
 		{
-			glm::dvec4 A(1.1f);
+			glm::dvec4 A(1.1);
 			glm::dvec4 B = glm::floor(A);
 
 			Error += glm::all(glm::epsilonEqual(B, glm::dvec4(1.0), 0.0001)) ? 0 : 1;
@@ -222,39 +191,28 @@ namespace floatBitsToInt
 			float A = 1.0f;
 			int B = glm::floatBitsToInt(A);
 			float C = glm::intBitsToFloat(B);
-			int D = *(int*)&A;
-			Error += B == D ? 0 : 1;
-			Error += A == C ? 0 : 1;
+			Error += glm::epsilonEqual(A, C, 0.0001f) ? 0 : 1;
 		}
 
 		{
 			glm::vec2 A(1.0f, 2.0f);
 			glm::ivec2 B = glm::floatBitsToInt(A);
 			glm::vec2 C = glm::intBitsToFloat(B);
-			Error += B.x == *(int*)&(A.x) ? 0 : 1;
-			Error += B.y == *(int*)&(A.y) ? 0 : 1;
-			Error += A == C? 0 : 1;
+			Error += glm::all(glm::epsilonEqual(A, C, 0.0001f)) ? 0 : 1;
 		}
 
 		{
 			glm::vec3 A(1.0f, 2.0f, 3.0f);
 			glm::ivec3 B = glm::floatBitsToInt(A);
 			glm::vec3 C = glm::intBitsToFloat(B);
-			Error += B.x == *(int*)&(A.x) ? 0 : 1;
-			Error += B.y == *(int*)&(A.y) ? 0 : 1;
-			Error += B.z == *(int*)&(A.z) ? 0 : 1;
-			Error += A == C? 0 : 1;
+			Error += glm::all(glm::epsilonEqual(A, C, 0.0001f)) ? 0 : 1;
 		}
 	
 		{
 			glm::vec4 A(1.0f, 2.0f, 3.0f, 4.0f);
 			glm::ivec4 B = glm::floatBitsToInt(A);
 			glm::vec4 C = glm::intBitsToFloat(B);
-			Error += B.x == *(int*)&(A.x) ? 0 : 1;
-			Error += B.y == *(int*)&(A.y) ? 0 : 1;
-			Error += B.z == *(int*)&(A.z) ? 0 : 1;
-			Error += B.w == *(int*)&(A.w) ? 0 : 1;
-			Error += A == C? 0 : 1;
+			Error += glm::all(glm::epsilonEqual(A, C, 0.0001f)) ? 0 : 1;
 		}
 	
 		return Error;
@@ -271,38 +229,28 @@ namespace floatBitsToUint
 			float A = 1.0f;
 			glm::uint B = glm::floatBitsToUint(A);
 			float C = glm::intBitsToFloat(B);
-			Error += B == *(glm::uint*)&A ? 0 : 1;
-			Error += A == C? 0 : 1;
+			Error += glm::epsilonEqual(A, C, 0.0001f) ? 0 : 1;
 		}
 	
 		{
 			glm::vec2 A(1.0f, 2.0f);
 			glm::uvec2 B = glm::floatBitsToUint(A);
 			glm::vec2 C = glm::uintBitsToFloat(B);
-			Error += B.x == *(glm::uint*)&(A.x) ? 0 : 1;
-			Error += B.y == *(glm::uint*)&(A.y) ? 0 : 1;
-			Error += A == C ? 0 : 1;
+			Error += glm::all(glm::epsilonEqual(A, C, 0.0001f)) ? 0 : 1;
 		}
 	
 		{
 			glm::vec3 A(1.0f, 2.0f, 3.0f);
 			glm::uvec3 B = glm::floatBitsToUint(A);
 			glm::vec3 C = glm::uintBitsToFloat(B);
-			Error += B.x == *(glm::uint*)&(A.x) ? 0 : 1;
-			Error += B.y == *(glm::uint*)&(A.y) ? 0 : 1;
-			Error += B.z == *(glm::uint*)&(A.z) ? 0 : 1;
-			Error += A == C? 0 : 1;
+			Error += glm::all(glm::epsilonEqual(A, C, 0.0001f)) ? 0 : 1;
 		}
 	
 		{
 			glm::vec4 A(1.0f, 2.0f, 3.0f, 4.0f);
 			glm::uvec4 B = glm::floatBitsToUint(A);
 			glm::vec4 C = glm::uintBitsToFloat(B);
-			Error += B.x == *(glm::uint*)&(A.x) ? 0 : 1;
-			Error += B.y == *(glm::uint*)&(A.y) ? 0 : 1;
-			Error += B.z == *(glm::uint*)&(A.z) ? 0 : 1;
-			Error += B.w == *(glm::uint*)&(A.w) ? 0 : 1;
-			Error += A == C? 0 : 1;
+			Error += glm::all(glm::epsilonEqual(A, C, 0.0001f)) ? 0 : 1;
 		}
 	
 		return Error;
@@ -375,7 +323,7 @@ namespace clamp_
 
 namespace mix_
 {
-	template <typename T, typename B>
+	template<typename T, typename B>
 	struct entry
 	{
 		T x;
@@ -384,7 +332,7 @@ namespace mix_
 		T Result;
 	};
 
-	entry<float, bool> TestBool[] =
+	entry<float, bool> const TestBool[] =
 	{
 		{0.0f, 1.0f, false, 0.0f},
 		{0.0f, 1.0f, true, 1.0f},
@@ -392,7 +340,7 @@ namespace mix_
 		{-1.0f, 1.0f, true, 1.0f}
 	};
 
-	entry<float, float> TestFloat[] =
+	entry<float, float> const TestFloat[] =
 	{
 		{0.0f, 1.0f, 0.0f, 0.0f},
 		{0.0f, 1.0f, 1.0f, 1.0f},
@@ -400,7 +348,7 @@ namespace mix_
 		{-1.0f, 1.0f, 1.0f, 1.0f}
 	};
 
-	entry<glm::vec2, bool> TestVec2Bool[] =
+	entry<glm::vec2, bool> const TestVec2Bool[] =
 	{
 		{glm::vec2(0.0f), glm::vec2(1.0f), false, glm::vec2(0.0f)},
 		{glm::vec2(0.0f), glm::vec2(1.0f), true, glm::vec2(1.0f)},
@@ -408,7 +356,7 @@ namespace mix_
 		{glm::vec2(-1.0f), glm::vec2(1.0f), true, glm::vec2(1.0f)}
 	};
 
-	entry<glm::vec2, glm::bvec2> TestBVec2[] =
+	entry<glm::vec2, glm::bvec2> const TestBVec2[] =
 	{
 		{glm::vec2(0.0f), glm::vec2(1.0f), glm::bvec2(false), glm::vec2(0.0f)},
 		{glm::vec2(0.0f), glm::vec2(1.0f), glm::bvec2(true), glm::vec2(1.0f)},
@@ -417,7 +365,7 @@ namespace mix_
 		{glm::vec2(-1.0f), glm::vec2(1.0f), glm::bvec2(true, false), glm::vec2(1.0f, -1.0f)}
 	};
 
-	entry<glm::vec3, bool> TestVec3Bool[] =
+	entry<glm::vec3, bool> const TestVec3Bool[] =
 	{
 		{glm::vec3(0.0f), glm::vec3(1.0f), false, glm::vec3(0.0f)},
 		{glm::vec3(0.0f), glm::vec3(1.0f), true, glm::vec3(1.0f)},
@@ -425,7 +373,7 @@ namespace mix_
 		{glm::vec3(-1.0f), glm::vec3(1.0f), true, glm::vec3(1.0f)}
 	};
 
-	entry<glm::vec3, glm::bvec3> TestBVec3[] =
+	entry<glm::vec3, glm::bvec3> const TestBVec3[] =
 	{
 		{glm::vec3(0.0f), glm::vec3(1.0f), glm::bvec3(false), glm::vec3(0.0f)},
 		{glm::vec3(0.0f), glm::vec3(1.0f), glm::bvec3(true), glm::vec3(1.0f)},
@@ -434,7 +382,7 @@ namespace mix_
 		{glm::vec3(1.0f, 2.0f, 3.0f), glm::vec3(4.0f, 5.0f, 6.0f), glm::bvec3(true, false, true), glm::vec3(4.0f, 2.0f, 6.0f)}
 	};
 
-	entry<glm::vec4, bool> TestVec4Bool[] = 
+	entry<glm::vec4, bool> const TestVec4Bool[] = 
 	{
 		{glm::vec4(0.0f), glm::vec4(1.0f), false, glm::vec4(0.0f)},
 		{glm::vec4(0.0f), glm::vec4(1.0f), true, glm::vec4(1.0f)},
@@ -442,9 +390,9 @@ namespace mix_
 		{glm::vec4(-1.0f), glm::vec4(1.0f), true, glm::vec4(1.0f)}
 	};
 
-	entry<glm::vec4, glm::bvec4> TestBVec4[] = 
+	entry<glm::vec4, glm::bvec4> const TestBVec4[] = 
 	{
-		{glm::vec4(0.0f), glm::vec4(1.0f), glm::bvec4(false), glm::vec4(0.0f)},
+		{glm::vec4(0.0f, 0.0f, 1.0f, 1.0f), glm::vec4(2.0f, 2.0f, 3.0f, 3.0f), glm::bvec4(false, true, false, true), glm::vec4(0.0f, 2.0f, 1.0f, 3.0f)},
 		{glm::vec4(0.0f), glm::vec4(1.0f), glm::bvec4(true), glm::vec4(1.0f)},
 		{glm::vec4(-1.0f), glm::vec4(1.0f), glm::bvec4(false), glm::vec4(-1.0f)},
 		{glm::vec4(-1.0f), glm::vec4(1.0f), glm::bvec4(true), glm::vec4(1.0f)},
@@ -545,7 +493,7 @@ namespace mix_
 
 namespace step_
 {
-	template <typename EDGE, typename VEC>
+	template<typename EDGE, typename VEC>
 	struct entry
 	{
 		EDGE edge;
@@ -555,8 +503,8 @@ namespace step_
 
 	entry<float, glm::vec4> TestVec4Scalar [] =
 	{
-		{ 0.0f, glm::vec4(1.0f, 2.0f, 3.0f, 4.0f), glm::vec4(1.0f) },
 		{ 1.0f, glm::vec4(1.0f, 2.0f, 3.0f, 4.0f), glm::vec4(1.0f) },
+		{ 0.0f, glm::vec4(1.0f, 2.0f, 3.0f, 4.0f), glm::vec4(1.0f) },
 		{ 0.0f, glm::vec4(-1.0f, -2.0f, -3.0f, -4.0f), glm::vec4(0.0f) }
 	};
 
@@ -599,39 +547,39 @@ namespace round_
 	int test()
 	{
 		int Error = 0;
-	
+
 		{
 			float A = glm::round(0.0f);
-			Error += A == 0.0f ? 0 : 1;
+			Error += glm::epsilonEqual(A, 0.0f, glm::epsilon<float>()) ? 0 : 1;
 			float B = glm::round(0.5f);
-			Error += B == 1.0f ? 0 : 1;
+			Error += glm::epsilonEqual(B, 1.0f, glm::epsilon<float>()) ? 0 : 1;
 			float C = glm::round(1.0f);
-			Error += C == 1.0f ? 0 : 1;
+			Error += glm::epsilonEqual(C, 1.0f, glm::epsilon<float>()) ? 0 : 1;
 			float D = glm::round(0.1f);
-			Error += D == 0.0f ? 0 : 1;
+			Error += glm::epsilonEqual(D, 0.0f, glm::epsilon<float>()) ? 0 : 1;
 			float E = glm::round(0.9f);
-			Error += E == 1.0f ? 0 : 1;
+			Error += glm::epsilonEqual(E, 1.0f, glm::epsilon<float>()) ? 0 : 1;
 			float F = glm::round(1.5f);
-			Error += F == 2.0f ? 0 : 1;
+			Error += glm::epsilonEqual(F, 2.0f, glm::epsilon<float>()) ? 0 : 1;
 			float G = glm::round(1.9f);
-			Error += G == 2.0f ? 0 : 1;
+			Error += glm::epsilonEqual(G, 2.0f, glm::epsilon<float>()) ? 0 : 1;
 		}
 	
 		{
 			float A = glm::round(-0.0f);
-			Error += A ==  0.0f ? 0 : 1;
+			Error += glm::epsilonEqual(A, 0.0f, glm::epsilon<float>()) ? 0 : 1;
 			float B = glm::round(-0.5f);
-			Error += B == -1.0f ? 0 : 1;
+			Error += glm::epsilonEqual(B, -1.0f, glm::epsilon<float>()) ? 0 : 1;
 			float C = glm::round(-1.0f);
-			Error += C == -1.0f ? 0 : 1;
+			Error += glm::epsilonEqual(C, -1.0f, glm::epsilon<float>()) ? 0 : 1;
 			float D = glm::round(-0.1f);
-			Error += D ==  0.0f ? 0 : 1;
+			Error += glm::epsilonEqual(D, 0.0f, glm::epsilon<float>()) ? 0 : 1;
 			float E = glm::round(-0.9f);
-			Error += E == -1.0f ? 0 : 1;
+			Error += glm::epsilonEqual(E, -1.0f, glm::epsilon<float>()) ? 0 : 1;
 			float F = glm::round(-1.5f);
-			Error += F == -2.0f ? 0 : 1;
+			Error += glm::epsilonEqual(F, -2.0f, glm::epsilon<float>()) ? 0 : 1;
 			float G = glm::round(-1.9f);
-			Error += G == -2.0f ? 0 : 1;
+			Error += glm::epsilonEqual(G, -2.0f, glm::epsilon<float>()) ? 0 : 1;
 		}
 	
 		return Error;
@@ -714,70 +662,70 @@ namespace roundEven
 
 		{
 			float A = glm::roundEven(0.0f);
-			Error += A == 0.0f ? 0 : 1;
+			Error += glm::epsilonEqual(A, 0.0f, glm::epsilon<float>()) ? 0 : 1;
 			float B = glm::roundEven(0.5f);
-			Error += B == 0.0f ? 0 : 1;
+			Error += glm::epsilonEqual(B, 0.0f, glm::epsilon<float>()) ? 0 : 1;
 			float C = glm::roundEven(1.0f);
-			Error += C == 1.0f ? 0 : 1;
+			Error += glm::epsilonEqual(C, 1.0f, glm::epsilon<float>()) ? 0 : 1;
 			float D = glm::roundEven(0.1f);
-			Error += D == 0.0f ? 0 : 1;
+			Error += glm::epsilonEqual(D, 0.0f, glm::epsilon<float>()) ? 0 : 1;
 			float E = glm::roundEven(0.9f);
-			Error += E == 1.0f ? 0 : 1;
+			Error += glm::epsilonEqual(E, 1.0f, glm::epsilon<float>()) ? 0 : 1;
 			float F = glm::roundEven(1.5f);
-			Error += F == 2.0f ? 0 : 1;
+			Error += glm::epsilonEqual(F, 2.0f, glm::epsilon<float>()) ? 0 : 1;
 			float G = glm::roundEven(1.9f);
-			Error += G == 2.0f ? 0 : 1;
+			Error += glm::epsilonEqual(G, 2.0f, glm::epsilon<float>()) ? 0 : 1;
 		}
 
 		{
 			float A = glm::roundEven(-0.0f);
-			Error += A ==  0.0f ? 0 : 1;
+			Error += glm::epsilonEqual(A,  0.0f, glm::epsilon<float>()) ? 0 : 1;
 			float B = glm::roundEven(-0.5f);
-			Error += B == -0.0f ? 0 : 1;
+			Error += glm::epsilonEqual(B, -0.0f, glm::epsilon<float>()) ? 0 : 1;
 			float C = glm::roundEven(-1.0f);
-			Error += C == -1.0f ? 0 : 1;
+			Error += glm::epsilonEqual(C, -1.0f, glm::epsilon<float>()) ? 0 : 1;
 			float D = glm::roundEven(-0.1f);
-			Error += D ==  0.0f ? 0 : 1;
+			Error += glm::epsilonEqual(D,  0.0f, glm::epsilon<float>()) ? 0 : 1;
 			float E = glm::roundEven(-0.9f);
-			Error += E == -1.0f ? 0 : 1;
+			Error += glm::epsilonEqual(E, -1.0f, glm::epsilon<float>()) ? 0 : 1;
 			float F = glm::roundEven(-1.5f);
-			Error += F == -2.0f ? 0 : 1;
+			Error += glm::epsilonEqual(F, -2.0f, glm::epsilon<float>()) ? 0 : 1;
 			float G = glm::roundEven(-1.9f);
-			Error += G == -2.0f ? 0 : 1;
+			Error += glm::epsilonEqual(G, -2.0f, glm::epsilon<float>()) ? 0 : 1;
 		}
 
 		{
 			float A = glm::roundEven(1.5f);
-			Error += A == 2.0f ? 0 : 1;
+			Error += glm::epsilonEqual(A, 2.0f, glm::epsilon<float>()) ? 0 : 1;
 			float B = glm::roundEven(2.5f);
-			Error += B == 2.0f ? 0 : 1;
+			Error += glm::epsilonEqual(B, 2.0f, glm::epsilon<float>()) ? 0 : 1;
 			float C = glm::roundEven(3.5f);
-			Error += C == 4.0f ? 0 : 1;
+			Error += glm::epsilonEqual(C, 4.0f, glm::epsilon<float>()) ? 0 : 1;
 			float D = glm::roundEven(4.5f);
-			Error += D == 4.0f ? 0 : 1;
+			Error += glm::epsilonEqual(D, 4.0f, glm::epsilon<float>()) ? 0 : 1;
 			float E = glm::roundEven(5.5f);
-			Error += E == 6.0f ? 0 : 1;
+			Error += glm::epsilonEqual(E, 6.0f, glm::epsilon<float>()) ? 0 : 1;
 			float F = glm::roundEven(6.5f);
-			Error += F == 6.0f ? 0 : 1;
+			Error += glm::epsilonEqual(F, 6.0f, glm::epsilon<float>()) ? 0 : 1;
 			float G = glm::roundEven(7.5f);
-			Error += G == 8.0f ? 0 : 1;
+			Error += glm::epsilonEqual(G, 8.0f, glm::epsilon<float>()) ? 0 : 1;
 		}
 	
 		{
 			float A = glm::roundEven(-1.5f);
-			Error += A == -2.0f ? 0 : 1;
+			Error += glm::epsilonEqual(A, -2.0f, glm::epsilon<float>()) ? 0 : 1;
 			float B = glm::roundEven(-2.5f);
-			Error += B == -2.0f ? 0 : 1;
+			Error += glm::epsilonEqual(B, -2.0f, glm::epsilon<float>()) ? 0 : 1;
 			float C = glm::roundEven(-3.5f);
-			Error += C == -4.0f ? 0 : 1;
+			Error += glm::epsilonEqual(C, -4.0f, glm::epsilon<float>()) ? 0 : 1;
 			float D = glm::roundEven(-4.5f);
-			Error += D == -4.0f ? 0 : 1;
+			Error += glm::epsilonEqual(D, -4.0f, glm::epsilon<float>()) ? 0 : 1;
 			float E = glm::roundEven(-5.5f);
-			Error += E == -6.0f ? 0 : 1;
+			Error += glm::epsilonEqual(E, -6.0f, glm::epsilon<float>()) ? 0 : 1;
 			float F = glm::roundEven(-6.5f);
-			Error += F == -6.0f ? 0 : 1;
+			Error += glm::epsilonEqual(F, -6.0f, glm::epsilon<float>()) ? 0 : 1;
 			float G = glm::roundEven(-7.5f);
-			Error += G == -8.0f ? 0 : 1;
+			Error += glm::epsilonEqual(G, -8.0f, glm::epsilon<float>()) ? 0 : 1;
 		}
 
 		return Error;
@@ -848,7 +796,7 @@ namespace isinf_
 
 namespace sign
 {
-	template <typename genFIType> 
+	template<typename genFIType> 
 	GLM_FUNC_QUALIFIER genFIType sign_if(genFIType x)
 	{
 		GLM_STATIC_ASSERT(
@@ -865,37 +813,43 @@ namespace sign
 		return result;
 	}
 
-	template <typename genFIType> 
+	template<typename genFIType> 
 	GLM_FUNC_QUALIFIER genFIType sign_alu1(genFIType x)
 	{
 		GLM_STATIC_ASSERT(
 			std::numeric_limits<genFIType>::is_signed && std::numeric_limits<genFIType>::is_integer, 
 			"'sign' only accept integer inputs");
 
-		return (x >> 31) | ((unsigned)-x >> 31);
+		return (x >> 31) | (static_cast<unsigned>(-x) >> 31);
 	}
 
-	template <typename genFIType> 
-	GLM_FUNC_QUALIFIER genFIType sign_alu2(genFIType x)
+	GLM_FUNC_QUALIFIER int sign_alu2(int x)
 	{
-		GLM_STATIC_ASSERT(
-			std::numeric_limits<genFIType>::is_signed && std::numeric_limits<genFIType>::is_integer, 
-			"'sign' only accept integer inputs");
+		GLM_STATIC_ASSERT(std::numeric_limits<int>::is_signed && std::numeric_limits<int>::is_integer, "'sign' only accept integer inputs");
 
-		return -((unsigned)x >> 31) | (-(unsigned)x >> 31);
+#		if GLM_COMPILER & GLM_COMPILER_VC
+#			pragma warning(push)
+#			pragma warning(disable : 4146) //cast truncates constant value
+#		endif
+
+		return -(static_cast<unsigned>(x) >> 31) | (-static_cast<unsigned>(x) >> 31);
+
+#		if GLM_COMPILER & GLM_COMPILER_VC
+#			pragma warning(pop)
+#		endif
 	}
 
-	template <typename genFIType> 
+	template<typename genFIType> 
 	GLM_FUNC_QUALIFIER genFIType sign_sub(genFIType x)
 	{
 		GLM_STATIC_ASSERT(
 			std::numeric_limits<genFIType>::is_signed && std::numeric_limits<genFIType>::is_integer, 
 			"'sign' only accept integer inputs");
 
-		return ((unsigned)-x >> 31) - ((unsigned)x >> 31);
+		return (static_cast<unsigned>(-x) >> 31) - (static_cast<unsigned>(x) >> 31);
 	}
 
-	template <typename genFIType> 
+	template<typename genFIType> 
 	GLM_FUNC_QUALIFIER genFIType sign_cmp(genFIType x)
 	{
 		GLM_STATIC_ASSERT(
@@ -905,7 +859,7 @@ namespace sign
 		return (x > 0) - (x < 0);
 	}
 
-	template <typename genType>
+	template<typename genType>
 	struct type
 	{
 		genType		Value;
@@ -986,12 +940,37 @@ namespace sign
 		return Error;
 	}
 
+	int test_f32vec4()
+	{
+		type<glm::vec4> const Data[] =
+		{
+			{glm::vec4( 1), glm::vec4( 1)},
+			{glm::vec4( 0), glm::vec4( 0)},
+			{glm::vec4( 2), glm::vec4( 1)},
+			{glm::vec4( 3), glm::vec4( 1)},
+			{glm::vec4(-1), glm::vec4(-1)},
+			{glm::vec4(-2), glm::vec4(-1)},
+			{glm::vec4(-3), glm::vec4(-1)}
+		};
+
+		int Error = 0;
+
+		for(std::size_t i = 0; i < sizeof(Data) / sizeof(type<glm::vec4>); ++i)
+		{
+			glm::vec4 Result = glm::sign(Data[i].Value);
+			Error += glm::all(glm::equal(Data[i].Return, Result)) ? 0 : 1;
+		}
+
+		return Error;
+	}
+
 	int test()
 	{
 		int Error = 0;
 
 		Error += test_int32();
 		Error += test_i32vec4();
+		Error += test_f32vec4();
 
 		return Error;
 	}
@@ -1235,7 +1214,21 @@ namespace ldexp_
 
 int main()
 {
-	int Error(0);
+	int Error = 0;
+
+	glm::ivec4 const a(1);
+	glm::ivec4 const b = ~a;
+
+	glm::int32 const c(1);
+	glm::int32 const d = ~c;
+
+#	if GLM_ARCH & GLM_ARCH_AVX_BIT && GLM_HAS_UNRESTRICTED_UNIONS
+	glm_vec4 const A = _mm_set_ps(4, 3, 2, 1);
+	glm_vec4 const B = glm_vec4_swizzle_xyzw(A);
+	glm_vec4 const C = _mm_permute_ps(A, _MM_SHUFFLE(3, 2, 1, 0));
+	glm_vec4 const D = _mm_permute_ps(A, _MM_SHUFFLE(0, 1, 2, 3));
+	glm_vec4 const E = _mm_shuffle_ps(A, A, _MM_SHUFFLE(0, 1, 2, 3));
+#	endif
 
 	Error += sign::test();
 	Error += floor_::test();
@@ -1243,10 +1236,10 @@ int main()
 	Error += modf_::test();
 	Error += floatBitsToInt::test();
 	Error += floatBitsToUint::test();
+	Error += mix_::test();
 	Error += step_::test();
 	Error += max_::test();
 	Error += min_::test();
-	Error += mix_::test();
 	Error += round_::test();
 	Error += roundEven::test();
 	Error += isnan_::test();

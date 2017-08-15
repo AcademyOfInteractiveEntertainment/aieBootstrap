@@ -1,39 +1,45 @@
-///////////////////////////////////////////////////////////////////////////////////
-/// OpenGL Mathematics (glm.g-truc.net)
-///
-/// Copyright (c) 2005 - 2015 G-Truc Creation (www.g-truc.net)
-/// Permission is hereby granted, free of charge, to any person obtaining a copy
-/// of this software and associated documentation files (the "Software"), to deal
-/// in the Software without restriction, including without limitation the rights
-/// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-/// copies of the Software, and to permit persons to whom the Software is
-/// furnished to do so, subject to the following conditions:
-/// 
-/// The above copyright notice and this permission notice shall be included in
-/// all copies or substantial portions of the Software.
-/// 
-/// Restrictions:
-///		By making use of the Software for military purposes, you choose to make
-///		a Bunny unhappy.
-/// 
-/// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-/// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-/// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-/// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-/// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-/// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-/// THE SOFTWARE.
-///
-/// @file test/gtx/gtx_matrix_interpolation.cpp
-/// @date 2012-09-19 / 2014-11-25
-/// @author Christophe Riccio
-///////////////////////////////////////////////////////////////////////////////////
-
+#define GLM_ENABLE_EXPERIMENTAL
+#include <glm/gtc/quaternion.hpp>
 #include <glm/gtx/matrix_interpolation.hpp>
+
+#include <iostream>
+
+int test_axisAngle()
+{
+	int Error = 0;
+
+	float p = 0.171654f;
+	glm::mat4 m1(-0.9946f, 0.0f, -0.104531f, 0.0f,
+		0.0f, 1.0f, 0.0f, 0.0f,
+		0.104531f, 0.0f, -0.9946f, 0.0f,
+		0.0f, 0.0f, 0.0f, 1.0f);
+	glm::mat4 m2(-0.992624f, 0.0f, -0.121874f, 0.0f,
+		0.0f, 1.0f, 0.0f, 0.0f,
+		0.121874f, 0.0f, -0.992624f, 0.0f,
+		0.0f, 0.0f, 0.0f, 1.0f);
+
+	glm::mat4 const m1rot = glm::extractMatrixRotation(m1);
+	glm::mat4 const dltRotation = m2 * glm::transpose(m1rot);
+
+	glm::vec3 dltAxis(0.0f);
+	float dltAngle = 0.0f;
+	glm::axisAngle(dltRotation, dltAxis, dltAngle);
+
+	std::cout << "dltAngle: (" << dltAxis.x << ", " << dltAxis.y << ", " << dltAxis.z << "), dltAngle: " << dltAngle << std::endl;
+
+	glm::fquat q = glm::quat_cast(dltRotation);
+	std::cout << "q: (" << q.x << ", " << q.y << ", " << q.z << ", " << q.w << ")" << std::endl;
+	float yaw = glm::yaw(q);
+	std::cout << "Yaw: " << yaw << std::endl;
+
+	return Error;
+}
 
 int main()
 {
-	int Error(0);
+	int Error = 0;
+
+	Error += test_axisAngle();
 
 	return Error;
 }

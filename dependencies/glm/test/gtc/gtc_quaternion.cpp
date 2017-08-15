@@ -1,35 +1,3 @@
-///////////////////////////////////////////////////////////////////////////////////
-/// OpenGL Mathematics (glm.g-truc.net)
-///
-/// Copyright (c) 2005 - 2015 G-Truc Creation (www.g-truc.net)
-/// Permission is hereby granted, free of charge, to any person obtaining a copy
-/// of this software and associated documentation files (the "Software"), to deal
-/// in the Software without restriction, including without limitation the rights
-/// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-/// copies of the Software, and to permit persons to whom the Software is
-/// furnished to do so, subject to the following conditions:
-///
-/// The above copyright notice and this permission notice shall be included in
-/// all copies or substantial portions of the Software.
-///
-/// Restrictions:
-///		By making use of the Software for military purposes, you choose to make
-///		a Bunny unhappy.
-///
-/// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-/// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-/// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-/// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-/// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-/// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-/// THE SOFTWARE.
-///
-/// @file test/gtc/gtc_quaternion.cpp
-/// @date 2010-09-16 / 2014-11-25
-/// @author Christophe Riccio
-///////////////////////////////////////////////////////////////////////////////////
-
-#define GLM_META_PROG_HELPERS
 #include <glm/gtc/quaternion.hpp>
 #include <glm/gtc/epsilon.hpp>
 #include <glm/vector_relational.hpp>
@@ -150,7 +118,7 @@ int test_quat_euler()
 	}
 
 	{
-		glm::dquat q(1.0f, 0.0f, 0.0f, 1.0f);
+		glm::dquat q(1.0, 0.0, 0.0, 1.0);
 		double Roll = glm::roll(q);
 		double Pitch = glm::pitch(q);
 		double Yaw = glm::yaw(q);
@@ -166,8 +134,8 @@ int test_quat_slerp()
 
 	float const Epsilon = 0.0001f;//glm::epsilon<float>();
 
-	float sqrt2 = sqrt(2.0f)/2.0f;
-	glm::quat id;
+	float sqrt2 = std::sqrt(2.0f)/2.0f;
+	glm::quat id(static_cast<float>(1), static_cast<float>(0), static_cast<float>(0), static_cast<float>(0));
 	glm::quat Y90rot(sqrt2, 0.0f, sqrt2, 0.0f);
 	glm::quat Y180rot(0.0f, 0.0f, 1.0f, 0.0f);
 
@@ -243,16 +211,12 @@ int test_quat_mul()
 	glm::quat temp5 = glm::normalize(temp1 * temp2);
 	glm::vec3 temp6 = temp5 * glm::vec3(0.0, 1.0, 0.0) * glm::inverse(temp5);
 
-#	ifndef GLM_FORCE_NO_CTOR_INIT
-	{
-		glm::quat temp7;
+	glm::quat temp7(1.0f, glm::vec3(0.0, 1.0, 0.0));
 
-		temp7 *= temp5;
-		temp7 *= glm::inverse(temp5);
+	temp7 *= temp5;
+	temp7 *= glm::inverse(temp5);
 
-		Error += temp7 != glm::quat();
-	}
-#	endif
+	Error += temp7 != glm::quat(1.0f, glm::vec3(0.0, 1.0, 0.0));
 
 	return Error;
 }
@@ -323,14 +287,23 @@ int test_quat_ctr()
 	return Error;
 }
 
+int test_size()
+{
+	int Error = 0;
+
+	Error += 16 == sizeof(glm::quat) ? 0 : 1;
+	Error += 32 == sizeof(glm::dquat) ? 0 : 1;
+	Error += glm::quat().length() == 4 ? 0 : 1;
+	Error += glm::dquat().length() == 4 ? 0 : 1;
+	Error += glm::quat::length() == 4 ? 0 : 1;
+	Error += glm::dquat::length() == 4 ? 0 : 1;
+
+	return Error;
+}
+
 int main()
 {
-	int Error(0);
-
-#ifdef GLM_META_PROG_HELPERS
-		assert(glm::quat::components == 4);
-		assert(glm::quat::components == glm::quat().length());
-#endif
+	int Error = 0;
 
 	Error += test_quat_ctr();
 	Error += test_quat_mul_vec();
@@ -344,6 +317,7 @@ int main()
 	Error += test_quat_normalize();
 	Error += test_quat_euler();
 	Error += test_quat_slerp();
+	Error += test_size();
 
 	return Error;
 }
