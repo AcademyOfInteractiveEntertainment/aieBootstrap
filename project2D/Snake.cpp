@@ -32,12 +32,16 @@ float Snake::SnakePos(float X, float Y)
 			*/
 			switch (key) {
 			case 'w':
+				if (direction != 0) direction = 0;
 				break;
 			case 'd':
+				if (direction != 0) direction = 0;
 				break;
 			case 's':
+				if (direction != 0) direction = 0;
 				break;
 			case 'a':
+				if (direction != 0) direction = 0;
 				break;
 			}
 		}
