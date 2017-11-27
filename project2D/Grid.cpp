@@ -20,3 +20,7 @@ int PlayingArea::DrawGrid()
 	mGrid.mCols = mCols;
 	return mGrid.mRows&&mCols;
 }
+
+void PlayingArea::generateFood()
+{
+}
