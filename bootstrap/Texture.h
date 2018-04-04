@@ -29,6 +29,9 @@ public:
 	// returns the filename or "none" if not loaded from a file
 	const std::string& getFilename() const { return m_filename; }
 
+	// binds the texture to the specified slot
+	void bind(unsigned int slot) const;
+
 	// returns the opengl texture handle
 	unsigned int getHandle() const { return m_glHandle; }
 

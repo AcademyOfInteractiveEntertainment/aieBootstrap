@@ -133,4 +133,9 @@ void Texture::create(unsigned int width, unsigned int height, Format format, uns
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
+void Texture::bind(unsigned int slot) const {
+	glActiveTexture(GL_TEXTURE0 + slot);
+	glBindTexture(GL_TEXTURE_2D, m_glHandle);
+}
+
 } // namespace aie
