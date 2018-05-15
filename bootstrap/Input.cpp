@@ -59,6 +59,7 @@ Input::Input() {
 	};
 
 	auto MouseEnterCallback = [](GLFWwindow* window, int entered) {
+		// Set flag to prevent large mouse delta on entering screen
 		Input::getInstance()->m_firstMouseMove = true;
 	};
 
