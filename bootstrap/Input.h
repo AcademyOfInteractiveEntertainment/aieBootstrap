@@ -168,6 +168,11 @@ public:
 	int getMouseY();
 	void getMouseXY(int* x, int* y);
 
+	// query mouse movement
+	int getMouseDeltaX();
+	int getMouseDeltaY();
+	void getMouseDelta(int* x, int* y);
+
 	// query how far the mouse wheel has been moved 
 	double getMouseScroll();
 
@@ -212,7 +217,11 @@ private:
 		
 	int		m_mouseX;
 	int		m_mouseY;
+	int		m_oldMouseX;
+	int		m_oldMouseY;
 	double	m_mouseScroll;
+
+	bool	m_firstMouseMove;	// flag for first mouse input after start or mouse entering window
 
 	void onMouseMove(int newXPos, int newYPos);
 	

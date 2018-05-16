@@ -58,11 +58,17 @@ Input::Input() {
 			f(window, xoffset, yoffset);
 	};
 
+	auto MouseEnterCallback = [](GLFWwindow* window, int entered) {
+		// Set flag to prevent large mouse delta on entering screen
+		Input::getInstance()->m_firstMouseMove = true;
+	};
+
 	glfwSetKeyCallback(window, KeyPressCallback);
 	glfwSetCharCallback(window, CharacterInputCallback);
 	glfwSetMouseButtonCallback(window, MouseInputCallback);
 	glfwSetCursorPosCallback(window, MouseMoveCallback);
 	glfwSetScrollCallback(window, MouseScrollCallback);
+	glfwSetCursorEnterCallback(window, MouseEnterCallback);
 	
 	m_mouseX = 0;
 	m_mouseY = 0;
@@ -77,6 +83,12 @@ Input::~Input() {
 void Input::onMouseMove(int newXPos, int newYPos) {
 	m_mouseX = newXPos;
 	m_mouseY = newYPos;
+	if (m_firstMouseMove) {
+		// On first move after startup/entering window reset old mouse position
+		m_oldMouseX = newXPos;
+		m_oldMouseY = newYPos;
+		m_firstMouseMove = false;
+	}
 }
 
 void Input::clearStatus() {
@@ -101,6 +113,10 @@ void Input::clearStatus() {
 		m_lastButtons[i] = m_currentButtons[i];
 		m_currentButtons[i] = glfwGetMouseButton(window, i);
 	}
+
+	// update old mouse position
+	m_oldMouseX = m_mouseX;
+	m_oldMouseY = m_mouseY;
 }
 
 bool Input::isKeyDown(int inputKeyID) {
@@ -162,6 +178,22 @@ double Input::getMouseScroll() {
 void Input::getMouseXY(int* x, int* y) {
 	if ( x != nullptr ) *x = m_mouseX;
 	if ( y != nullptr) *y = m_mouseY;
+}
+
+int Input::getMouseDeltaX()
+{
+	return m_mouseX - m_oldMouseX;
+}
+
+int Input::getMouseDeltaY()
+{
+	return m_mouseY - m_oldMouseY;
+}
+
+void Input::getMouseDelta(int * x, int * y)
+{
+	if (x != nullptr ) *x = m_mouseX - m_oldMouseX;
+	if (y != nullptr) *y = m_mouseY - m_oldMouseY;
 }
 
 } // namespace aie
