@@ -34,7 +34,7 @@ Renderer2D::Renderer2D() {
 		m_fontTexture[i] = 0;
 	}
 
-	char* vertexShader = "#version 150\n \
+	const char* vertexShader = "#version 150\n \
 						in vec4 position; \
 						in vec4 colour; \
 						in vec2 texcoord; \
@@ -45,7 +45,7 @@ Renderer2D::Renderer2D() {
 						void main() { vColour = colour; vTexCoord = texcoord; vTextureID = position.w; \
 						gl_Position = projectionMatrix * vec4(position.x, position.y, position.z, 1.0f); }";
 
-	char* fragmentShader = "#version 150\n \
+	const char* fragmentShader = "#version 150\n \
 						in vec4 vColour; \
 						in vec2 vTexCoord; \
 						in float vTextureID; \
@@ -97,7 +97,11 @@ Renderer2D::Renderer2D() {
 	// set texture locations
 	char buf[32];
 	for (int i = 0; i < TEXTURE_STACK_SIZE; ++i) {
+#ifdef _MSC_VER
 		sprintf_s(buf, "textureStack[%i]", i);
+#else
+		sprintf(buf, "textureStack[%i]", i);
+#endif
 		glUniform1i(glGetUniformLocation(m_shader, buf), i);
 	}
 
@@ -649,7 +653,11 @@ void Renderer2D::flushBatch() {
 		return; char buf[32];
 
 	for (int i = 0; i < TEXTURE_STACK_SIZE; ++i) {
+#ifdef _MSC_VER
 		sprintf_s(buf, "isFontTexture[%i]", i);
+#else
+		sprintf(buf, "isFontTexture[%i]", i);
+#endif
 		glUniform1i(glGetUniformLocation(m_shader, buf), m_fontTexture[i]);
 	}
 

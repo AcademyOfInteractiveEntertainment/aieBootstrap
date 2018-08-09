@@ -19,6 +19,10 @@ x86/
 bld/
 [Oo]bj/
 
+#Cmake ignore 
+build/
+*/build/ #Make more restricted if a /build/ folder needs to be included
+
 # Visual Studio 2015 cache/options directory
 .vs/
 # Uncomment if you have tasks that create the project's static files in wwwroot
