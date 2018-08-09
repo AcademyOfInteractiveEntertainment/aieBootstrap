@@ -2,6 +2,7 @@
 #include "Texture.h"
 #include "Font.h"
 #include "Input.h"
+#include <cmath>
 
 Application2D::Application2D() {
 
@@ -96,7 +97,11 @@ void Application2D::draw() {
 	
 	// output some text, uses the last used colour
 	char fps[32];
+#ifdef _MSC_VER
 	sprintf_s(fps, 32, "FPS: %i", getFPS());
+#else
+    sprintf(fps, "FPS: %i", getFPS());
+#endif
 	m_2dRenderer->drawText(m_font, fps, 0, 720 - 32);
 	m_2dRenderer->drawText(m_font, "Press ESC to quit!", 0, 720 - 64);
 
