@@ -27,7 +27,7 @@ Font::Font(const char* trueTypeFontFile, unsigned short fontHeight)
 		fread(ttf_buffer, 1, 4096 * 1024, file);
 		fclose(file);
 
-		// determie size of texture image
+		// determine size of texture image
 		m_textureWidth = fontHeight / 16 * 256;
 		m_textureHeight = fontHeight / 16 * 256;
 
