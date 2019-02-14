@@ -15,6 +15,7 @@ Renderer2D::Renderer2D() {
 
 	m_cameraX = 0;
 	m_cameraY = 0;
+	m_cameraScale = 1.0f;
 
 	unsigned int pixels[1] = {0xFFFFFFFF};
 	m_nullTexture = new Texture(1, 1, Texture::RGBA, (unsigned char*)pixels);
@@ -157,7 +158,21 @@ void Renderer2D::begin() {
 	
 	glUseProgram(m_shader);
 
-	auto projection = glm::ortho(m_cameraX, m_cameraX + (float)width, m_cameraY, m_cameraY + (float)height, 1.0f, -101.0f);
+	// scale the width/height based on cameraScale
+	float scaledWidth = (float)width * m_cameraScale;
+	float scaledHeight = (float)height * m_cameraScale;
+
+	// get the middle of the window in order to get the scaled bounds
+	float midX = m_cameraX + (width  * 0.5f);
+	float midY = m_cameraY + (height * 0.5f);
+
+	// get the bounds to use in the projection matrix
+	float top = midY + (scaledHeight * 0.5f);
+	float right = midX + (scaledWidth * 0.5f);
+	float bottom = midY - (scaledHeight * 0.5f);
+	float left = midX - (scaledWidth * 0.5f);
+
+	auto projection = glm::ortho(left, right, bottom, top, 1.0f, -101.0f);
 	glUniformMatrix4fv(glGetUniformLocation(m_shader, "projectionMatrix"), 1, false, &projection[0][0]);
 
 	glEnable(GL_BLEND);

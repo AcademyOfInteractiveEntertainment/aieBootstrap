@@ -46,6 +46,10 @@ public:
 	void setCameraPos(float x, float y) { m_cameraX = x; m_cameraY = y; }
 	void getCameraPos(float& x, float& y) const { x = m_cameraX; y = m_cameraY; }
 
+	// specify the camera scale/zoom
+	void  setCameraScale(float scale) { m_cameraScale = scale; }
+	float getCameraScale() { return m_cameraScale; }
+
 protected:
 
 	// helper methods used during drawing
@@ -58,6 +62,9 @@ protected:
 
 	// the camera position
 	float				m_cameraX, m_cameraY;
+	
+	// the camera scale (zoom) - lower = zoomed in, higher = zoomed out
+	float				m_cameraScale;
 
 	// texture handling
 	enum { TEXTURE_STACK_SIZE = 16 };

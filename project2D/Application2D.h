@@ -22,6 +22,5 @@ protected:
 	aie::Texture*		m_shipTexture;
 	aie::Font*			m_font;
 
-	float m_cameraX, m_cameraY;
 	float m_timer;
 };

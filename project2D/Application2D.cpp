@@ -20,8 +20,6 @@ bool Application2D::startup() {
 
 	m_font = new aie::Font("./font/consolas.ttf", 32);
 	
-	m_cameraX = 0;
-	m_cameraY = 0;
 	m_timer = 0;
 
 	return true;
@@ -42,18 +40,24 @@ void Application2D::update(float deltaTime) {
 	// input example
 	aie::Input* input = aie::Input::getInstance();
 
-	// use arrow keys to move camera
+	// Update the camera position using the arrow keys
+	float camPosX;
+	float camPosY;
+	m_2dRenderer->getCameraPos(camPosX, camPosY);
+
 	if (input->isKeyDown(aie::INPUT_KEY_UP))
-		m_cameraY += 500.0f * deltaTime;
+		camPosY += 500.0f * deltaTime;
 
 	if (input->isKeyDown(aie::INPUT_KEY_DOWN))
-		m_cameraY -= 500.0f * deltaTime;
+		camPosY -= 500.0f * deltaTime;
 
 	if (input->isKeyDown(aie::INPUT_KEY_LEFT))
-		m_cameraX -= 500.0f * deltaTime;
+		camPosX -= 500.0f * deltaTime;
 
 	if (input->isKeyDown(aie::INPUT_KEY_RIGHT))
-		m_cameraX += 500.0f * deltaTime;
+		camPosX += 500.0f * deltaTime;
+
+	m_2dRenderer->setCameraPos(camPosX, camPosY);
 
 	// exit the application
 	if (input->isKeyDown(aie::INPUT_KEY_ESCAPE))
@@ -64,9 +68,6 @@ void Application2D::draw() {
 
 	// wipe the screen to the background colour
 	clearScreen();
-
-	// set the camera position before we begin rendering
-	m_2dRenderer->setCameraPos(m_cameraX, m_cameraY);
 
 	// begin drawing sprites
 	m_2dRenderer->begin();
