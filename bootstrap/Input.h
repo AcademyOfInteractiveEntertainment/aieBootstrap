@@ -1,3 +1,11 @@
+//----------------------------------------------------------------------------
+// A singleton class that manages Input from the keyboard and mouse.
+//
+// Example usage:
+// aie::Input* input = aie::Input::getInstance();
+// if (input->isKeyDown(aie::INPUT_KEY_UP))
+// {}
+//----------------------------------------------------------------------------
 #pragma once
 
 #include <vector>
@@ -6,10 +14,12 @@
 
 struct GLFWwindow;
 
-namespace aie {
+namespace aie 
+{
 
-// a giant list of input codes for keyboard and mouse
-enum EInputCodes : int {
+// List of input codes for keyboard and mouse
+enum EInputCodes : int 
+{
 	INPUT_KEY_UNKNOWN			= -1,
 	INPUT_KEY_SPACE				= 32,
 	INPUT_KEY_APOSTROPHE		= 39,
@@ -136,84 +146,80 @@ enum EInputCodes : int {
 	INPUT_MOUSE_BUTTON_8		= 7,
 };
 
-// a singleton class that manages Input from the keyboard and mouse
-class Input {
+class Input 
+{
 public:
-
 	// returns access to the singleton instance
-	static Input* getInstance() { return m_instance;  }
+	static Input* GetInstance() { return m_instance; }
 
-	// query the keyboard state
-	bool isKeyDown(int inputKeyID);
-	bool isKeyUp(int inputKeyID);
+	// Query the keyboard state. Can be used when buttons are held down.
+	bool IsKeyDown(int inputKeyID);
+	bool IsKeyUp(int inputKeyID);
 
-	// returns true if the key was pressed / released this frame
-	bool wasKeyPressed(int inputKeyID);
-	bool wasKeyReleased(int inputKeyID);
+	// Only returns true if the key was pressed / released this frame.
+	bool WasKeyPressed(int inputKeyID);
+	bool WasKeyReleased(int inputKeyID);
 
-	// returns access to all keys that are currently pressed
-	const std::vector<int>& getPressedKeys() const;
-	const std::vector<unsigned int>& getPressedCharacters() const;
+	// Returns access to all keys that are currently pressed.
+	const std::vector<int>& GetPressedKeys() const;
+	const std::vector<unsigned int>& GetPressedCharacters() const;
 
-	// query the mouse button state
-	bool isMouseButtonDown(int inputMouseID);
-	bool isMouseButtonUp(int inputMouseID);
+	// Query the mouse button state. Can be used when buttons are held down.
+	bool IsMouseButtonDown(int inputMouseID);
+	bool IsMouseButtonUp(int inputMouseID);
 
-	// returns true if the button was pressed / released this frame
-	bool wasMouseButtonPressed(int inputMouseID);
-	bool wasMouseButtonReleased(int inputMouseID);
+	// Only returns true if the button was pressed / released this frame.
+	bool WasMouseButtonPressed(int inputMouseID);
+	bool WasMouseButtonReleased(int inputMouseID);
 
-	// query the mouse position
-	int getMouseX();
-	int getMouseY();
-	void getMouseXY(int* x, int* y);
+	// Query the mouse position.
+	int GetMouseX();
+	int GetMouseY();
+	void GetMouseXY(int& x, int& y);
 
-	// query mouse movement
-	int getMouseDeltaX();
-	int getMouseDeltaY();
-	void getMouseDelta(int* x, int* y);
+	// Query how far the mouse has moved this frame.
+	int GetMouseDeltaX();
+	int GetMouseDeltaY();
+	void GetMouseDelta(int& x, int& y);
 
-	// query how far the mouse wheel has been moved 
-	double getMouseScroll();
+	// Query how far the mouse wheel has been moved 
+	double GetMouseScroll();
 
-	// delgates for attaching input observers to the Input class
+	// Delgates for attaching input observers to the Input class.
 	typedef std::function<void(GLFWwindow* window, int key, int scancode, int action, int mods)> KeyCallback;
 	typedef std::function<void(GLFWwindow* window, unsigned int character)> CharCallback;
 	typedef std::function<void(GLFWwindow* window, int button, int action, int mods)> MouseButtonCallback;
 	typedef std::function<void(GLFWwindow* window, double xoffset, double yoffset)> MouseScrollCallback;
 	typedef std::function<void(GLFWwindow* window, double x, double y)> MouseMoveCallback;
 
-	// functions for attatching input observers
-	void attachKeyObserver(const KeyCallback& callback) { m_keyCallbacks.push_back(callback); }
-	void attachCharObserver(const CharCallback& callback) { m_charCallbacks.push_back(callback); }
-	void attachMouseButtonObserver(const MouseButtonCallback& callback) { m_mouseButtonCallbacks.push_back(callback); }
-	void attachMouseMoveObserver(const MouseMoveCallback& callback) { m_mouseMoveCallbacks.push_back(callback); }
-	void attachMouseScrollObserver(const MouseScrollCallback& callback) { m_mouseScrollCallbacks.push_back(callback); }
+	// Functions for attatching input observers
+	void AttachKeyObserver(const KeyCallback& callback) { m_keyCallbacks.push_back(callback); }
+	void AttachCharObserver(const CharCallback& callback) { m_charCallbacks.push_back(callback); }
+	void AttachMouseButtonObserver(const MouseButtonCallback& callback) { m_mouseButtonCallbacks.push_back(callback); }
+	void AttachMouseMoveObserver(const MouseMoveCallback& callback) { m_mouseMoveCallbacks.push_back(callback); }
+	void AttachMouseScrollObserver(const MouseScrollCallback& callback) { m_mouseScrollCallbacks.push_back(callback); }
 
 protected:
-
-	// just giving the Application class access to the Input singleton
+	// Only the Application class can create/destroy the Input singleton.
 	friend class Application;
+	static void Create() { m_instance = new Input(); }
+	static void Destroy() { delete m_instance; }
 
-	// singleton pointer
+	// Should be called once by the application each frame before glfwPollEvents().
+	void ClearStatus();
+
+	// Singleton pointer
 	static Input* m_instance;
 
-	// only want the Application class to be able to create / destroy
-	static void create()			{ m_instance = new Input(); }
-	static void destroy()			{ delete m_instance; }
-
-	// should be called once by the application each frame after the current update
-	// or before glfwPollEvents
-	void clearStatus();
-
 private:
-
-	// constructor private for singleton
+	// Constructor is private for singletons.
 	Input();
 	~Input();
 
-	std::vector<int>			m_pressedKeys;
-	std::vector<unsigned int>	m_pressedCharacters;
+	void OnMouseMove(int newXPos, int newYPos);
+
+	std::vector<int> m_pressedKeys;
+	std::vector<unsigned int> m_pressedCharacters;
 		
 	int		m_mouseX;
 	int		m_mouseY;
@@ -221,9 +227,8 @@ private:
 	int		m_oldMouseY;
 	double	m_mouseScroll;
 
-	bool	m_firstMouseMove;	// flag for first mouse input after start or mouse entering window
-
-	void onMouseMove(int newXPos, int newYPos);
+	// flag for first mouse input after start or mouse entering window
+	bool	m_firstMouseMove;
 	
 	std::vector<KeyCallback>			m_keyCallbacks;
 	std::vector<CharCallback>			m_charCallbacks;
@@ -232,8 +237,10 @@ private:
 	std::vector<MouseScrollCallback>	m_mouseScrollCallbacks;
 
 	// used to track down/up/released/pressed
-	int* m_lastKeys, *m_currentKeys;
-	int m_lastButtons[8], m_currentButtons[8];
+	int* m_lastKeys;
+	int* m_currentKeys;
+	int  m_lastButtons[8];
+	int  m_currentButtons[8];
 };
 
 } // namespace aie

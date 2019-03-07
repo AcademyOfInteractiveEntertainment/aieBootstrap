@@ -314,10 +314,10 @@ bool ImGui_Init(GLFWwindow* window, bool install_callbacks) {
 #endif
 
     if (install_callbacks) {
-		Input::getInstance()->attachKeyObserver(ImGui_KeyCallback);
-		Input::getInstance()->attachCharObserver(ImGui_CharCallback);
-		Input::getInstance()->attachMouseScrollObserver(ImGui_ScrollCallback);
-		Input::getInstance()->attachMouseButtonObserver(ImGui_MouseButtonCallback);
+		Input::GetInstance()->AttachKeyObserver(ImGui_KeyCallback);
+		Input::GetInstance()->AttachCharObserver(ImGui_CharCallback);
+		Input::GetInstance()->AttachMouseScrollObserver(ImGui_ScrollCallback);
+		Input::GetInstance()->AttachMouseButtonObserver(ImGui_MouseButtonCallback);
     }
 
 	int w = 0, h = 0;
