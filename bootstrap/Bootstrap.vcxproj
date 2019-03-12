@@ -191,7 +191,6 @@
     <ClInclude Include="imgui_glfw3.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="Renderer2D.h" />
-    <ClInclude Include="Shader.h" />
     <ClInclude Include="Texture.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

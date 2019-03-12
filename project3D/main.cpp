@@ -1,23 +1,15 @@
-//----------------------------------------------------------------------------
-// This is the entry-point for your game.
-// Creates and runs the Application3D class which contains the game loop.
-//----------------------------------------------------------------------------
-#include <crtdbg.h>
 #include "Application3D.h"
 
-int main() 
-{
-	// Check for memeory leaks.
-	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+int main() {
+	
+	// allocation
+	auto app = new Application3D();
 
-	// Create the Application.
-	Application3D* application = new Application3D("AIE", 1280, 720, false);
+	// initialise and loop
+	app->run("AIE", 1280, 720, false);
 
-	// Run the game loop.
-	application->Run();
-
-	// Clean up.
-	delete application;
+	// deallocation
+	delete app;
 
 	return 0;
 }

@@ -1,67 +1,72 @@
-//----------------------------------------------------------------------------
-// The Application class is an abstract base class that initialises most of the
-// essential systems. It also creates the application's window using GLFW and OpenGL.
-// We derive it into Application2D for 2D games and Application3D for 3D games.
-//----------------------------------------------------------------------------
 #pragma once
 
-// Forward declared structure for access to GLFW window.
+// forward declared structure for access to GLFW window
 struct GLFWwindow;
 
-namespace aie 
-{
+namespace aie {
 
-class Application 
-{
+// this is the pure-virtual base class that wraps up an application for us.
+// we derive our own applications from this class
+class Application {
 public:
-	Application(const char* title, int width, int height, bool fullscreen);
+
+	Application();
 	virtual ~Application();
 
-	// Begins the game loop which calls Update() and Draw() repeatedly.
-	void Run();
+	// creates a window and begins the game loop which calls update() and draw() repeatedly
+	// it first calls startup() and if that succeeds it then starts the loop,
+	// ending with shutdown() if m_gameOver is true
+	void run(const char* title, int width, int height, bool fullscreen);
 
-	// These functions must be implemented by the derived class.
-	virtual void Update(float deltaTime) = 0;
-	virtual void Draw() = 0;
+	// these functions must be implemented by a derived class
+	virtual bool startup() = 0;
+	virtual void shutdown() = 0;
+	virtual void update(float deltaTime) = 0;
+	virtual void draw() = 0;
 
-	// Wipes the screen clear so that it is ready to begin drawing.
-	void ClearScreen();
+	// wipes the screen clear to begin a frame of drawing
+	void clearScreen();
 
-	// Sets the colour that will be used to clear the sceen.
-	void SetBackgroundColour(float r, float g, float b, float a = 1.0f);
+	// sets the colour that the sceen is cleared to
+	void setBackgroundColour(float r, float g, float b, float a = 1.0f);
 
-	// Show or hide the OS cursor.
-	void SetShowCursor(bool visible);
+	// show or hide the OS cursor
+	void setShowCursor(bool visible);
 
-	// Enable or disable V-Sync.
-	void SetVSync(bool enabled);
+	// enable or disable v-sync
+	void setVSync(bool enabled);
 
-	// Sets m_gameOver to true which will close the application safely when the frame ends.
-	void Quit() { m_gameOver = true; }
+	// sets m_gameOver to true which will close the application safely when the frame ends
+	void quit() { m_gameOver = true; }
 
-	// Access to the GLFW window.
-	GLFWwindow* GetWindowPtr() const { return m_window; }
+	// access to the GLFW window
+	GLFWwindow* getWindowPtr() const { return m_window; }
 
-	// Query if the window has been closed by the user.
-	bool HasWindowClosed();
+	// query if the window has been closed somehow
+	bool hasWindowClosed();
 
-	// Returns the frames-per-second that the loop is running at.
-	unsigned int GetFPS() const { return m_fps; }
+	// returns the frames-per-second that the loop is running at
+	unsigned int getFPS() const { return m_fps; }
 
-	// Returns the width / height of the game window.
-	unsigned int GetWindowWidth() const;
-	unsigned int GetWindowHeight() const;
+	// returns the width / height of the game window
+	unsigned int getWindowWidth() const;
+	unsigned int getWindowHeight() const;
 	
-	// Returns time since application started.
-	float GetTime() const;
+	// returns time since application started
+	float getTime() const;
 
-private:
-	virtual GLFWwindow* CreateGameWindow(const char* title, int width, int height, bool fullscreen);
-	virtual void DestroyGameWindow();
+protected:
 
-	GLFWwindow*	m_window;
-	bool m_gameOver;
-	unsigned int m_fps;
+	virtual bool createWindow(const char* title, int width, int height, bool fullscreen);
+	virtual void destroyWindow();
+
+	GLFWwindow*		m_window;
+
+	// if set to false, the main game loop will exit
+	bool			m_gameOver;
+	
+	unsigned int	m_fps;
+
 };
 
 } // namespace aie

@@ -1,23 +1,15 @@
-//----------------------------------------------------------------------------
-// This class is used to load textures for drawing as sprites.
-// 
-// Example Usage:
-//		aie::Texture texture = new aie::Texture("./textures/ship.png");
-//----------------------------------------------------------------------------
 #pragma once
 
 #include <string>
 
-namespace aie 
-{
+namespace aie {
 
-class Texture 
-{
+// a class for wrapping up an opengl texture image
+class Texture {
 public:
-	enum Format : unsigned int 
-	{
-		NONE = 0,
-		RED,
+
+	enum Format : unsigned int {
+		RED	= 1,
 		RG,
 		RGB,
 		RGBA
@@ -28,32 +20,29 @@ public:
 	Texture(unsigned int width, unsigned int height, Format format, unsigned char* pixels = nullptr);
 	virtual ~Texture();
 
-	// Load a jpg, bmp, png, or tga.
-	bool Load(const char* filename);
-	void Unload();
+	// load a jpg, bmp, png or tga
+	bool load(const char* filename);
 
-	// Creates a texture that can be filled with pixels.
-	void Create(unsigned int width, unsigned int height, Format format, unsigned char* pixels = nullptr);
+	// creates a texture that can be filled in with pixels
+	void create(unsigned int width, unsigned int height, Format format, unsigned char* pixels = nullptr);
 
-	// Returns the filename or nullptr if not loaded from a file.
-	const char* GetFilename() const { return m_filename; }
+	// returns the filename or "none" if not loaded from a file
+	const std::string& getFilename() const { return m_filename; }
 
-	// Binds the texture to the specified slot.
-	void Bind(unsigned int slot) const;
+	// binds the texture to the specified slot
+	void bind(unsigned int slot) const;
 
-	// Returns the OpenGL texture handle.
-	unsigned int GetHandle() const { return m_glHandle; }
+	// returns the opengl texture handle
+	unsigned int getHandle() const { return m_glHandle; }
 
-	// Get the texture's properties.
-	unsigned int GetWidth() const { return m_width; }
-	unsigned int GetHeight() const { return m_height; }
-	unsigned int GetFormat() const { return m_format; }
-
-	// Get the pixel data from the texture.
-	const unsigned char* GetPixels() const { return m_loadedPixels; }
+	unsigned int getWidth() const { return m_width; }
+	unsigned int getHeight() const { return m_height; }
+	unsigned int getFormat() const { return m_format; }
+	const unsigned char* getPixels() const { return m_loadedPixels; }
 
 protected:
-	char*			m_filename;
+
+	std::string		m_filename;
 	unsigned int	m_width;
 	unsigned int	m_height;
 	unsigned int	m_glHandle;
