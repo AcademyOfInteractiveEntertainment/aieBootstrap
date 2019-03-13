@@ -2,7 +2,11 @@
 // This class is used to load textures for drawing as sprites.
 // 
 // Example Usage:
+//		When loading sprites use:
 //		aie::Texture texture = new aie::Texture("./textures/ship.png");
+//
+//		When loading textures to apply to 3D models instead use:
+//		aie::Texture texture = new aie::Texture("./textures/wall.png", GL_LINEAR);
 //----------------------------------------------------------------------------
 #pragma once
 
@@ -23,17 +27,23 @@ public:
 		RGBA
 	};
 
+	enum Filtering : unsigned int
+	{
+		FILTER_NEAREST,
+		FILTER_LINEAR
+	};
+
 	Texture();
-	Texture(const char* filename);
-	Texture(unsigned int width, unsigned int height, Format format, unsigned char* pixels = nullptr);
+	Texture(const char* filename, Filtering filter = FILTER_NEAREST);
+	Texture(unsigned int width, unsigned int height, Format format, unsigned char* pixels = nullptr, Filtering filter = FILTER_NEAREST);
 	virtual ~Texture();
 
 	// Load a jpg, bmp, png, or tga.
-	bool Load(const char* filename);
+	bool Load(const char* filename, Filtering filter);
 	void Unload();
 
 	// Creates a texture that can be filled with pixels.
-	void Create(unsigned int width, unsigned int height, Format format, unsigned char* pixels = nullptr);
+	void Create(unsigned int width, unsigned int height, Format format, unsigned char* pixels = nullptr, Filtering filter = FILTER_NEAREST);
 
 	// Returns the filename or nullptr if not loaded from a file.
 	const char* GetFilename() const { return m_filename; }

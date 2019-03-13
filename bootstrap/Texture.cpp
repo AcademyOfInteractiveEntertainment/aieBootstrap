@@ -21,14 +21,14 @@ Texture::Texture()
 	m_loadedPixels = nullptr;
 }
 
-Texture::Texture(const char * filename) : Texture()
+Texture::Texture(const char* filename, Filtering filter) : Texture()
 {
-	Load(filename);
+	Load(filename, filter);
 }
 
-Texture::Texture(unsigned int width, unsigned int height, Format format, unsigned char* pixels) : Texture()
+Texture::Texture(unsigned int width, unsigned int height, Format format, unsigned char* pixels, Filtering filter) : Texture()
 {
-	Create(width, height, format, pixels);
+	Create(width, height, format, pixels, filter);
 }
 
 Texture::~Texture() 
@@ -36,7 +36,7 @@ Texture::~Texture()
 	Unload();
 }
 
-bool Texture::Load(const char* filename) 
+bool Texture::Load(const char* filename, Filtering filter)
 {
 	// If there is already a texture loaded in this object, delete it first.
 	Unload();
@@ -77,8 +77,22 @@ bool Texture::Load(const char* filename)
 			break;
 		};
 
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		switch (filter)
+		{
+		case FILTER_LINEAR:
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+			break;
+
+		case FILTER_NEAREST:
+		default:
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+			break;
+		}
+
 		glGenerateMipmap(GL_TEXTURE_2D);
 		glBindTexture(GL_TEXTURE_2D, 0);
 
@@ -124,7 +138,7 @@ void Texture::Unload()
 	m_height = 0;
 }
 
-void Texture::Create(unsigned int width, unsigned int height, Format format, unsigned char* pixels) 
+void Texture::Create(unsigned int width, unsigned int height, Format format, unsigned char* pixels, Filtering filter)
 {
 	// If there is already a texture loaded in this object, delete it first.
 	Unload();
@@ -141,8 +155,19 @@ void Texture::Create(unsigned int width, unsigned int height, Format format, uns
 	glGenTextures(1, &m_glHandle);
 	glBindTexture(GL_TEXTURE_2D, m_glHandle);
 
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	switch (filter)
+	{
+	case FILTER_LINEAR:
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		break;
+
+	case FILTER_NEAREST:
+	default:
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		break;
+	}
 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);

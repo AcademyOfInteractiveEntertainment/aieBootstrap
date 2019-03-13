@@ -11,7 +11,7 @@ Application2D::Application2D(const char* title, int width, int height, bool full
 	m_2dRenderer = new aie::Renderer2D();
 
 	// Create some textures for testing.
-	m_texture = new aie::Texture("./textures/numbered_grid.tga");
+	m_texture = new aie::Texture("./textures/hero.png");
 	m_texture2 = new aie::Texture("./textures/rock_large.png");
 	m_font = new aie::Font("./font/consolas.ttf", 24);
 
@@ -86,20 +86,22 @@ void Application2D::Draw()
 	// Draw a sprite
 	m_2dRenderer->DrawSprite(m_texture2, 200.0f, 200.0f);
 
-	// Demonstrate animation.
-	int frame = ((int)m_timer % 8);
-	m_2dRenderer->SetUVRect(frame / 8.0f, 0.0f, 1.0f / 8.0f, 1.0f / 8.0f);
-	m_2dRenderer->DrawSprite(m_texture, 400.0f, 200.0f, 100.0f, 100.0f);
-	m_2dRenderer->SetUVRect(0.0f, 0.0f, 1.0f, 1.0f);
-
 	// Draw a moving purple circle.
 	m_2dRenderer->SetRenderColour(1.0f, 0.0f, 1.0f, 1.0f);
-	m_2dRenderer->DrawCircle(sin(m_timer) * 100.0f + 650.0f, 200.0f, 50.0f);
+	m_2dRenderer->DrawCircle(sin(m_timer) * 100.0f + 450.0f, 200.0f, 50.0f);
 
 	// Draw a rotating sprite with no texture, coloured yellow.
 	m_2dRenderer->SetRenderColour(1.0f, 1.0f, 0.0f, 1.0f);
-	m_2dRenderer->DrawSprite(nullptr, 900.0f, 200.0f, 50.0f, 50.0f, m_timer);
+	m_2dRenderer->DrawSprite(nullptr, 700.0f, 200.0f, 50.0f, 50.0f, m_timer);
 	m_2dRenderer->SetRenderColour(1.0f, 1.0f, 1.0f, 1.0f);
+
+	// Demonstrate animation.
+	float animSpeed = 10.0f;
+	int frame = ((int)(m_timer * animSpeed) % 6);
+	float size = 1.0f / 6.0f;
+	m_2dRenderer->SetUVRect(frame * size, 0.0f, size, 1.0f);
+	m_2dRenderer->DrawSprite(m_texture, 900.0f, 200.0f, 100.0f, 100.0f);
+	m_2dRenderer->SetUVRect(0.0f, 0.0f, 1.0f, 1.0f);
 	
 	// Draw some text.
 	float windowHeight = (float)GetWindowHeight();
