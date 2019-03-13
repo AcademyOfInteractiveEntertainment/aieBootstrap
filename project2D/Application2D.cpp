@@ -2,25 +2,37 @@
 #include "Texture.h"
 #include "Font.h"
 #include "Input.h"
+#include "Player.h"
 
 Application2D::Application2D(const char* title, int width, int height, bool fullscreen) 
 	: Application(title, width, height, fullscreen)
 {
+	// Initalise the 2D renderer.
 	m_2dRenderer = new aie::Renderer2D();
 
+	// Create some textures for testing.
 	m_texture = new aie::Texture("./textures/numbered_grid.tga");
-	m_shipTexture = new aie::Texture("./textures/ship.png");
+	m_texture2 = new aie::Texture("./textures/rock_large.png");
+	m_font = new aie::Font("./font/consolas.ttf", 24);
 
-	m_font = new aie::Font("./font/consolas.ttf", 32);
+	// Create a player object.
+	m_Player = new Player();
 
 	m_timer = 0;
 }
 
 Application2D::~Application2D() 
 {
+	// Delete player.
+	delete m_Player;
+	m_Player = nullptr;
+
+	// Deleted the textures.
 	delete m_font;
 	delete m_texture;
-	delete m_shipTexture;
+	delete m_texture2;
+
+	// Delete the renderer.
 	delete m_2dRenderer;
 }
 
@@ -28,70 +40,76 @@ void Application2D::Update(float deltaTime)
 {
 	m_timer += deltaTime;
 
-	// input example
-	aie::Input* input = aie::Input::GetInstance();
+	// Update the player.
+	m_Player->Update(deltaTime);
 
-	// Update the camera position using the arrow keys
+	// Input example: Update the camera position using the arrow keys.
+	aie::Input* input = aie::Input::GetInstance();
 	float camPosX;
 	float camPosY;
+
 	m_2dRenderer->GetCameraPos(camPosX, camPosY);
 
-	if (input->IsKeyDown(aie::INPUT_KEY_UP))
+	if (input->IsKeyDown(aie::INPUT_KEY_W))
 		camPosY += 500.0f * deltaTime;
 
-	if (input->IsKeyDown(aie::INPUT_KEY_DOWN))
+	if (input->IsKeyDown(aie::INPUT_KEY_S))
 		camPosY -= 500.0f * deltaTime;
 
-	if (input->IsKeyDown(aie::INPUT_KEY_LEFT))
+	if (input->IsKeyDown(aie::INPUT_KEY_A))
 		camPosX -= 500.0f * deltaTime;
 
-	if (input->IsKeyDown(aie::INPUT_KEY_RIGHT))
+	if (input->IsKeyDown(aie::INPUT_KEY_D))
 		camPosX += 500.0f * deltaTime;
 
 	m_2dRenderer->SetCameraPos(camPosX, camPosY);
 
-	// exit the application
+	// Exit the application if escape is pressed.
 	if (input->IsKeyDown(aie::INPUT_KEY_ESCAPE))
 		Quit();
 }
 
 void Application2D::Draw() 
 {
-	// wipe the screen to the background colour
+	// Wipe the screen to the background colour.
 	ClearScreen();
 
-	// begin drawing sprites
+	// Begin drawing sprites.
 	m_2dRenderer->Begin();
 
-	// demonstrate animation
-	m_2dRenderer->SetUVRect(int(m_timer) % 8 / 8.0f, 0, 1.f / 8, 1.f / 8);
-	m_2dRenderer->DrawSprite(m_texture, 200, 200, 100, 100);
+	// Draw the player.
+	m_Player->Draw(m_2dRenderer);
 
-	// demonstrate spinning sprite
-	m_2dRenderer->SetUVRect(0,0,1,1);
-	m_2dRenderer->DrawSprite(m_shipTexture, 600, 400, 0, 0, m_timer, 1);
+	// Draw a thin line.
+	m_2dRenderer->DrawLine(150.0f, 400.0f, 250.0f, 500.0f, 2.0f);
 
-	// draw a thin line
-	m_2dRenderer->DrawLine(300, 300, 600, 400, 2, 1);
+	// Draw a sprite
+	m_2dRenderer->DrawSprite(m_texture2, 200.0f, 200.0f);
 
-	// draw a moving purple circle
-	m_2dRenderer->SetRenderColour(1, 0, 1, 1);
-	m_2dRenderer->DrawCircle(sin(m_timer) * 100 + 600, 150, 50);
+	// Demonstrate animation.
+	int frame = ((int)m_timer % 8);
+	m_2dRenderer->SetUVRect(frame / 8.0f, 0.0f, 1.0f / 8.0f, 1.0f / 8.0f);
+	m_2dRenderer->DrawSprite(m_texture, 400.0f, 200.0f, 100.0f, 100.0f);
+	m_2dRenderer->SetUVRect(0.0f, 0.0f, 1.0f, 1.0f);
 
-	// draw a rotating red box
-	m_2dRenderer->SetRenderColour(1, 0, 0, 1);
-	m_2dRenderer->DrawBox(600, 500, 60, 20, m_timer);
+	// Draw a moving purple circle.
+	m_2dRenderer->SetRenderColour(1.0f, 0.0f, 1.0f, 1.0f);
+	m_2dRenderer->DrawCircle(sin(m_timer) * 100.0f + 650.0f, 200.0f, 50.0f);
 
-	// draw a slightly rotated sprite with no texture, coloured yellow
-	m_2dRenderer->SetRenderColour(1, 1, 0, 1);
-	m_2dRenderer->DrawSprite(nullptr, 400, 400, 50, 50, 3.14159f * 0.25f, 1);
+	// Draw a rotating sprite with no texture, coloured yellow.
+	m_2dRenderer->SetRenderColour(1.0f, 1.0f, 0.0f, 1.0f);
+	m_2dRenderer->DrawSprite(nullptr, 900.0f, 200.0f, 50.0f, 50.0f, m_timer);
+	m_2dRenderer->SetRenderColour(1.0f, 1.0f, 1.0f, 1.0f);
 	
-	// output some text, uses the last used colour
+	// Draw some text.
+	float windowHeight = (float)GetWindowHeight();
 	char fps[32];
 	sprintf_s(fps, 32, "FPS: %i", GetFPS());
-	m_2dRenderer->DrawText(m_font, fps, 0, 720 - 32);
-	m_2dRenderer->DrawText(m_font, "Press ESC to quit!", 0, 720 - 64);
+	m_2dRenderer->DrawText(m_font, fps, 15.0f, windowHeight - 32.0f);
+	m_2dRenderer->DrawText(m_font, "Arrow keys to move.", 15.0f, windowHeight - 64.0f);
+	m_2dRenderer->DrawText(m_font, "WASD to move camera.", 15.0f, windowHeight - 96.0f);
+	m_2dRenderer->DrawText(m_font, "Press ESC to quit!", 15.0f, windowHeight - 128.0f);
 
-	// done drawing sprites
+	// Done drawing sprites.
 	m_2dRenderer->End();
 }

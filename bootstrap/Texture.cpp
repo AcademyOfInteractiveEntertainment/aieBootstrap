@@ -6,6 +6,7 @@
 
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
+#include <assert.h>
 
 namespace aie 
 {
@@ -84,6 +85,11 @@ bool Texture::Load(const char* filename)
 		m_width = (unsigned int)x;
 		m_height = (unsigned int)y;
 
+		//Textures must be a multiple of 2 or they will have artifacts.
+		//Procedural textures can have a width/height of 1.
+		assert((m_width == 1 || (m_width % 2) == 0) && "Texture width must be a multiple of 2");
+		assert((m_height == 1 || (m_height % 2) == 0) && "Texture height must be a multiple of 2");
+
 		size_t length = strlen(filename) + 1;
 		m_filename = new char[length];
 		strcpy_s(m_filename, length, filename);
@@ -126,6 +132,11 @@ void Texture::Create(unsigned int width, unsigned int height, Format format, uns
 	m_width = width;
 	m_height = height;
 	m_format = format;
+
+	//Textures must be a multiple of 2 or they will have artifacts.
+	//Procedural textures can have a width/height of 1.
+	assert((m_width == 1 || (m_width % 2) == 0) && "Texture width must be a multiple of 2");
+	assert((m_height == 1 || (m_height % 2) == 0) && "Texture height must be a multiple of 2");
 
 	glGenTextures(1, &m_glHandle);
 	glBindTexture(GL_TEXTURE_2D, m_glHandle);

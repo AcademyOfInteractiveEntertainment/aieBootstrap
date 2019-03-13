@@ -3,6 +3,8 @@
 #include "Application.h"
 #include "Renderer2D.h"
 
+class Player;
+
 class Application2D : public aie::Application 
 {
 public:
@@ -14,9 +16,14 @@ public:
 
 protected:
 	aie::Renderer2D*	m_2dRenderer;
+
+	// Example textures.
 	aie::Texture*		m_texture;
-	aie::Texture*		m_shipTexture;
+	aie::Texture*		m_texture2;
 	aie::Font*			m_font;
+
+	// Player.
+	Player* m_Player;
 
 	float m_timer;
 };
