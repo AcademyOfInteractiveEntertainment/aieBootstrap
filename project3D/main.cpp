@@ -3,7 +3,7 @@
 // Creates and runs the Application3D class which contains the game loop.
 //----------------------------------------------------------------------------
 #include <crtdbg.h>
-#include "Application3D.h"
+#include "Game3D.h"
 
 int main() 
 {
@@ -11,13 +11,13 @@ int main()
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 
 	// Create the Application.
-	Application3D* application = new Application3D("AIE", 1280, 720, false);
+	Game3D* game = new Game3D("AIE", 1280, 720, false);
 
 	// Run the game loop.
-	application->Run();
+	game->Run();
 
 	// Clean up.
-	delete application;
+	delete game;
 
 	return 0;
 }

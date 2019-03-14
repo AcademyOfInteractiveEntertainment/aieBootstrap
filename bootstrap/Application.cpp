@@ -1,47 +1,67 @@
-//----------------------------------------------------------------------------
-// The Application class is an abstract base class that initialises most of the
-// essential systems. It also creates the application's window using GLFW and OpenGL.
-// We derive it into Application2D for 2D games and Application3D for 3D games.
-//----------------------------------------------------------------------------
 #include "Application.h"
 #include "gl_core_4_4.h"
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
-#include <iostream>
-#include "Input.h"
-#include "imgui_glfw3.h"
 
 namespace aie 
 {
 
+Application* Application::m_instance = nullptr;
+
 Application::Application(const char* title, int width, int height, bool fullscreen)
 {
-	m_gameOver = false;
-	m_fps = 0;
+	// Create the game window.
 	m_window = CreateGameWindow(title, width, height, fullscreen);
 
-	if (m_window)
-	{
-		// Create the Input manager.
-		Input::Create();
-
-		// Initalise ImGui.
-		ImGui_Init(m_window, true);
-	}
+	// Initialise variables.
+	m_gameOver = false;
+	m_fps = 0;
+	m_frames = 0;
+	m_deltaTime = 0;
+	m_fpsInterval = 0;
+	m_prevTime = GetTime();
 }
 
 Application::~Application() 
 {
 	if (m_window)
-	{
-		// Destroy ImGui
-		ImGui_Shutdown();
-
-		// Destroy the input system
-		Input::Destroy();
-
 		DestroyGameWindow();
+}
+
+void Application::Create(const char* title, int width, int height, bool fullscreen)
+{ 
+	if(!m_instance)
+		m_instance = new Application(title, width, height, fullscreen); 
+}
+
+void Application::Destroy()
+{ 
+	delete m_instance; 
+	m_instance = nullptr;
+}
+
+void Application::Update()
+{
+	// Update delta time.
+	double currTime = GetTime();
+	m_deltaTime = currTime - m_prevTime;
+	m_prevTime = currTime;
+
+	// Update fps every second.
+	m_frames++;
+	m_fpsInterval += m_deltaTime;
+	if (m_fpsInterval >= 1.0f)
+	{
+		m_fps = m_frames;
+		m_frames = 0;
+		m_fpsInterval -= 1.0f;
 	}
+
+	// Update window events (input etc).
+	glfwPollEvents();
+
+	// Should the game exit?
+	m_gameOver = m_gameOver || HasWindowClosed();
 }
 
 // Create the game window using the GLFW library
@@ -96,67 +116,6 @@ void Application::DestroyGameWindow()
 	glfwTerminate();
 }
 
-void Application::Run() 
-{
-	// Start game loop if successfully initialised.
-	if (m_window)
-	{
-		// Variables for timing.
-		double prevTime = GetTime();
-		double currTime = 0;
-		double deltaTime = 0;
-		unsigned int frames = 0;
-		double fpsInterval = 0;
-
-		// Loop while game is running.
-		while (!m_gameOver) 
-		{
-			// Update delta time.
-			currTime = GetTime();
-			deltaTime = currTime - prevTime;
-			prevTime = currTime;
-
-			// Update fps every second.
-			frames++;
-			fpsInterval += deltaTime;
-			if (fpsInterval >= 1.0f)
-			{
-				m_fps = frames;
-				frames = 0;
-				fpsInterval -= 1.0f;
-			}
-
-			// Clear input.
-			Input::GetInstance()->ClearStatus();
-
-			// Update window events (input etc).
-			glfwPollEvents();
-
-			// Skip if minimised.
-			if (glfwGetWindowAttrib(m_window, GLFW_ICONIFIED) != 0)
-				continue;
-
-			// Clear ImGui
-			ImGui_NewFrame();
-
-			// Update the Application
-			Update(float(deltaTime));
-
-			// Draw the Application
-			Draw();
-
-			// Draw ImGui last.
-			ImGui::Render();
-
-			// Present backbuffer to the monitor
-			glfwSwapBuffers(m_window);
-
-			// Should the game exit?
-			m_gameOver = m_gameOver || HasWindowClosed();
-		}
-	}
-}
-
 // Returns whether the window has been closed by the user.
 bool Application::HasWindowClosed() 
 {
@@ -167,6 +126,11 @@ bool Application::HasWindowClosed()
 void Application::ClearScreen() 
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+}
+
+void Application::SwapBuffers()
+{
+	glfwSwapBuffers(m_window);
 }
 
 // The background will be cleared to this colour when ClearScreen() is called.
@@ -207,6 +171,12 @@ unsigned int Application::GetWindowHeight() const
 float Application::GetTime() const 
 {
 	return (float)glfwGetTime();
+}
+
+// Returns whether the application is minimised.
+bool Application::GetMinimised() const
+{
+	return (glfwGetWindowAttrib(m_window, GLFW_ICONIFIED) != 0);
 }
 
 } // namespace aie

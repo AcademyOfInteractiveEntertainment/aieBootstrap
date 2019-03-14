@@ -1,9 +1,9 @@
 //----------------------------------------------------------------------------
 // This is the entry-point for your game.
-// Creates and runs the Application2D class which contains the game loop.
+// Creates and runs the Game2D class which contains the game loop.
 //----------------------------------------------------------------------------
 #include <crtdbg.h>
-#include "Application2D.h"
+#include "Game2D.h"
 
 int main() 
 {
@@ -11,13 +11,13 @@ int main()
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 
 	// Create the Application.
-	Application2D* application = new Application2D("AIE", 1280, 720, false);
+	Game2D* game = new Game2D("AIE", 1280, 720, false);
 
 	// Run the game loop.
-	application->Run();
+	game->Run();
 
 	// Clean up.
-	delete application;
+	delete game;
 
 	return 0;
 }

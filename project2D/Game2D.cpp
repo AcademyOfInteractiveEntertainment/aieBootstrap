@@ -1,11 +1,12 @@
-#include "Application2D.h"
+#include "Game2D.h"
+
+#include "Application.h"
 #include "Texture.h"
 #include "Font.h"
 #include "Input.h"
 #include "Player.h"
 
-Application2D::Application2D(const char* title, int width, int height, bool fullscreen) 
-	: Application(title, width, height, fullscreen)
+Game2D::Game2D(const char* title, int width, int height, bool fullscreen) : Game(title, width, height, fullscreen)
 {
 	// Initalise the 2D renderer.
 	m_2dRenderer = new aie::Renderer2D();
@@ -17,11 +18,9 @@ Application2D::Application2D(const char* title, int width, int height, bool full
 
 	// Create a player object.
 	m_Player = new Player();
-
-	m_timer = 0;
 }
 
-Application2D::~Application2D() 
+Game2D::~Game2D()
 {
 	// Delete player.
 	delete m_Player;
@@ -36,10 +35,8 @@ Application2D::~Application2D()
 	delete m_2dRenderer;
 }
 
-void Application2D::Update(float deltaTime)
+void Game2D::Update(float deltaTime)
 {
-	m_timer += deltaTime;
-
 	// Update the player.
 	m_Player->Update(deltaTime);
 
@@ -66,15 +63,21 @@ void Application2D::Update(float deltaTime)
 
 	// Exit the application if escape is pressed.
 	if (input->IsKeyDown(aie::INPUT_KEY_ESCAPE))
-		Quit();
+	{
+		aie::Application* application = aie::Application::GetInstance();
+		application->Quit();
+	}
 }
 
-void Application2D::Draw() 
+void Game2D::Draw()
 {
-	// Wipe the screen to the background colour.
-	ClearScreen();
+	aie::Application* application = aie::Application::GetInstance();
+	float time = application->GetTime();
 
-	// Begin drawing sprites.
+	// Wipe the screen to clear away the previous frame.
+	application->ClearScreen();
+
+	// Prepare the renderer. This must be called before any sprites are drawn.
 	m_2dRenderer->Begin();
 
 	// Draw the player.
@@ -88,30 +91,30 @@ void Application2D::Draw()
 
 	// Draw a moving purple circle.
 	m_2dRenderer->SetRenderColour(1.0f, 0.0f, 1.0f, 1.0f);
-	m_2dRenderer->DrawCircle(sin(m_timer) * 100.0f + 450.0f, 200.0f, 50.0f);
+	m_2dRenderer->DrawCircle(sin(time) * 100.0f + 450.0f, 200.0f, 50.0f);
 
 	// Draw a rotating sprite with no texture, coloured yellow.
 	m_2dRenderer->SetRenderColour(1.0f, 1.0f, 0.0f, 1.0f);
-	m_2dRenderer->DrawSprite(nullptr, 700.0f, 200.0f, 50.0f, 50.0f, m_timer);
+	m_2dRenderer->DrawSprite(nullptr, 700.0f, 200.0f, 50.0f, 50.0f, time);
 	m_2dRenderer->SetRenderColour(1.0f, 1.0f, 1.0f, 1.0f);
 
 	// Demonstrate animation.
 	float animSpeed = 10.0f;
-	int frame = ((int)(m_timer * animSpeed) % 6);
+	int frame = ((int)(time * animSpeed) % 6);
 	float size = 1.0f / 6.0f;
 	m_2dRenderer->SetUVRect(frame * size, 0.0f, size, 1.0f);
 	m_2dRenderer->DrawSprite(m_texture, 900.0f, 200.0f, 100.0f, 100.0f);
 	m_2dRenderer->SetUVRect(0.0f, 0.0f, 1.0f, 1.0f);
 	
 	// Draw some text.
-	float windowHeight = (float)GetWindowHeight();
+	float windowHeight = (float)application->GetWindowHeight();
 	char fps[32];
-	sprintf_s(fps, 32, "FPS: %i", GetFPS());
+	sprintf_s(fps, 32, "FPS: %i", application->GetFPS());
 	m_2dRenderer->DrawText(m_font, fps, 15.0f, windowHeight - 32.0f);
 	m_2dRenderer->DrawText(m_font, "Arrow keys to move.", 15.0f, windowHeight - 64.0f);
 	m_2dRenderer->DrawText(m_font, "WASD to move camera.", 15.0f, windowHeight - 96.0f);
 	m_2dRenderer->DrawText(m_font, "Press ESC to quit!", 15.0f, windowHeight - 128.0f);
 
-	// Done drawing sprites.
+	// Done drawing sprites. Must be called at the end of the Draw().
 	m_2dRenderer->End();
 }

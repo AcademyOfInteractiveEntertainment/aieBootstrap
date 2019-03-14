@@ -201,7 +201,7 @@ public:
 
 protected:
 	// Only the Application class can create/destroy the Input singleton.
-	friend class Application;
+	friend class Game;
 	static void Create() { m_instance = new Input(); }
 	static void Destroy() { delete m_instance; }
 

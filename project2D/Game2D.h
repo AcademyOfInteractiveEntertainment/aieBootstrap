@@ -1,15 +1,15 @@
 #pragma once
 
-#include "Application.h"
+#include "Game.h"
 #include "Renderer2D.h"
 
 class Player;
 
-class Application2D : public aie::Application 
+class Game2D : public aie::Game
 {
 public:
-	Application2D(const char* title, int width, int height, bool fullscreen);
-	virtual ~Application2D();
+	Game2D(const char* title, int width, int height, bool fullscreen);
+	virtual ~Game2D();
 
 	virtual void Update(float deltaTime);
 	virtual void Draw();
@@ -24,6 +24,4 @@ protected:
 
 	// Player.
 	Player* m_Player;
-
-	float m_timer;
 };

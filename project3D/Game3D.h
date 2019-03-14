@@ -1,13 +1,13 @@
 #pragma once
 
-#include "Application.h"
+#include "Game.h"
 #include <glm/mat4x4.hpp>
 
-class Application3D : public aie::Application 
+class Game3D : public aie::Game
 {
 public:
-	Application3D(const char* title, int width, int height, bool fullscreen);
-	virtual ~Application3D();
+	Game3D(const char* title, int width, int height, bool fullscreen);
+	virtual ~Game3D();
 
 	virtual void Update(float deltaTime);
 	virtual void Draw();

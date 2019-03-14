@@ -1,7 +1,6 @@
 //----------------------------------------------------------------------------
-// The Application class is an abstract base class that initialises most of the
-// essential systems. It also creates the application's window using GLFW and OpenGL.
-// We derive it into Application2D for 2D games and Application3D for 3D games.
+// The Application class is a Singleton that creates the application's window 
+// using GLFW and OpenGL and manages the general state of the application.
 //----------------------------------------------------------------------------
 #pragma once
 
@@ -11,18 +10,11 @@ struct GLFWwindow;
 namespace aie 
 {
 
-class Application 
+class Application
 {
 public:
-	Application(const char* title, int width, int height, bool fullscreen);
-	virtual ~Application();
-
-	// Begins the game loop which calls Update() and Draw() repeatedly.
-	void Run();
-
-	// These functions must be implemented by the derived class.
-	virtual void Update(float deltaTime) = 0;
-	virtual void Draw() = 0;
+	// Returns access to the singleton instance.
+	static Application* GetInstance() { return m_instance; }
 
 	// Wipes the screen clear so that it is ready to begin drawing.
 	void ClearScreen();
@@ -36,8 +28,9 @@ public:
 	// Enable or disable V-Sync.
 	void SetVSync(bool enabled);
 
-	// Sets m_gameOver to true which will close the application safely when the frame ends.
+	// Tells the application to begin shutting down.
 	void Quit() { m_gameOver = true; }
+	bool GetQuitting() const { return m_gameOver; }
 
 	// Access to the GLFW window.
 	GLFWwindow* GetWindowPtr() const { return m_window; }
@@ -45,23 +38,50 @@ public:
 	// Query if the window has been closed by the user.
 	bool HasWindowClosed();
 
-	// Returns the frames-per-second that the loop is running at.
-	unsigned int GetFPS() const { return m_fps; }
+	// Query whether the application is minimised.
+	bool GetMinimised() const;
 
-	// Returns the width / height of the game window.
+	// Query the width / height of the game window.
 	unsigned int GetWindowWidth() const;
 	unsigned int GetWindowHeight() const;
 	
-	// Returns time since application started.
+	// Time related functions.
 	float GetTime() const;
+	float GetDeltaTime() const { return (float)m_deltaTime; }
+	unsigned int GetFPS() const { return m_fps; }
 
 private:
+	friend class Game;
+	
+	// Singleton.
+	static void Create(const char* title, int width, int height, bool fullscreen);
+	static void Destroy();
+	static Application* m_instance;
+
+	// Private Constructor and Destructor to prevent creation by any means other than the Singleton pattern.
+	Application(const char* title, int width, int height, bool fullscreen);
+	virtual ~Application();
+
+	// Creating and destroying the game windows.
 	virtual GLFWwindow* CreateGameWindow(const char* title, int width, int height, bool fullscreen);
 	virtual void DestroyGameWindow();
 
+	// Swaps the render buffers to present the frame to the user.
+	void SwapBuffers();
+
+	// Update the Application.
+	void Update();
+
+	// Misc Variables.
 	GLFWwindow*	m_window;
 	bool m_gameOver;
+
+	// Calculating framerate.
+	double m_prevTime;
+	double m_deltaTime;
 	unsigned int m_fps;
+	unsigned int m_frames;
+	double m_fpsInterval;
 };
 
 } // namespace aie
