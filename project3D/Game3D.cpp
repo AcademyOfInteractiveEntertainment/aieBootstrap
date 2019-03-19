@@ -14,6 +14,9 @@ Game3D::Game3D(const char* title, int width, int height, bool fullscreen) : Game
 {
 	aie::Application* application = aie::Application::GetInstance();
 
+	// Enable backface culling for performance.
+	application->SetBackfaceCull(true);
+
 	// Set the background colour to grey.
 	application->SetBackgroundColour(0.25f, 0.25f, 0.25f);
 

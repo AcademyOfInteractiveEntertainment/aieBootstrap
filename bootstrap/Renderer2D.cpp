@@ -17,6 +17,7 @@ Renderer2D::Renderer2D()
 {
 	SetRenderColour(1,1,1,1);
 	SetUVRect(0.0f, 0.0f, 1.0f, 1.0f);
+	SetFlipped(false, false);
 
 	m_cameraX = 0;
 	m_cameraY = 0;
@@ -255,6 +256,12 @@ void Renderer2D::DrawSprite(Texture * texture,
 	if (height == 0.0f)
 		height = (float)texture->GetHeight();
 
+	if (m_flipH)
+		width *= -1.0f;
+
+	if (m_flipV)
+		height *= -1.0f;
+
 	float tlX = (0.0f - xOrigin) * width;		float tlY = (0.0f - yOrigin) * height;
 	float trX = (1.0f - xOrigin) * width;		float trY = (0.0f - yOrigin) * height;
 	float brX = (1.0f - xOrigin) * width;		float brY = (1.0f - yOrigin) * height;
@@ -345,6 +352,12 @@ void Renderer2D::DrawSpriteTransformed3x3(Texture * texture,
 		width = (float)texture->GetWidth();
 	if (height == 0.0f)
 		height = (float)texture->GetHeight();
+
+	if (m_flipH)
+		width *= -1.0f;
+
+	if (m_flipV)
+		height *= -1.0f;
 
 	float tlX = (0.0f - xOrigin) * width;		float tlY = (0.0f - yOrigin) * height;
 	float trX = (1.0f - xOrigin) * width;		float trY = (0.0f - yOrigin) * height;
@@ -444,6 +457,12 @@ void Renderer2D::DrawSpriteTransformed4x4(Texture * texture,
 		width = (float)texture->GetWidth();
 	if (height == 0.0f)
 		height = (float)texture->GetHeight();
+
+	if (m_flipH)
+		width *= -1.0f;
+
+	if (m_flipV)
+		height *= -1.0f;
 
 	float tlX = (0.0f - xOrigin) * width;		float tlY = (0.0f - yOrigin) * height;
 	float trX = (1.0f - xOrigin) * width;		float trY = (0.0f - yOrigin) * height;
@@ -738,6 +757,12 @@ void Renderer2D::SetUVRect(float uvX, float uvY, float uvW, float uvH)
 	m_uvY = uvY;
 	m_uvW = uvW;
 	m_uvH = uvH;
+}
+
+void Renderer2D::SetFlipped(bool horizontal, bool vertical)
+{
+	m_flipH = horizontal;
+	m_flipV = vertical;
 }
 
 void Renderer2D::RotateAround(float inX, float inY, float& outX, float& outY, float sin, float cos) 

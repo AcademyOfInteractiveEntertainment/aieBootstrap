@@ -28,6 +28,10 @@ public:
 	// Enable or disable V-Sync.
 	void SetVSync(bool enabled);
 
+	// Enable or disable backface culling (enabled by default).
+	// Usually you want this off for 2D and on for 3D.
+	void SetBackfaceCull(bool enabled);
+
 	// Tells the application to begin shutting down.
 	void Quit() { m_gameOver = true; }
 	bool GetQuitting() const { return m_gameOver; }

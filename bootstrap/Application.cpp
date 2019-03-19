@@ -101,7 +101,6 @@ GLFWwindow* Application::CreateGameWindow(const char* title, int width, int heig
 	// Setup the basic rendering settings.
 	glClearColor(0, 0, 0, 1);
 	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_CULL_FACE);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	
@@ -143,6 +142,16 @@ void Application::SetBackgroundColour(float r, float g, float b, float a)
 void Application::SetVSync(bool enable) 
 {
 	glfwSwapInterval(enable ? 1 : 0);
+}
+
+// Enable or disable backface culling.
+// Usually you want this off for 2D and on for 3D.
+void Application::SetBackfaceCull(bool enabled)
+{
+	if(enabled)
+		glEnable(GL_CULL_FACE);
+	else
+		glDisable(GL_CULL_FACE);
 }
 
 // Hide or show the OS cursor.

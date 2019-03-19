@@ -47,6 +47,9 @@ public:
 	// Can be used to set the texture coordinates for all subsequent DrawSprite() calls.
 	void SetUVRect(float uvX, float uvY, float uvW, float uvH);
 
+	// Flip sprite rendering on the horizontal or vertical axis.
+	void SetFlipped(bool horizontal, bool vertical = false);
+
 	// Specify the camera position.
 	void SetCameraPos(float x, float y) { m_cameraX = x; m_cameraY = y; }
 	void GetCameraPos(float& x, float& y) const { x = m_cameraX; y = m_cameraY; }
@@ -89,6 +92,8 @@ protected:
 	int					m_fontTexture[TEXTURE_STACK_SIZE];
 	unsigned int		m_currentTexture;
 	float				m_uvX, m_uvY, m_uvW, m_uvH;
+
+	bool				m_flipH, m_flipV;
 
 	// Data used for OpenGL to draw the sprites (with padding).
 	SBVertex			m_vertices[MAX_SPRITES * 4];
