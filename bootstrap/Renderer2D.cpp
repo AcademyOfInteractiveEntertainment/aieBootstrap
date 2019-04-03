@@ -569,7 +569,7 @@ void Renderer2D::DrawLine(float x1, float y1, float x2, float y2, float thicknes
 	SetUVRect(uvX, uvY, uvW, uvH);
 }
 
-void Renderer2D::DrawText(Font * font, const char* text, float xPos, float yPos, float depth) {
+void Renderer2D::DrawText2D(Font * font, const char* text, float xPos, float yPos, float depth) {
 
 	if (font == nullptr ||
 		font->m_glHandle == 0)

@@ -38,7 +38,7 @@ public:
 
 	// Draws simple text on the screen horizontally.
 	// Depth is in the range [0,100] with lower being closer to the viewer.
-	virtual void DrawText(Font* font, const char* text, float xPos, float yPos, float depth = 0.0f);
+	virtual void DrawText2D(Font* font, const char* text, float xPos, float yPos, float depth = 0.0f);
 
 	// Sets the tint colour for all subsequent draw calls.
 	void SetRenderColour(float r, float g, float b, float a = 1.0f);
