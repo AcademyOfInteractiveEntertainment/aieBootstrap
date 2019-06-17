@@ -18,8 +18,17 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Game2D.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Player.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Game2D.h" />
+    <ClInclude Include="Player.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{3F428D0C-1CC8-47C3-818A-A3C2972C74C9}</ProjectGuid>
+    <ProjectGuid>{CF0D9081-7DDB-49F6-931A-9CA64CE10369}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>Project2D</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
@@ -174,15 +183,6 @@
       <AdditionalLibraryDirectories>$(ProjectDir)..\Bootstrap\build\$(Platform)\$(Configuration)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="Game2D.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="Player.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Game2D.h" />
-    <ClInclude Include="Player.h" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
