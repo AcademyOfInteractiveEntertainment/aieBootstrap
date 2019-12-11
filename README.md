@@ -1,4 +1,7 @@
 # aieBootstrap
+
+*NOTE: This project is no longer being actively maintained*
+
 The base project code used for the Advanced Diploma of Professional Game Development to aid in graphical real-time applications.
 
 Bootstrap is a static library that can be linked against to implement real-time graphical applications with OpenGL as the base API.
