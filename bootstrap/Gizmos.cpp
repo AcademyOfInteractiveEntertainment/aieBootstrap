@@ -896,6 +896,10 @@ void Gizmos::add2DLine(const glm::vec2& rv0, const glm::vec2& rv1, const glm::ve
 }
 
 void Gizmos::add2DTri(const glm::vec2& rv0, const glm::vec2& rv1, const glm::vec2& rv2, const glm::vec4& colour) {
+	add2DTri(rv0, rv1, rv2, colour, colour, colour);
+}
+
+void Gizmos::add2DTri(const glm::vec2& rv0, const glm::vec2& rv1, const glm::vec2& rv2, const glm::vec4& colour0, const glm::vec4& colour1, const glm::vec4& colour2) {
 	if (sm_singleton != nullptr) {
 		if (sm_singleton->m_2DtriCount < sm_singleton->m_max2DTris) {
 			sm_singleton->m_2Dtris[sm_singleton->m_2DtriCount].v0.x = rv0.x;
@@ -910,18 +914,18 @@ void Gizmos::add2DTri(const glm::vec2& rv0, const glm::vec2& rv1, const glm::vec
 			sm_singleton->m_2Dtris[sm_singleton->m_2DtriCount].v2.y = rv2.y;
 			sm_singleton->m_2Dtris[sm_singleton->m_2DtriCount].v2.z = 1;
 			sm_singleton->m_2Dtris[sm_singleton->m_2DtriCount].v2.w = 1;
-			sm_singleton->m_2Dtris[sm_singleton->m_2DtriCount].v0.r = colour.r;
-			sm_singleton->m_2Dtris[sm_singleton->m_2DtriCount].v0.g = colour.g;
-			sm_singleton->m_2Dtris[sm_singleton->m_2DtriCount].v0.b = colour.b;
-			sm_singleton->m_2Dtris[sm_singleton->m_2DtriCount].v0.a = colour.a;
-			sm_singleton->m_2Dtris[sm_singleton->m_2DtriCount].v1.r = colour.r;
-			sm_singleton->m_2Dtris[sm_singleton->m_2DtriCount].v1.g = colour.g;
-			sm_singleton->m_2Dtris[sm_singleton->m_2DtriCount].v1.b = colour.b;
-			sm_singleton->m_2Dtris[sm_singleton->m_2DtriCount].v1.a = colour.a;
-			sm_singleton->m_2Dtris[sm_singleton->m_2DtriCount].v2.r = colour.r;
-			sm_singleton->m_2Dtris[sm_singleton->m_2DtriCount].v2.g = colour.g;
-			sm_singleton->m_2Dtris[sm_singleton->m_2DtriCount].v2.b = colour.b;
-			sm_singleton->m_2Dtris[sm_singleton->m_2DtriCount].v2.a = colour.a;
+			sm_singleton->m_2Dtris[sm_singleton->m_2DtriCount].v0.r = colour0.r;
+			sm_singleton->m_2Dtris[sm_singleton->m_2DtriCount].v0.g = colour0.g;
+			sm_singleton->m_2Dtris[sm_singleton->m_2DtriCount].v0.b = colour0.b;
+			sm_singleton->m_2Dtris[sm_singleton->m_2DtriCount].v0.a = colour0.a;
+			sm_singleton->m_2Dtris[sm_singleton->m_2DtriCount].v1.r = colour1.r;
+			sm_singleton->m_2Dtris[sm_singleton->m_2DtriCount].v1.g = colour1.g;
+			sm_singleton->m_2Dtris[sm_singleton->m_2DtriCount].v1.b = colour1.b;
+			sm_singleton->m_2Dtris[sm_singleton->m_2DtriCount].v1.a = colour1.a;
+			sm_singleton->m_2Dtris[sm_singleton->m_2DtriCount].v2.r = colour2.r;
+			sm_singleton->m_2Dtris[sm_singleton->m_2DtriCount].v2.g = colour2.g;
+			sm_singleton->m_2Dtris[sm_singleton->m_2DtriCount].v2.b = colour2.b;
+			sm_singleton->m_2Dtris[sm_singleton->m_2DtriCount].v2.a = colour2.a;
 
 			sm_singleton->m_2DtriCount++;
 		}
