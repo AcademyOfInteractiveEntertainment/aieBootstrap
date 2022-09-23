@@ -74,4 +74,4 @@ jobs:
       - name: Run MSBuild
         id: run_msbuild
         working-directory: .\
-        run: msbuild -m ".\Bootstrap.sln.sln" -p:Configuration=${{ matrix.configuration }} -p:Platform=${{ matrix.platform }}
+        run: msbuild -m ".\Bootstrap.sln" -p:Configuration=${{ matrix.configuration }} -p:Platform=${{ matrix.platform }}
