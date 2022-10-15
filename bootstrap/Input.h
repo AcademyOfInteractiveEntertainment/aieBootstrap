@@ -7,6 +7,26 @@
 struct GLFWwindow;
 
 namespace aie {
+// List of all Joystick Button Input
+	enum JBInputCodes : int {
+ 		JOYSTICK_1=   0,
+ 		JOYSTICK_2=   1,
+ 		JOYSTICK_3=   2,
+ 		JOYSTICK_4 =  3,
+ 		JOYSTICK_5=   4,
+ 		JOYSTICK_6 =  5,
+ 		JOYSTICK_7 =  6,
+ 		JOYSTICK_8  = 7,
+ 		JOYSTICK_9 = 8,
+ 		JOYSTICK_10 =  9,
+ 		JOYSTICK_11   =10,
+ 		JOYSTICK_12  = 11,
+ 		JOYSTICK_13  = 12,
+ 		JOYSTICK_14 =  13,
+ 		JOYSTICK_15  = 14,
+ 		JOYSTICK_16 =  15
+	};
+
 
 // a giant list of input codes for keyboard and mouse
 enum EInputCodes : int {
