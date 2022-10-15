@@ -15,8 +15,12 @@ Font::Font(const char* trueTypeFontFile, unsigned short fontHeight)
 	m_textureHeight(0) {
 	
 	FILE* file = nullptr;
+#ifdef _MSC_VER
 	fopen_s(&file, trueTypeFontFile, "rb");
-	if (file != nullptr) {
+#else
+	file = fopen(trueTypeFontFile, "rb");
+#endif
+    if (file != nullptr) {
 		
 		unsigned char* ttf_buffer = new unsigned char[4096 * 1024];
 

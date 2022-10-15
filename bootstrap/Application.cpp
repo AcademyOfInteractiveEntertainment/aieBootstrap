@@ -147,7 +147,11 @@ void Application::setVSync(bool enable) {
 }
 
 void Application::setShowCursor(bool visible) {
-	ShowCursor(visible);
+#ifdef _MSC_VER
+    ShowCursor(visible);
+#else
+    glfwSetInputMode(m_window, GLFW_CURSOR, visible ? GLFW_CURSOR_HIDDEN : GLFW_CURSOR_HIDDEN);
+#endif
 }
 
 unsigned int Application::getWindowWidth() const {
