@@ -15,52 +15,52 @@ namespace aie {
 		DLL Application();
 		DLL virtual ~Application();
 
-		// creates a window and begins the game loop which calls update() and draw() repeatedly
-		// it first calls startup() and if that succeeds it then starts the loop,
-		// ending with shutdown() if m_gameOver is true
-		DLL void run(const char* title, int width, int height, bool fullscreen);
+		// creates a window and begins the game loop which calls Update() and Draw() repeatedly
+		// it first calls Startup() and if that succeeds it then starts the loop,
+		// ending with Shutdown() if m_gameOver is true
+		DLL void Run(const char* title, int width, int height, bool fullscreen);
 
 		// these functions must be implemented by a derived class
-		virtual bool startup() = 0;
-		virtual void shutdown() = 0;
-		virtual void update(float deltaTime) = 0;
-		virtual void draw() = 0;
+		virtual bool Startup() = 0;
+		virtual void Shutdown() = 0;
+		virtual void Update(float deltaTime) = 0;
+		virtual void Draw() = 0;
 
 		// wipes the screen clear to begin a frame of drawing
-		DLL void clearScreen();
+		DLL void ClearScreen();
 
 		// sets the colour that the sceen is cleared to
-		DLL void setBackgroundColour(float r, float g, float b, float a = 1.0f);
+		DLL void SetBackgroundColour(float r, float g, float b, float a = 1.0f);
 
 		// show or hide the OS cursor
-		DLL void setShowCursor(bool visible);
+		DLL void SetShowCursor(bool visible);
 
 		// enable or disable v-sync
-		DLL void setVSync(bool enabled);
+		DLL void SetVSync(bool enabled);
 
 		// sets m_gameOver to true which will close the application safely when the frame ends
-		void quit() { m_gameOver = true; }
+		void Quit() { m_gameOver = true; }
 
 		// access to the GLFW window
-		GLFWwindow* getWindowPtr() const { return m_window; }
+		GLFWwindow* GetWindowPtr() const { return m_window; }
 
 		// query if the window has been closed somehow
-		DLL bool hasWindowClosed();
+		DLL bool HasWindowClosed();
 
 		// returns the frames-per-second that the loop is running at
-		unsigned int getFPS() const { return m_fps; }
+		unsigned int GetFPS() const { return m_fps; }
 
 		// returns the width / height of the game window
-		DLL unsigned int getWindowWidth() const;
-		DLL unsigned int getWindowHeight() const;
+		DLL unsigned int GetWindowWidth() const;
+		DLL unsigned int GetWindowHeight() const;
 
 		// returns time since application started
-		DLL float getTime() const;
+		DLL float GetTime() const;
 
 	protected:
 
-		DLL virtual bool createWindow(const char* title, int width, int height, bool fullscreen);
-		DLL virtual void destroyWindow();
+		DLL virtual bool CreateWindow(const char* title, int width, int height, bool fullscreen);
+		DLL virtual void DestroyWindow();
 
 		DLL void InitImGui();
 		DLL void ShutdownImGui();

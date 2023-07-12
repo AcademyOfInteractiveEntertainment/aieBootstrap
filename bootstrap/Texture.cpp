@@ -24,7 +24,7 @@ namespace aie {
 		m_format(0),
 		m_loadedPixels(nullptr) {
 
-		load(filename);
+		Load(filename);
 	}
 
 	Texture::Texture(unsigned int width, unsigned int height, Format format, unsigned char* pixels)
@@ -34,7 +34,7 @@ namespace aie {
 		m_format(format),
 		m_loadedPixels(nullptr) {
 
-		create(width, height, format, pixels);
+		Create(width, height, format, pixels);
 	}
 
 	Texture::~Texture() {
@@ -44,7 +44,7 @@ namespace aie {
 			stbi_image_free(m_loadedPixels);
 	}
 
-	bool Texture::load(const char* filename) {
+	bool Texture::Load(const char* filename) {
 
 		if (m_glHandle != 0) {
 			glDeleteTextures(1, &m_glHandle);
@@ -95,7 +95,7 @@ namespace aie {
 		return false;
 	}
 
-	void Texture::create(unsigned int width, unsigned int height, Format format, unsigned char* pixels) {
+	void Texture::Create(unsigned int width, unsigned int height, Format format, unsigned char* pixels) {
 
 		if (m_glHandle != 0) {
 			glDeleteTextures(1, &m_glHandle);
@@ -134,7 +134,7 @@ namespace aie {
 		glBindTexture(GL_TEXTURE_2D, 0);
 	}
 
-	void Texture::bind(unsigned int slot) const {
+	void Texture::Bind(unsigned int slot) const {
 		glActiveTexture(GL_TEXTURE0 + slot);
 		glBindTexture(GL_TEXTURE_2D, m_glHandle);
 	}

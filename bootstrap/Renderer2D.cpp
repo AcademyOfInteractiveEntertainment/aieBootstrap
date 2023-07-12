@@ -12,8 +12,8 @@ namespace aie {
 
 	Renderer2D::Renderer2D() {
 
-		setRenderColour(1, 1, 1, 1);
-		setUVRect(0.0f, 0.0f, 1.0f, 1.0f);
+		SetRenderColour(1, 1, 1, 1);
+		SetUVRect(0.0f, 0.0f, 1.0f, 1.0f);
 
 		m_cameraX = 0;
 		m_cameraY = 0;
@@ -147,7 +147,7 @@ namespace aie {
 		delete m_nullTexture;
 	}
 
-	void Renderer2D::begin() {
+	void Renderer2D::Begin() {
 		m_renderBegun = true;
 		m_currentIndex = 0;
 		m_currentVertex = 0;
@@ -165,29 +165,29 @@ namespace aie {
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-		setRenderColour(1, 1, 1, 1);
+		SetRenderColour(1, 1, 1, 1);
 	}
 
-	void Renderer2D::end() {
+	void Renderer2D::End() {
 		if (m_renderBegun == false)
 			return;
 
-		flushBatch();
+		FlushBatch();
 
 		glUseProgram(0);
 
 		m_renderBegun = false;
 	}
 
-	void Renderer2D::drawBox(float xPos, float yPos, float width, float height, float rotation, float depth) {
-		drawSprite(nullptr, xPos, yPos, width, height, rotation, depth);
+	void Renderer2D::DrawBox(float xPos, float yPos, float width, float height, float rotation, float depth) {
+		DrawSprite(nullptr, xPos, yPos, width, height, rotation, depth);
 	}
 
-	void Renderer2D::drawCircle(float xPos, float yPos, float radius, float depth) {
+	void Renderer2D::DrawCircle(float xPos, float yPos, float radius, float depth) {
 
-		if (shouldFlush(33, 96))
-			flushBatch();
-		unsigned int textureID = pushTexture(m_nullTexture);
+		if (ShouldFlush(33, 96))
+			FlushBatch();
+		unsigned int textureID = PushTexture(m_nullTexture);
 
 		int startIndex = m_currentVertex;
 
@@ -209,8 +209,8 @@ namespace aie {
 		// 32 segment sphere
 		for (int i = 0; i < 32; ++i) {
 
-			if (shouldFlush())
-				flushBatch();
+			if (ShouldFlush())
+				FlushBatch();
 
 			m_vertices[m_currentVertex].pos[0] = glm::sin(rotDelta * i) * radius + xPos;
 			m_vertices[m_currentVertex].pos[1] = glm::cos(rotDelta * i) * radius + yPos;
@@ -237,21 +237,21 @@ namespace aie {
 		}
 	}
 
-	void Renderer2D::drawSprite(Texture* texture,
+	void Renderer2D::DrawSprite(Texture* texture,
 		float xPos, float yPos,
 		float width, float height,
 		float rotation, float depth, float xOrigin, float yOrigin) {
 		if (texture == nullptr)
 			texture = m_nullTexture;
 
-		if (shouldFlush())
-			flushBatch();
-		unsigned int textureID = pushTexture(texture);
+		if (ShouldFlush())
+			FlushBatch();
+		unsigned int textureID = PushTexture(texture);
 
 		if (width == 0.0f)
-			width = (float)texture->getWidth();
+			width = (float)texture->GetWidth();
 		if (height == 0.0f)
-			height = (float)texture->getHeight();
+			height = (float)texture->GetHeight();
 
 		float tlX = (0.0f - xOrigin) * width;		float tlY = (0.0f - yOrigin) * height;
 		float trX = (1.0f - xOrigin) * width;		float trY = (0.0f - yOrigin) * height;
@@ -260,10 +260,10 @@ namespace aie {
 
 		if (rotation != 0.0f) {
 			float si = glm::sin(rotation); float co = glm::cos(rotation);
-			rotateAround(tlX, tlY, tlX, tlY, si, co);
-			rotateAround(trX, trY, trX, trY, si, co);
-			rotateAround(brX, brY, brX, brY, si, co);
-			rotateAround(blX, blY, blX, blY, si, co);
+			RotateAround(tlX, tlY, tlX, tlY, si, co);
+			RotateAround(trX, trY, trX, trY, si, co);
+			RotateAround(brX, brY, brX, brY, si, co);
+			RotateAround(blX, blY, blX, blY, si, co);
 		}
 
 		int index = m_currentVertex;
@@ -325,22 +325,22 @@ namespace aie {
 		m_indices[m_currentIndex++] = (index + 2);
 	}
 
-	void Renderer2D::drawSpriteTransformed3x3(Texture* texture,
+	void Renderer2D::DrawSpriteTransformed3x3(Texture* texture,
 		float* transformMat3x3,
 		float width, float height, float depth,
 		float xOrigin, float yOrigin) {
 		if (texture == nullptr)
 			texture = m_nullTexture;
 
-		if (shouldFlush())
-			flushBatch();
+		if (ShouldFlush())
+			FlushBatch();
 
-		unsigned int textureID = pushTexture(texture);
+		unsigned int textureID = PushTexture(texture);
 
 		if (width == 0.0f)
-			width = (float)texture->getWidth();
+			width = (float)texture->GetWidth();
 		if (height == 0.0f)
-			height = (float)texture->getHeight();
+			height = (float)texture->GetHeight();
 
 		float tlX = (0.0f - xOrigin) * width;		float tlY = (0.0f - yOrigin) * height;
 		float trX = (1.0f - xOrigin) * width;		float trY = (0.0f - yOrigin) * height;
@@ -424,21 +424,21 @@ namespace aie {
 		m_indices[m_currentIndex++] = (index + 2);
 	}
 
-	void Renderer2D::drawSpriteTransformed4x4(Texture* texture,
+	void Renderer2D::DrawSpriteTransformed4x4(Texture* texture,
 		float* transformMat4x4,
 		float width, float height, float depth,
 		float xOrigin, float yOrigin) {
 		if (texture == nullptr)
 			texture = m_nullTexture;
 
-		if (shouldFlush())
-			flushBatch();
-		unsigned int textureID = pushTexture(texture);
+		if (ShouldFlush())
+			FlushBatch();
+		unsigned int textureID = PushTexture(texture);
 
 		if (width == 0.0f)
-			width = (float)texture->getWidth();
+			width = (float)texture->GetWidth();
 		if (height == 0.0f)
-			height = (float)texture->getHeight();
+			height = (float)texture->GetHeight();
 
 		float tlX = (0.0f - xOrigin) * width;		float tlY = (0.0f - yOrigin) * height;
 		float trX = (1.0f - xOrigin) * width;		float trY = (0.0f - yOrigin) * height;
@@ -523,7 +523,7 @@ namespace aie {
 		m_indices[m_currentIndex++] = (index + 2);
 	}
 
-	void Renderer2D::drawLine(float x1, float y1, float x2, float y2, float thickness, float depth) {
+	void Renderer2D::DrawLine(float x1, float y1, float x2, float y2, float thickness, float depth) {
 
 		float xDiff = x2 - x1;
 		float yDiff = y2 - y1;
@@ -538,14 +538,14 @@ namespace aie {
 		float uvW = m_uvW;
 		float uvH = m_uvH;
 
-		setUVRect(0.0f, 0.0f, 1.0f, 1.0f);
+		SetUVRect(0.0f, 0.0f, 1.0f, 1.0f);
 
-		drawSprite(m_nullTexture, x1, y1, len, thickness, rot, depth, 0.0f, 0.5f);
+		DrawSprite(m_nullTexture, x1, y1, len, thickness, rot, depth, 0.0f, 0.5f);
 
-		setUVRect(uvX, uvY, uvW, uvH);
+		SetUVRect(uvX, uvY, uvW, uvH);
 	}
 
-	void Renderer2D::drawText(Font* font, const char* text, float xPos, float yPos, float depth) {
+	void Renderer2D::DrawText(Font* font, const char* text, float xPos, float yPos, float depth) {
 
 		if (font == nullptr ||
 			font->m_glHandle == 0)
@@ -553,11 +553,11 @@ namespace aie {
 
 		stbtt_aligned_quad Q = {};
 
-		if (shouldFlush() || m_currentTexture >= TEXTURE_STACK_SIZE - 1)
-			flushBatch();
+		if (ShouldFlush() || m_currentTexture >= TEXTURE_STACK_SIZE - 1)
+			FlushBatch();
 
 		glActiveTexture(GL_TEXTURE0 + m_currentTexture++);
-		glBindTexture(GL_TEXTURE_2D, font->getTextureHandle());
+		glBindTexture(GL_TEXTURE_2D, font->GetTextureHandle());
 		glActiveTexture(GL_TEXTURE0);
 		m_fontTexture[m_currentTexture - 1] = 1;
 
@@ -569,11 +569,11 @@ namespace aie {
 
 		while (*text != 0) {
 
-			if (shouldFlush() || m_currentTexture >= TEXTURE_STACK_SIZE - 1) {
-				flushBatch();
+			if (ShouldFlush() || m_currentTexture >= TEXTURE_STACK_SIZE - 1) {
+				FlushBatch();
 
 				glActiveTexture(GL_TEXTURE0 + m_currentTexture++);
-				glBindTexture(GL_TEXTURE_2D, font->getTextureHandle());
+				glBindTexture(GL_TEXTURE_2D, font->GetTextureHandle());
 				glActiveTexture(GL_TEXTURE0);
 				m_fontTexture[m_currentTexture - 1] = 1;
 			}
@@ -639,12 +639,12 @@ namespace aie {
 		}
 	}
 
-	bool Renderer2D::shouldFlush(int additionalVertices, int additionalIndices) {
+	bool Renderer2D::ShouldFlush(int additionalVertices, int additionalIndices) {
 		return (m_currentVertex + additionalVertices) >= (MAX_SPRITES * 4) ||
 			(m_currentIndex + additionalIndices) >= (MAX_SPRITES * 6);
 	}
 
-	void Renderer2D::flushBatch() {
+	void Renderer2D::FlushBatch() {
 
 		// dont render anything
 		if (m_currentVertex == 0 || m_currentIndex == 0 || m_renderBegun == false)
@@ -684,7 +684,7 @@ namespace aie {
 		m_currentTexture = 0;
 	}
 
-	unsigned int Renderer2D::pushTexture(Texture* texture) {
+	unsigned int Renderer2D::PushTexture(Texture* texture) {
 
 		// check if the texture is already in use
 		// if so, return as we dont need to add it to our list of active txtures again
@@ -695,41 +695,41 @@ namespace aie {
 
 		// if we've used all the textures we can, than we need to flush to make room for another texture change
 		if (m_currentTexture >= TEXTURE_STACK_SIZE - 1)
-			flushBatch();
+			FlushBatch();
 
 		// add the texture to our active texture list
 		m_textureStack[m_currentTexture] = texture;
 
 		glActiveTexture(GL_TEXTURE0 + m_currentTexture);
-		glBindTexture(GL_TEXTURE_2D, texture->getHandle());
+		glBindTexture(GL_TEXTURE_2D, texture->GetHandle());
 		glActiveTexture(GL_TEXTURE0);
 
 		// return what the current texture was and increment
 		return m_currentTexture++;
 	}
 
-	void Renderer2D::setRenderColour(float r, float g, float b, float a) {
+	void Renderer2D::SetRenderColour(float r, float g, float b, float a) {
 		m_r = r;
 		m_g = g;
 		m_b = b;
 		m_a = a;
 	}
 
-	void Renderer2D::setRenderColour(unsigned int colour) {
+	void Renderer2D::SetRenderColour(unsigned int colour) {
 		m_r = ((colour & 0xFF000000) >> 24) / 255.0f;
 		m_g = ((colour & 0x00FF0000) >> 16) / 255.0f;
 		m_b = ((colour & 0x0000FF00) >> 8) / 255.0f;
 		m_a = ((colour & 0x000000FF) >> 0) / 255.0f;
 	}
 
-	void Renderer2D::setUVRect(float uvX, float uvY, float uvW, float uvH) {
+	void Renderer2D::SetUVRect(float uvX, float uvY, float uvW, float uvH) {
 		m_uvX = uvX;
 		m_uvY = uvY;
 		m_uvW = uvW;
 		m_uvH = uvH;
 	}
 
-	void Renderer2D::rotateAround(float inX, float inY, float& outX, float& outY, float sin, float cos) {
+	void Renderer2D::RotateAround(float inX, float inY, float& outX, float& outY, float sin, float cos) {
 		outX = inX * cos - inY * sin;
 		outY = inX * sin + inY * cos;
 	}

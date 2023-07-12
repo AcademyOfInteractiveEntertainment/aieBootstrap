@@ -9,11 +9,11 @@ public:
 	Application2D();
 	virtual ~Application2D();
 
-	virtual bool startup();
-	virtual void shutdown();
+	virtual bool Startup();
+	virtual void Shutdown();
 
-	virtual void update(float deltaTime);
-	virtual void draw();
+	virtual void Update(float deltaTime);
+	virtual void Draw();
 
 protected:
 

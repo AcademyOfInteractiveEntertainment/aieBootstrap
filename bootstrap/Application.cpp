@@ -23,7 +23,7 @@ namespace aie {
 	Application::~Application() {
 	}
 
-	bool Application::createWindow(const char* title, int width, int height, bool fullscreen) {
+	bool Application::CreateWindow(const char* title, int width, int height, bool fullscreen) {
 
 		if (glfwInit() == GL_FALSE)
 			return false;
@@ -54,17 +54,17 @@ namespace aie {
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 		// start input manager
-		Input::create();
+		Input::Create();
 
 		InitImGui();
 
 		return true;
 	}
 
-	void Application::destroyWindow() {
+	void Application::DestroyWindow() {
 
 		ShutdownImGui();
-		Input::destroy();
+		Input::Destroy();
 
 		glfwDestroyWindow(m_window);
 		glfwTerminate();
@@ -129,11 +129,11 @@ namespace aie {
 		}
 	}
 
-	void Application::run(const char* title, int width, int height, bool fullscreen) {
+	void Application::Run(const char* title, int width, int height, bool fullscreen) {
 
 		// start game loop if successfully initialised
-		if (createWindow(title, width, height, fullscreen) &&
-			startup()) {
+		if (CreateWindow(title, width, height, fullscreen) &&
+			Startup()) {
 
 			// variables for timing
 			double prevTime = glfwGetTime();
@@ -145,7 +145,7 @@ namespace aie {
 			// loop while game is running
 			while (!m_gameOver) {
 
-				// update delta time
+				// Update delta time
 				currTime = glfwGetTime();
 				deltaTime = currTime - prevTime;
 				if (deltaTime > 0.1f)
@@ -154,16 +154,16 @@ namespace aie {
 				prevTime = currTime;
 
 				// clear input
-				Input::getInstance()->clearStatus();
+				Input::GetInstance()->ClearStatus();
 
-				// update window events (input etc)
+				// Update window events (input etc)
 				glfwPollEvents();
 
 				// skip if minimised
 				if (glfwGetWindowAttrib(m_window, GLFW_ICONIFIED) != 0)
 					continue;
 
-				// update fps every second
+				// Update fps every second
 				frames++;
 				fpsInterval += deltaTime;
 				if (fpsInterval >= 1.0f) {
@@ -175,11 +175,11 @@ namespace aie {
 				// clear imgui
 				ImGuiNewFrame();
 
-				update(float(deltaTime));
+				Update(float(deltaTime));
 
-				draw();
+				Draw();
 
-				// draw IMGUI last
+				// Draw IMGUI last
 				ImGuiRender();
 
 				//present backbuffer to the monitor
@@ -191,43 +191,43 @@ namespace aie {
 		}
 
 		// cleanup
-		shutdown();
-		destroyWindow();
+		Shutdown();
+		DestroyWindow();
 	}
 
-	bool Application::hasWindowClosed() {
+	bool Application::HasWindowClosed() {
 		return glfwWindowShouldClose(m_window) == GL_TRUE;
 	}
 
-	void Application::clearScreen() {
+	void Application::ClearScreen() {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 	}
 
-	void Application::setBackgroundColour(float r, float g, float b, float a) {
+	void Application::SetBackgroundColour(float r, float g, float b, float a) {
 		glClearColor(r, g, b, a);
 	}
 
-	void Application::setVSync(bool enable) {
+	void Application::SetVSync(bool enable) {
 		glfwSwapInterval(enable ? 1 : 0);
 	}
 
-	void Application::setShowCursor(bool visible) {
+	void Application::SetShowCursor(bool visible) {
 		glfwSetInputMode(m_window, GLFW_CURSOR, visible ? GLFW_CURSOR_NORMAL : GLFW_CURSOR_HIDDEN);
 	}
 
-	unsigned int Application::getWindowWidth() const {
+	unsigned int Application::GetWindowWidth() const {
 		int w = 0, h = 0;
 		glfwGetWindowSize(m_window, &w, &h);
 		return w;
 	}
 
-	unsigned int Application::getWindowHeight() const {
+	unsigned int Application::GetWindowHeight() const {
 		int w = 0, h = 0;
 		glfwGetWindowSize(m_window, &w, &h);
 		return h;
 	}
 
-	float Application::getTime() const {
+	float Application::GetTime() const {
 		return (float)glfwGetTime();
 	}
 

@@ -157,18 +157,18 @@ Gizmos::~Gizmos() {
 	glDeleteProgram(m_shader);
 }
 
-void Gizmos::create(unsigned int maxLines, unsigned int maxTris,
+void Gizmos::Create(unsigned int maxLines, unsigned int maxTris,
 					unsigned int max2DLines, unsigned int max2DTris) {
 	if (sm_singleton == nullptr)
 		sm_singleton = new Gizmos(maxLines,maxTris,max2DLines,max2DTris);
 }
 
-void Gizmos::destroy() {
+void Gizmos::Destroy() {
 	delete sm_singleton;
 	sm_singleton = nullptr;
 }
 
-void Gizmos::clear() {
+void Gizmos::Clear() {
 	sm_singleton->m_lineCount = 0;
 	sm_singleton->m_triCount = 0;
 	sm_singleton->m_transparentTriCount = 0;
@@ -178,7 +178,7 @@ void Gizmos::clear() {
 
 // Adds 3 unit-length lines (red,green,blue) representing the 3 axis of a transform, 
 // at the transform's translation. Optional scale available.
-void Gizmos::addTransform(const glm::mat4& transform, float scale) {
+void Gizmos::AddTransform(const glm::mat4& transform, float scale) {
 
 	glm::vec4 vXAxis = transform[3] + transform[0] * scale;
 	glm::vec4 vYAxis = transform[3] + transform[1] * scale;
@@ -188,12 +188,12 @@ void Gizmos::addTransform(const glm::mat4& transform, float scale) {
 	glm::vec4 vGreen(0,1,0,1);
 	glm::vec4 vBlue(0,0,1,1);
 
-	addLine(glm::vec3(transform[3]), glm::vec3(vXAxis), vRed, vRed);
-	addLine(glm::vec3(transform[3]), glm::vec3(vYAxis), vGreen, vGreen);
-	addLine(glm::vec3(transform[3]), glm::vec3(vZAxis), vBlue, vBlue);
+	AddLine(glm::vec3(transform[3]), glm::vec3(vXAxis), vRed, vRed);
+	AddLine(glm::vec3(transform[3]), glm::vec3(vYAxis), vGreen, vGreen);
+	AddLine(glm::vec3(transform[3]), glm::vec3(vZAxis), vBlue, vBlue);
 }
 
-void Gizmos::addAABB(const glm::vec3& center, 
+void Gizmos::AddAABB(const glm::vec3& center, 
 	const glm::vec3& rvExtents, 
 	const glm::vec4& colour, 
 	const glm::mat4* transform) {
@@ -223,23 +223,23 @@ void Gizmos::addAABB(const glm::vec3& center,
 	vVerts[6] = c + vX + vZ + vY;
 	vVerts[7] = c + vX - vZ + vY;
 
-	addLine(vVerts[0], vVerts[1], colour, colour);
-	addLine(vVerts[1], vVerts[2], colour, colour);
-	addLine(vVerts[2], vVerts[3], colour, colour);
-	addLine(vVerts[3], vVerts[0], colour, colour);
+	AddLine(vVerts[0], vVerts[1], colour, colour);
+	AddLine(vVerts[1], vVerts[2], colour, colour);
+	AddLine(vVerts[2], vVerts[3], colour, colour);
+	AddLine(vVerts[3], vVerts[0], colour, colour);
 
-	addLine(vVerts[4], vVerts[5], colour, colour);
-	addLine(vVerts[5], vVerts[6], colour, colour);
-	addLine(vVerts[6], vVerts[7], colour, colour);
-	addLine(vVerts[7], vVerts[4], colour, colour);
+	AddLine(vVerts[4], vVerts[5], colour, colour);
+	AddLine(vVerts[5], vVerts[6], colour, colour);
+	AddLine(vVerts[6], vVerts[7], colour, colour);
+	AddLine(vVerts[7], vVerts[4], colour, colour);
 
-	addLine(vVerts[0], vVerts[4], colour, colour);
-	addLine(vVerts[1], vVerts[5], colour, colour);
-	addLine(vVerts[2], vVerts[6], colour, colour);
-	addLine(vVerts[3], vVerts[7], colour, colour);
+	AddLine(vVerts[0], vVerts[4], colour, colour);
+	AddLine(vVerts[1], vVerts[5], colour, colour);
+	AddLine(vVerts[2], vVerts[6], colour, colour);
+	AddLine(vVerts[3], vVerts[7], colour, colour);
 }
 
-void Gizmos::addAABBFilled(const glm::vec3& center, 
+void Gizmos::AddAABBFilled(const glm::vec3& center, 
 	const glm::vec3& rvExtents, 
 	const glm::vec4& fillColour, 
 	const glm::mat4* transform) {
@@ -271,47 +271,47 @@ void Gizmos::addAABBFilled(const glm::vec3& center,
 
 	glm::vec4 vWhite(1,1,1,1);
 
-	addLine(vVerts[0], vVerts[1], vWhite, vWhite);
-	addLine(vVerts[1], vVerts[2], vWhite, vWhite);
-	addLine(vVerts[2], vVerts[3], vWhite, vWhite);
-	addLine(vVerts[3], vVerts[0], vWhite, vWhite);
+	AddLine(vVerts[0], vVerts[1], vWhite, vWhite);
+	AddLine(vVerts[1], vVerts[2], vWhite, vWhite);
+	AddLine(vVerts[2], vVerts[3], vWhite, vWhite);
+	AddLine(vVerts[3], vVerts[0], vWhite, vWhite);
 
-	addLine(vVerts[4], vVerts[5], vWhite, vWhite);
-	addLine(vVerts[5], vVerts[6], vWhite, vWhite);
-	addLine(vVerts[6], vVerts[7], vWhite, vWhite);
-	addLine(vVerts[7], vVerts[4], vWhite, vWhite);
+	AddLine(vVerts[4], vVerts[5], vWhite, vWhite);
+	AddLine(vVerts[5], vVerts[6], vWhite, vWhite);
+	AddLine(vVerts[6], vVerts[7], vWhite, vWhite);
+	AddLine(vVerts[7], vVerts[4], vWhite, vWhite);
 
-	addLine(vVerts[0], vVerts[4], vWhite, vWhite);
-	addLine(vVerts[1], vVerts[5], vWhite, vWhite);
-	addLine(vVerts[2], vVerts[6], vWhite, vWhite);
-	addLine(vVerts[3], vVerts[7], vWhite, vWhite);
+	AddLine(vVerts[0], vVerts[4], vWhite, vWhite);
+	AddLine(vVerts[1], vVerts[5], vWhite, vWhite);
+	AddLine(vVerts[2], vVerts[6], vWhite, vWhite);
+	AddLine(vVerts[3], vVerts[7], vWhite, vWhite);
 
 	// top
-	addTri(vVerts[2], vVerts[1], vVerts[0], fillColour);
-	addTri(vVerts[3], vVerts[2], vVerts[0], fillColour);
+	AddTri(vVerts[2], vVerts[1], vVerts[0], fillColour);
+	AddTri(vVerts[3], vVerts[2], vVerts[0], fillColour);
 
 	// bottom
-	addTri(vVerts[5], vVerts[6], vVerts[4], fillColour);
-	addTri(vVerts[6], vVerts[7], vVerts[4], fillColour);
+	AddTri(vVerts[5], vVerts[6], vVerts[4], fillColour);
+	AddTri(vVerts[6], vVerts[7], vVerts[4], fillColour);
 
 	// front
-	addTri(vVerts[4], vVerts[3], vVerts[0], fillColour);
-	addTri(vVerts[7], vVerts[3], vVerts[4], fillColour);
+	AddTri(vVerts[4], vVerts[3], vVerts[0], fillColour);
+	AddTri(vVerts[7], vVerts[3], vVerts[4], fillColour);
 
 	// back
-	addTri(vVerts[1], vVerts[2], vVerts[5], fillColour);
-	addTri(vVerts[2], vVerts[6], vVerts[5], fillColour);
+	AddTri(vVerts[1], vVerts[2], vVerts[5], fillColour);
+	AddTri(vVerts[2], vVerts[6], vVerts[5], fillColour);
 
 	// left
-	addTri(vVerts[0], vVerts[1], vVerts[4], fillColour);
-	addTri(vVerts[1], vVerts[5], vVerts[4], fillColour);
+	AddTri(vVerts[0], vVerts[1], vVerts[4], fillColour);
+	AddTri(vVerts[1], vVerts[5], vVerts[4], fillColour);
 
 	// right
-	addTri(vVerts[2], vVerts[3], vVerts[7], fillColour);
-	addTri(vVerts[6], vVerts[2], vVerts[7], fillColour);
+	AddTri(vVerts[2], vVerts[3], vVerts[7], fillColour);
+	AddTri(vVerts[6], vVerts[2], vVerts[7], fillColour);
 }
 
-void Gizmos::addCylinderFilled(const glm::vec3& center, float radius, float fHalfLength,
+void Gizmos::AddCylinderFilled(const glm::vec3& center, float radius, float fHalfLength,
 	unsigned int segments, const glm::vec4& fillColour, const glm::mat4* transform) {
 
 	glm::vec4 white(1,1,1,1);
@@ -338,19 +338,19 @@ void Gizmos::addCylinderFilled(const glm::vec3& center, float radius, float fHal
 		}
 
 		// triangles
-		addTri(tempCenter + v0top, tempCenter + v1top, tempCenter + v2top, fillColour);
-		addTri(tempCenter + v0bottom, tempCenter + v2bottom, tempCenter + v1bottom, fillColour);
-		addTri(tempCenter + v2top, tempCenter + v1top, tempCenter + v1bottom, fillColour);
-		addTri(tempCenter + v1bottom, tempCenter + v2bottom, tempCenter + v2top, fillColour);
+		AddTri(tempCenter + v0top, tempCenter + v1top, tempCenter + v2top, fillColour);
+		AddTri(tempCenter + v0bottom, tempCenter + v2bottom, tempCenter + v1bottom, fillColour);
+		AddTri(tempCenter + v2top, tempCenter + v1top, tempCenter + v1bottom, fillColour);
+		AddTri(tempCenter + v1bottom, tempCenter + v2bottom, tempCenter + v2top, fillColour);
 
 		// lines
-		addLine(tempCenter + v1top, tempCenter + v2top, white, white);
-		addLine(tempCenter + v1top, tempCenter + v1bottom, white, white);
-		addLine(tempCenter + v1bottom, tempCenter + v2bottom, white, white);
+		AddLine(tempCenter + v1top, tempCenter + v2top, white, white);
+		AddLine(tempCenter + v1top, tempCenter + v1bottom, white, white);
+		AddLine(tempCenter + v1bottom, tempCenter + v2bottom, white, white);
 	}
 }
 
-void Gizmos::addRing(const glm::vec3& center, float innerRadius, float outerRadius,
+void Gizmos::AddRing(const glm::vec3& center, float innerRadius, float outerRadius,
 	unsigned int segments, const glm::vec4& fillColour, const glm::mat4* transform) {
 
 	glm::vec4 vSolid = fillColour;
@@ -374,21 +374,21 @@ void Gizmos::addRing(const glm::vec3& center, float innerRadius, float outerRadi
 		}
 
 		if (fillColour.w != 0) {
-			addTri(tempCenter + v2outer, tempCenter + v1outer, tempCenter + v1inner, fillColour);
-			addTri(tempCenter + v1inner, tempCenter + v2inner, tempCenter + v2outer, fillColour);
+			AddTri(tempCenter + v2outer, tempCenter + v1outer, tempCenter + v1inner, fillColour);
+			AddTri(tempCenter + v1inner, tempCenter + v2inner, tempCenter + v2outer, fillColour);
 
-			addTri(tempCenter + v1inner, tempCenter + v1outer, tempCenter + v2outer, fillColour);
-			addTri(tempCenter + v2outer, tempCenter + v2inner, tempCenter + v1inner, fillColour);
+			AddTri(tempCenter + v1inner, tempCenter + v1outer, tempCenter + v2outer, fillColour);
+			AddTri(tempCenter + v2outer, tempCenter + v2inner, tempCenter + v1inner, fillColour);
 		}
 		else {
 			// line
-			addLine(tempCenter + v1inner, tempCenter + v2inner, vSolid, vSolid);
-			addLine(tempCenter + v1outer, tempCenter + v2outer, vSolid, vSolid);
+			AddLine(tempCenter + v1inner, tempCenter + v2inner, vSolid, vSolid);
+			AddLine(tempCenter + v1outer, tempCenter + v2outer, vSolid, vSolid);
 		}
 	}
 }
 
-void Gizmos::addDisk(const glm::vec3& center, float radius,
+void Gizmos::AddDisk(const glm::vec3& center, float radius,
 	unsigned int segments, const glm::vec4& fillColour, const glm::mat4* transform) {
 
 	glm::vec4 vSolid = fillColour;
@@ -408,17 +408,17 @@ void Gizmos::addDisk(const glm::vec3& center, float radius,
 		}
 
 		if (fillColour.w != 0) {
-			addTri(tempCenter, tempCenter + v1outer, tempCenter + v2outer, fillColour);
-			addTri(tempCenter + v2outer, tempCenter + v1outer, tempCenter, fillColour);
+			AddTri(tempCenter, tempCenter + v1outer, tempCenter + v2outer, fillColour);
+			AddTri(tempCenter + v2outer, tempCenter + v1outer, tempCenter, fillColour);
 		}
 		else {
 			// line
-			addLine(tempCenter + v1outer, tempCenter + v2outer, vSolid, vSolid);
+			AddLine(tempCenter + v1outer, tempCenter + v2outer, vSolid, vSolid);
 		}
 	}
 }
 
-void Gizmos::addArc(const glm::vec3& center, float rotation,
+void Gizmos::AddArc(const glm::vec3& center, float rotation,
 	float radius, float arcHalfAngle,
 	unsigned int segments, const glm::vec4& fillColour, const glm::mat4* transform) {
 
@@ -439,12 +439,12 @@ void Gizmos::addArc(const glm::vec3& center, float rotation,
 		}
 
 		if (fillColour.w != 0) {
-			addTri(tempCenter, tempCenter + v1outer, tempCenter + v2outer, fillColour);
-			addTri(tempCenter + v2outer, tempCenter + v1outer, tempCenter, fillColour);
+			AddTri(tempCenter, tempCenter + v1outer, tempCenter + v2outer, fillColour);
+			AddTri(tempCenter + v2outer, tempCenter + v1outer, tempCenter, fillColour);
 		}
 		else {
 			// line
-			addLine(tempCenter + v1outer, tempCenter + v2outer, vSolid, vSolid);
+			AddLine(tempCenter + v1outer, tempCenter + v2outer, vSolid, vSolid);
 		}
 	}
 
@@ -458,12 +458,12 @@ void Gizmos::addArc(const glm::vec3& center, float rotation,
 			v2outer = glm::vec3((*transform * glm::vec4(v2outer, 0)));
 		}
 
-		addLine(tempCenter, tempCenter + v1outer, vSolid, vSolid);
-		addLine(tempCenter, tempCenter + v2outer, vSolid, vSolid);
+		AddLine(tempCenter, tempCenter + v1outer, vSolid, vSolid);
+		AddLine(tempCenter, tempCenter + v2outer, vSolid, vSolid);
 	}
 }
 
-void Gizmos::addArcRing(const glm::vec3& center, float rotation, 
+void Gizmos::AddArcRing(const glm::vec3& center, float rotation, 
 	float innerRadius, float outerRadius, float arcHalfAngle,
 	unsigned int segments, const glm::vec4& fillColour, const glm::mat4* transform) {
 
@@ -488,16 +488,16 @@ void Gizmos::addArcRing(const glm::vec3& center, float rotation,
 		}
 
 		if (fillColour.w != 0) {
-			addTri(tempCenter + v2outer, tempCenter + v1outer, tempCenter + v1inner, fillColour);
-			addTri(tempCenter + v1inner, tempCenter + v2inner, tempCenter + v2outer, fillColour);
+			AddTri(tempCenter + v2outer, tempCenter + v1outer, tempCenter + v1inner, fillColour);
+			AddTri(tempCenter + v1inner, tempCenter + v2inner, tempCenter + v2outer, fillColour);
 
-			addTri(tempCenter + v1inner, tempCenter + v1outer, tempCenter + v2outer, fillColour);
-			addTri(tempCenter + v2outer, tempCenter + v2inner, tempCenter + v1inner, fillColour);
+			AddTri(tempCenter + v1inner, tempCenter + v1outer, tempCenter + v2outer, fillColour);
+			AddTri(tempCenter + v2outer, tempCenter + v2inner, tempCenter + v1inner, fillColour);
 		}
 		else {
 			// line
-			addLine(tempCenter + v1inner, tempCenter + v2inner, vSolid, vSolid);
-			addLine(tempCenter + v1outer, tempCenter + v2outer, vSolid, vSolid);
+			AddLine(tempCenter + v1inner, tempCenter + v2inner, vSolid, vSolid);
+			AddLine(tempCenter + v1outer, tempCenter + v2outer, vSolid, vSolid);
 		}
 	}
 
@@ -515,12 +515,12 @@ void Gizmos::addArcRing(const glm::vec3& center, float rotation,
 			v2inner = glm::vec3((*transform * glm::vec4(v2inner, 0)));
 		}
 
-		addLine(tempCenter + v1inner, tempCenter + v1outer, vSolid, vSolid);
-		addLine(tempCenter + v2inner, tempCenter + v2outer, vSolid, vSolid);
+		AddLine(tempCenter + v1inner, tempCenter + v1outer, vSolid, vSolid);
+		AddLine(tempCenter + v2inner, tempCenter + v2outer, vSolid, vSolid);
 	}
 }
 
-void Gizmos::addSphere(const glm::vec3& center, float radius, int rows, int columns, const glm::vec4& fillColour, 
+void Gizmos::AddSphere(const glm::vec3& center, float radius, int rows, int columns, const glm::vec4& fillColour, 
 								const glm::mat4* transform, float longMin, float longMax, 
 								float latMin, float latMax) {
 
@@ -570,20 +570,20 @@ void Gizmos::addSphere(const glm::vec3& center, float radius, int rows, int colu
 		if( iNextFace % columns == 0 )
 			iNextFace = iNextFace - (columns);
 
-		addLine(tempCenter + v4Array[face], tempCenter + v4Array[face+columns], glm::vec4(1.f,1.f,1.f,1.f), glm::vec4(1.f,1.f,1.f,1.f));
+		AddLine(tempCenter + v4Array[face], tempCenter + v4Array[face+columns], glm::vec4(1.f,1.f,1.f,1.f), glm::vec4(1.f,1.f,1.f,1.f));
 		
 		if( face % columns == 0 && longitudinalRange < (glm::pi<float>() * 2))
 			continue;
-		addLine(tempCenter + v4Array[iNextFace+columns], tempCenter + v4Array[face+columns], glm::vec4(1.f,1.f,1.f,1.f), glm::vec4(1.f,1.f,1.f,1.f));
+		AddLine(tempCenter + v4Array[iNextFace+columns], tempCenter + v4Array[face+columns], glm::vec4(1.f,1.f,1.f,1.f), glm::vec4(1.f,1.f,1.f,1.f));
 
-		addTri(tempCenter + v4Array[iNextFace+columns], tempCenter + v4Array[face], tempCenter + v4Array[iNextFace], fillColour);
-		addTri(tempCenter + v4Array[iNextFace+columns], tempCenter + v4Array[face+columns], tempCenter + v4Array[face], fillColour);
+		AddTri(tempCenter + v4Array[iNextFace+columns], tempCenter + v4Array[face], tempCenter + v4Array[iNextFace], fillColour);
+		AddTri(tempCenter + v4Array[iNextFace+columns], tempCenter + v4Array[face+columns], tempCenter + v4Array[face], fillColour);
 	}
 
 	delete[] v4Array;	
 }
 
-void Gizmos::addCapsule(const glm::vec3& center, float height, float radius,
+void Gizmos::AddCapsule(const glm::vec3& center, float height, float radius,
 						int rows, int cols, const glm::vec4& fillColour, const glm::mat4* rotation) {
 
 	float sphereCenters = (height * 0.5f) - radius;
@@ -649,14 +649,14 @@ void Gizmos::addCapsule(const glm::vec3& center, float height, float radius,
 		if (face < (rows / 2)*cols)
 			tempCenter = bottomCenter;
 
-		addLine(tempCenter + v4Array[face], tempCenter + v4Array[face + cols], white, white);
+		AddLine(tempCenter + v4Array[face], tempCenter + v4Array[face + cols], white, white);
 
 		if (face % cols == 0 && longitudinalRange < (glm::pi<float>() * 2))
 			continue;
 
-		addLine(tempCenter + v4Array[iNextFace + cols], tempCenter + v4Array[face + cols], white, white);
-		addTri(tempCenter + v4Array[iNextFace + cols], tempCenter + v4Array[face], tempCenter + v4Array[iNextFace], fillColour);
-		addTri(tempCenter + v4Array[iNextFace + cols], tempCenter + v4Array[face + cols], tempCenter + v4Array[face], fillColour);
+		AddLine(tempCenter + v4Array[iNextFace + cols], tempCenter + v4Array[face + cols], white, white);
+		AddTri(tempCenter + v4Array[iNextFace + cols], tempCenter + v4Array[face], tempCenter + v4Array[iNextFace], fillColour);
+		AddTri(tempCenter + v4Array[iNextFace + cols], tempCenter + v4Array[face + cols], tempCenter + v4Array[face], fillColour);
 	}
 
 	delete[] v4Array;
@@ -675,16 +675,16 @@ void Gizmos::addCapsule(const glm::vec3& center, float height, float radius,
 			pos1 = glm::vec3((*rotation) * glm::vec4(pos1,0));
 		}
 
-		addTri(topCenter + pos1, bottomCenter + pos1, bottomCenter + pos, fillColour);
-		addTri(topCenter + pos1, bottomCenter + pos, topCenter + pos, fillColour);
+		AddTri(topCenter + pos1, bottomCenter + pos1, bottomCenter + pos, fillColour);
+		AddTri(topCenter + pos1, bottomCenter + pos, topCenter + pos, fillColour);
 
-		addLine(topCenter + pos, topCenter + pos1, white, white);
-		addLine(bottomCenter + pos, bottomCenter + pos1, white, white);
-		addLine(topCenter + pos, bottomCenter + pos, white, white);
+		AddLine(topCenter + pos, topCenter + pos1, white, white);
+		AddLine(bottomCenter + pos, bottomCenter + pos1, white, white);
+		AddLine(topCenter + pos, bottomCenter + pos, white, white);
 	}
 }
 
-void Gizmos::addHermiteSpline(const glm::vec3& start, const glm::vec3& end,
+void Gizmos::AddHermiteSpline(const glm::vec3& start, const glm::vec3& end,
 	const glm::vec3& tangentStart, const glm::vec3& tangentEnd, unsigned int segments, const glm::vec4& colour) {
 
 	segments = segments > 1 ? segments : 1;
@@ -702,16 +702,16 @@ void Gizmos::addHermiteSpline(const glm::vec3& start, const glm::vec3& end,
 		float h4 = s3 - s2;
 		glm::vec3 p = (start * h1) + (end * h2) + (tangentStart * h3) + (tangentEnd * h4);
 
-		addLine(prev,p,colour,colour);
+		AddLine(prev,p,colour,colour);
 		prev = p;
 	}
 }
 
-void Gizmos::addLine(const glm::vec3& v0,  const glm::vec3& v1, const glm::vec4& colour) {
-	addLine(v0,v1,colour,colour);
+void Gizmos::AddLine(const glm::vec3& v0,  const glm::vec3& v1, const glm::vec4& colour) {
+	AddLine(v0,v1,colour,colour);
 }
 
-void Gizmos::addLine(const glm::vec3& v0, const glm::vec3& v1, const glm::vec4& colour0, const glm::vec4& colour1) {
+void Gizmos::AddLine(const glm::vec3& v0, const glm::vec3& v1, const glm::vec4& colour0, const glm::vec4& colour1) {
 
 	if (sm_singleton != nullptr &&
 		sm_singleton->m_lineCount < sm_singleton->m_maxLines) {
@@ -737,7 +737,7 @@ void Gizmos::addLine(const glm::vec3& v0, const glm::vec3& v1, const glm::vec4& 
 	}
 }
 
-void Gizmos::addTri(const glm::vec3& v0, const glm::vec3& v1, const glm::vec3& v2, const glm::vec4& colour) {
+void Gizmos::AddTri(const glm::vec3& v0, const glm::vec3& v1, const glm::vec3& v2, const glm::vec4& colour) {
 	if (sm_singleton != nullptr) {
 		if (colour.w == 1) {
 			if (sm_singleton->m_triCount < sm_singleton->m_maxTris) {
@@ -804,7 +804,7 @@ void Gizmos::addTri(const glm::vec3& v0, const glm::vec3& v1, const glm::vec3& v
 	}
 }
 
-void Gizmos::add2DAABB(const glm::vec2& center, const glm::vec2& extents, const glm::vec4& colour, const glm::mat4* transform /*= nullptr*/) {	
+void Gizmos::Add2DAABB(const glm::vec2& center, const glm::vec2& extents, const glm::vec4& colour, const glm::mat4* transform /*= nullptr*/) {	
 	glm::vec2 verts[4];
 	glm::vec2 vX(extents.x, 0);
 	glm::vec2 vY(0, extents.y);
@@ -819,13 +819,13 @@ void Gizmos::add2DAABB(const glm::vec2& center, const glm::vec2& extents, const 
 	verts[2] = center - vX + vY;
 	verts[3] = center + vX + vY;
 
-	add2DLine(verts[0], verts[1], colour, colour);
-	add2DLine(verts[1], verts[3], colour, colour);
-	add2DLine(verts[2], verts[3], colour, colour);
-	add2DLine(verts[2], verts[0], colour, colour);
+	Add2DLine(verts[0], verts[1], colour, colour);
+	Add2DLine(verts[1], verts[3], colour, colour);
+	Add2DLine(verts[2], verts[3], colour, colour);
+	Add2DLine(verts[2], verts[0], colour, colour);
 }
 
-void Gizmos::add2DAABBFilled(const glm::vec2& center, const glm::vec2& extents, const glm::vec4& colour, const glm::mat4* transform /*= nullptr*/) {	
+void Gizmos::Add2DAABBFilled(const glm::vec2& center, const glm::vec2& extents, const glm::vec4& colour, const glm::mat4* transform /*= nullptr*/) {	
 	glm::vec2 verts[4];
 	glm::vec2 vX(extents.x, 0);
 	glm::vec2 vY(0, extents.y);
@@ -840,11 +840,11 @@ void Gizmos::add2DAABBFilled(const glm::vec2& center, const glm::vec2& extents, 
 	verts[2] = center + vX + vY;
 	verts[3] = center - vX + vY;
 	
-	add2DTri(verts[0], verts[1], verts[2], colour);
-	add2DTri(verts[0], verts[2], verts[3], colour);
+	Add2DTri(verts[0], verts[1], verts[2], colour);
+	Add2DTri(verts[0], verts[2], verts[3], colour);
 }
 
-void Gizmos::add2DCircle(const glm::vec2& center, float radius, unsigned int segments, const glm::vec4& colour, const glm::mat4* transform /*= nullptr*/) {
+void Gizmos::Add2DCircle(const glm::vec2& center, float radius, unsigned int segments, const glm::vec4& colour, const glm::mat4* transform /*= nullptr*/) {
 	glm::vec4 solidColour = colour;
 	solidColour.w = 1;
 
@@ -860,21 +860,21 @@ void Gizmos::add2DCircle(const glm::vec2& center, float radius, unsigned int seg
 		}
 
 		if (colour.w != 0) {
-			add2DTri(center, center + v1outer, center + v2outer, colour);
-			add2DTri(center + v2outer, center + v1outer, center, colour);
+			Add2DTri(center, center + v1outer, center + v2outer, colour);
+			Add2DTri(center + v2outer, center + v1outer, center, colour);
 		}
 		else {
 			// line
-			add2DLine(center + v1outer, center + v2outer, solidColour, solidColour);
+			Add2DLine(center + v1outer, center + v2outer, solidColour, solidColour);
 		}
 	}
 }
 
-void Gizmos::add2DLine(const glm::vec2& rv0,  const glm::vec2& rv1, const glm::vec4& colour) {
-	add2DLine(rv0,rv1,colour,colour);
+void Gizmos::Add2DLine(const glm::vec2& rv0,  const glm::vec2& rv1, const glm::vec4& colour) {
+	Add2DLine(rv0,rv1,colour,colour);
 }
 
-void Gizmos::add2DLine(const glm::vec2& rv0, const glm::vec2& rv1, const glm::vec4& colour0, const glm::vec4& colour1) {
+void Gizmos::Add2DLine(const glm::vec2& rv0, const glm::vec2& rv1, const glm::vec4& colour0, const glm::vec4& colour1) {
 	if (sm_singleton != nullptr &&
 		sm_singleton->m_2DlineCount < sm_singleton->m_max2DLines) {
 		sm_singleton->m_2Dlines[sm_singleton->m_2DlineCount].v0.x = rv0.x;
@@ -898,11 +898,11 @@ void Gizmos::add2DLine(const glm::vec2& rv0, const glm::vec2& rv1, const glm::ve
 	}
 }
 
-void Gizmos::add2DTri(const glm::vec2& rv0, const glm::vec2& rv1, const glm::vec2& rv2, const glm::vec4& colour) {
-	add2DTri(rv0, rv1, rv2, colour, colour, colour);
+void Gizmos::Add2DTri(const glm::vec2& rv0, const glm::vec2& rv1, const glm::vec2& rv2, const glm::vec4& colour) {
+	Add2DTri(rv0, rv1, rv2, colour, colour, colour);
 }
 
-void Gizmos::add2DTri(const glm::vec2& rv0, const glm::vec2& rv1, const glm::vec2& rv2, const glm::vec4& colour0, const glm::vec4& colour1, const glm::vec4& colour2) {
+void Gizmos::Add2DTri(const glm::vec2& rv0, const glm::vec2& rv1, const glm::vec2& rv2, const glm::vec4& colour0, const glm::vec4& colour1, const glm::vec4& colour2) {
 	if (sm_singleton != nullptr) {
 		if (sm_singleton->m_2DtriCount < sm_singleton->m_max2DTris) {
 			sm_singleton->m_2Dtris[sm_singleton->m_2DtriCount].v0.x = rv0.x;
@@ -935,11 +935,11 @@ void Gizmos::add2DTri(const glm::vec2& rv0, const glm::vec2& rv1, const glm::vec
 	}
 }
 
-void Gizmos::draw(const glm::mat4& projection, const glm::mat4& view) {
-	draw(projection * view);
+void Gizmos::Draw(const glm::mat4& projection, const glm::mat4& view) {
+	Draw(projection * view);
 }
 
-void Gizmos::draw(const glm::mat4& projectionView) {
+void Gizmos::Draw(const glm::mat4& projectionView) {
 	if ( sm_singleton != nullptr && 
 		(sm_singleton->m_lineCount > 0 || 
 		 sm_singleton->m_triCount > 0 || 
@@ -1001,11 +1001,11 @@ void Gizmos::draw(const glm::mat4& projectionView) {
 	}
 }
 
-void Gizmos::draw2D(float screenWidth, float screenHeight) {
-	draw2D(glm::ortho(0.f, screenWidth, 0.f, screenHeight));
+void Gizmos::Draw2D(float screenWidth, float screenHeight) {
+	Draw2D(glm::ortho(0.f, screenWidth, 0.f, screenHeight));
 }
 
-void Gizmos::draw2D(const glm::mat4& projection) {
+void Gizmos::Draw2D(const glm::mat4& projection) {
 	if ( sm_singleton != nullptr && 
 		(sm_singleton->m_2DlineCount > 0 || 
 		 sm_singleton->m_2DtriCount > 0)) {

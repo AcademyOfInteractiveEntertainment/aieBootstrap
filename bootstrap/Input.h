@@ -147,40 +147,40 @@ namespace aie {
 	public:
 
 		// returns access to the singleton instance
-		static Input* getInstance() { return m_instance; }
+		static Input* GetInstance() { return m_instance; }
 
 		// query the keyboard state
-		DLL bool isKeyDown(int inputKeyID);
-		DLL bool isKeyUp(int inputKeyID);
+		DLL bool IsKeyDown(int inputKeyID);
+		DLL bool IsKeyUp(int inputKeyID);
 
 		// returns true if the key was pressed / released this frame
-		DLL bool wasKeyPressed(int inputKeyID);
-		DLL bool wasKeyReleased(int inputKeyID);
+		DLL bool WasKeyPressed(int inputKeyID);
+		DLL bool WasKeyReleased(int inputKeyID);
 
 		// returns access to all keys that are currently pressed
-		DLL const vector<int>& getPressedKeys() const;
-		DLL const vector<unsigned int>& getPressedCharacters() const;
+		DLL const vector<int>& GetPressedKeys() const;
+		DLL const vector<unsigned int>& GetPressedCharacters() const;
 
 		// query the mouse button state
-		DLL bool isMouseButtonDown(int inputMouseID);
-		DLL bool isMouseButtonUp(int inputMouseID);
+		DLL bool IsMouseButtonDown(int inputMouseID);
+		DLL bool IsMouseButtonUp(int inputMouseID);
 
 		// returns true if the button was pressed / released this frame
-		DLL bool wasMouseButtonPressed(int inputMouseID);
-		DLL bool wasMouseButtonReleased(int inputMouseID);
+		DLL bool WasMouseButtonPressed(int inputMouseID);
+		DLL bool WasMouseButtonReleased(int inputMouseID);
 
 		// query the mouse position
-		DLL int getMouseX();
-		DLL int getMouseY();
-		DLL void getMouseXY(int* x, int* y);
+		DLL int GetMouseX();
+		DLL int GetMouseY();
+		DLL void GetMouseXY(int* x, int* y);
 
 		// query mouse movement
-		DLL int getMouseDeltaX();
-		DLL int getMouseDeltaY();
-		DLL void getMouseDelta(int* x, int* y);
+		DLL int GetMouseDeltaX();
+		DLL int GetMouseDeltaY();
+		DLL void GetMouseDelta(int* x, int* y);
 
 		// query how far the mouse wheel has been moved 
-		DLL double getMouseScroll();
+		DLL double GetMouseScroll();
 
 		// delgates for attaching input observers to the Input class
 		typedef function<void(GLFWwindow* window, int key, int scancode, int action, int mods)> KeyCallback;
@@ -190,11 +190,11 @@ namespace aie {
 		typedef function<void(GLFWwindow* window, double x, double y)> MouseMoveCallback;
 
 		// functions for attatching input observers
-		DLL void attachKeyObserver(const KeyCallback& callback) { m_keyCallbacks.push_back(callback); }
-		DLL void attachCharObserver(const CharCallback& callback) { m_charCallbacks.push_back(callback); }
-		DLL void attachMouseButtonObserver(const MouseButtonCallback& callback) { m_mouseButtonCallbacks.push_back(callback); }
-		DLL void attachMouseMoveObserver(const MouseMoveCallback& callback) { m_mouseMoveCallbacks.push_back(callback); }
-		DLL void attachMouseScrollObserver(const MouseScrollCallback& callback) { m_mouseScrollCallbacks.push_back(callback); }
+		DLL void AttachKeyObserver(const KeyCallback& callback) { m_keyCallbacks.push_back(callback); }
+		DLL void AttachCharObserver(const CharCallback& callback) { m_charCallbacks.push_back(callback); }
+		DLL void AttachMouseButtonObserver(const MouseButtonCallback& callback) { m_mouseButtonCallbacks.push_back(callback); }
+		DLL void AttachMouseMoveObserver(const MouseMoveCallback& callback) { m_mouseMoveCallbacks.push_back(callback); }
+		DLL void AttachMouseScrollObserver(const MouseScrollCallback& callback) { m_mouseScrollCallbacks.push_back(callback); }
 
 	protected:
 
@@ -205,12 +205,12 @@ namespace aie {
 		DLL static Input* m_instance;
 
 		// only want the Application class to be able to create / destroy
-		static void create() { m_instance = new Input(); }
-		static void destroy() { delete m_instance; }
+		static void Create() { m_instance = new Input(); }
+		static void Destroy() { delete m_instance; }
 
 		// should be called once by the application each frame after the current update
 		// or before glfwPollEvents
-		DLL void clearStatus();
+		DLL void ClearStatus();
 
 	private:
 
@@ -229,7 +229,7 @@ namespace aie {
 
 		bool	m_firstMouseMove;	// flag for first mouse input after start or mouse entering window
 
-		DLL void onMouseMove(int newXPos, int newYPos);
+		DLL void OnMouseMove(int newXPos, int newYPos);
 
 		vector<KeyCallback>			m_keyCallbacks;
 		vector<CharCallback>		m_charCallbacks;

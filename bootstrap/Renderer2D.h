@@ -15,45 +15,45 @@ namespace aie {
 		DLL virtual ~Renderer2D();
 
 		// all draw calls must occur between a begin / end pair
-		DLL virtual void begin();
-		DLL virtual void end();
+		DLL virtual void Begin();
+		DLL virtual void End();
 
 		// simple shape rendering
-		DLL virtual void drawBox(float xPos, float yPos, float width, float height, float rotation = 0.0f, float depth = 0.0f);
-		DLL virtual void drawCircle(float xPos, float yPos, float radius, float depth = 0.0f);
+		DLL virtual void DrawBox(float xPos, float yPos, float width, float height, float rotation = 0.0f, float depth = 0.0f);
+		DLL virtual void DrawCircle(float xPos, float yPos, float radius, float depth = 0.0f);
 
 		// if texture is nullptr then it renders a coloured sprite
 		// depth is in the range [0,100] with lower being closer to the viewer
-		DLL virtual void drawSprite(Texture* texture, float xPos, float yPos, float width = 0.0f, float height = 0.0f, float rotation = 0.0f, float depth = 0.0f, float xOrigin = 0.5f, float yOrigin = 0.5f);
-		DLL virtual void drawSpriteTransformed3x3(Texture* texture, float* transformMat3x3, float width = 0.0f, float height = 0.0f, float depth = 0.0f, float xOrigin = 0.5f, float yOrigin = 0.5f);
-		DLL virtual void drawSpriteTransformed4x4(Texture* texture, float* transformMat4x4, float width = 0.0f, float height = 0.0f, float depth = 0.0f, float xOrigin = 0.5f, float yOrigin = 0.5f);
+		DLL virtual void DrawSprite(Texture* texture, float xPos, float yPos, float width = 0.0f, float height = 0.0f, float rotation = 0.0f, float depth = 0.0f, float xOrigin = 0.5f, float yOrigin = 0.5f);
+		DLL virtual void DrawSpriteTransformed3x3(Texture* texture, float* transformMat3x3, float width = 0.0f, float height = 0.0f, float depth = 0.0f, float xOrigin = 0.5f, float yOrigin = 0.5f);
+		DLL virtual void DrawSpriteTransformed4x4(Texture* texture, float* transformMat4x4, float width = 0.0f, float height = 0.0f, float depth = 0.0f, float xOrigin = 0.5f, float yOrigin = 0.5f);
 
 		// draws a simple coloured line with a given thickness
 		// depth is in the range [0,100] with lower being closer to the viewer
-		DLL virtual void drawLine(float x1, float y1, float x2, float y2, float thickness = 1.0f, float depth = 0.0f);
+		DLL virtual void DrawLine(float x1, float y1, float x2, float y2, float thickness = 1.0f, float depth = 0.0f);
 
 		// draws simple text on the screen horizontally
 		// depth is in the range [0,100] with lower being closer to the viewer
-		DLL virtual void drawText(Font* font, const char* text, float xPos, float yPos, float depth = 0.0f);
+		DLL virtual void DrawText(Font* font, const char* text, float xPos, float yPos, float depth = 0.0f);
 
 		// sets the tint colour for all subsequent draw calls
-		DLL void setRenderColour(float r, float g, float b, float a = 1.0f);
-		DLL void setRenderColour(unsigned int colour);
+		DLL void SetRenderColour(float r, float g, float b, float a = 1.0f);
+		DLL void SetRenderColour(unsigned int colour);
 
 		// can be used to set the texture coordinates of sprites using textures
 		// for all subsequent drawSprite calls
-		DLL void setUVRect(float uvX, float uvY, float uvW, float uvH);
+		DLL void SetUVRect(float uvX, float uvY, float uvW, float uvH);
 
 		// specify the camera position
-		void setCameraPos(float x, float y) { m_cameraX = x; m_cameraY = y; }
-		void getCameraPos(float& x, float& y) const { x = m_cameraX; y = m_cameraY; }
+		void SetCameraPos(float x, float y) { m_cameraX = x; m_cameraY = y; }
+		void GetCameraPos(float& x, float& y) const { x = m_cameraX; y = m_cameraY; }
 
 	protected:
 
 		// helper methods used during drawing
-		DLL bool shouldFlush(int additionalVertices = 0, int additionalIndices = 0);
-		DLL void flushBatch();
-		DLL unsigned int pushTexture(Texture* texture);
+		DLL bool ShouldFlush(int additionalVertices = 0, int additionalIndices = 0);
+		DLL void FlushBatch();
+		DLL unsigned int PushTexture(Texture* texture);
 
 		// indicates in the middle of a begin/end pair
 		bool				m_renderBegun;
@@ -92,7 +92,7 @@ namespace aie {
 		unsigned int		m_shader;
 
 		// helper method used to rotate sprites around a pivot
-		DLL void	rotateAround(float inX, float inY, float& outX, float& outY, float sin, float cos);
+		DLL void	RotateAround(float inX, float inY, float& outX, float& outY, float sin, float cos);
 
 		// data used for a virtual camera
 		float	m_projectionMatrix[16];

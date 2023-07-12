@@ -15,17 +15,17 @@ namespace aie {
 		DLL ~Font();
 
 		// returns the OpenGL texture handle
-		unsigned int	getTextureHandle() const { return m_glHandle; }
+		unsigned int	GetTextureHandle() const { return m_glHandle; }
 
 		// returns size of string using this font
-		DLL float getStringWidth(const char* str);
+		DLL float GetStringWidth(const char* str);
 
 		// height includes characters that go below starting height
-		DLL float getStringHeight(const char* str);
-		DLL void getStringSize(const char* str, float& width, float& height);
+		DLL float GetStringHeight(const char* str);
+		DLL void GetStringSize(const char* str, float& width, float& height);
 
 		// returns a rectangle that fits the string, with x0y0 being bottom left, x1y1 top right
-		DLL void getStringRectangle(const char* str, float& x0, float& y0, float& x1, float& y1);
+		DLL void GetStringRectangle(const char* str, float& x0, float& y0, float& x1, float& y1);
 
 	private:
 
