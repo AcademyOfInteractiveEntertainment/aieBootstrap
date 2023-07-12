@@ -1,9 +1,9 @@
-#include "gl_core_4_4.h"
+#include "glew/glew.h"
 #include "Font.h"
 #include <stdio.h>
 
 #define STB_TRUETYPE_IMPLEMENTATION
-#include <stb_truetype.h>
+#include <stb/stb_truetype.h>
 
 namespace aie {
 
