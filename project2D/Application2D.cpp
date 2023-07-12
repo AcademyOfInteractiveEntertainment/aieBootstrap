@@ -1,7 +1,7 @@
 #include "Application2D.h"
-#include "Texture.h"
-#include "Font.h"
-#include "Input.h"
+#include "aie\bootstrap\Texture.h"
+#include "aie\bootstrap\Font.h"
+#include "aie\bootstrap\Input.h"
 
 Application2D::Application2D() {
 

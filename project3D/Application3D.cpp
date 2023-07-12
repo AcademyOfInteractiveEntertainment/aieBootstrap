@@ -1,6 +1,6 @@
 #include "Application3D.h"
-#include "Gizmos.h"
-#include "Input.h"
+#include "aie/bootstrap/Gizmos.h"
+#include "aie/bootstrap/Input.h"
 #include <glm/glm.hpp>
 #include <glm/ext.hpp>
 

@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Application.h"
-#include "Renderer2D.h"
+#include "aie\bootstrap\Application.h"
+#include "aie\bootstrap\Renderer2D.h"
 
 class Application2D : public aie::Application {
 public:

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Application.h"
+#include "aie/bootstrap/Application.h"
 #include <glm/mat4x4.hpp>
 
 class Application3D : public aie::Application {

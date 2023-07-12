@@ -1,4 +1,4 @@
-#include "Application.h"
+#include "aie/bootstrap/Application.h"
 
 #include <glew/glew.h>
 #include <glfw/glfw3.h>
@@ -7,7 +7,7 @@
 
 #include <iostream>
 
-#include "Input.h"
+#include "aie/bootstrap/Input.h"
 
 #include "imgui/imgui_impl_glfw.h"
 #include "imgui/imgui_impl_opengl3.h"

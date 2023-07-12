@@ -65,50 +65,50 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Application.h">
+    <ClInclude Include="..\dependencies\include\aie\bootstrap\Application.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Font.h">
+    <ClInclude Include="..\dependencies\include\aie\bootstrap\Bootstrap.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Texture.h">
+    <ClInclude Include="..\dependencies\include\aie\bootstrap\Font.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Renderer2D.h">
+    <ClInclude Include="..\dependencies\include\aie\bootstrap\Gizmos.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Input.h">
+    <ClInclude Include="..\dependencies\include\aie\bootstrap\Input.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Gizmos.h">
+    <ClInclude Include="..\dependencies\include\aie\bootstrap\Renderer2D.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="imgui\imgui.h">
-      <Filter>Imgui\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="imgui\imgui_impl_glfw.h">
-      <Filter>Imgui\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="imgui\imgui_impl_opengl3.h">
-      <Filter>Imgui\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="imgui\imgui_impl_opengl3_loader.h">
-      <Filter>Imgui\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="imgui\imgui_internal.h">
-      <Filter>Imgui\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="imgui\imstb_rectpack.h">
-      <Filter>Imgui\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="imgui\imstb_textedit.h">
-      <Filter>Imgui\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="imgui\imstb_truetype.h">
-      <Filter>Imgui\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Bootstrap.h">
+    <ClInclude Include="..\dependencies\include\aie\bootstrap\Texture.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dependencies\include\imgui\imgui.h">
+      <Filter>Imgui\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dependencies\include\imgui\imgui_impl_glfw.h">
+      <Filter>Imgui\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dependencies\include\imgui\imgui_impl_opengl3.h">
+      <Filter>Imgui\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dependencies\include\imgui\imgui_impl_opengl3_loader.h">
+      <Filter>Imgui\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dependencies\include\imgui\imgui_internal.h">
+      <Filter>Imgui\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dependencies\include\imgui\imstb_rectpack.h">
+      <Filter>Imgui\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dependencies\include\imgui\imstb_textedit.h">
+      <Filter>Imgui\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dependencies\include\imgui\imstb_truetype.h">
+      <Filter>Imgui\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

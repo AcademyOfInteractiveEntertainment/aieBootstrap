@@ -110,11 +110,11 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>bootstrap.lib;glew32.lib;assimp-vc143-mt.lib;glfw3dll.lib;winmm.lib;kernel32.lib;opengl32.lib;gdi32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)temp\Bootstrap\$(Platform)\$(Configuration)\;$(SolutionDir)Dependencies\lib\glew\;$(SolutionDir)Dependencies\lib\glfw\;$(SolutionDir)Dependencies\lib\assimp\%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\lib\aie\bootstrap\;$(SolutionDir)Dependencies\lib\glew\;$(SolutionDir)Dependencies\lib\glfw\;$(SolutionDir)Dependencies\lib\assimp\%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PreBuildEvent>
       <Command>copy /Y "$(SolutionDir)Dependencies\lib\glfw\glfw3.dll" "$(OutDir)glfw3.dll"
-copy /Y  "$(SolutionDir)temp\Bootstrap\$(Platform)\$(Configuration)\Bootstrap.dll" "$(OutDir)Bootstrap.dll"
+copy /Y  "$(SolutionDir)Dependencies\lib\aie\bootstrap\Bootstrap.dll" "$(OutDir)Bootstrap.dll"
 copy /Y "$(SolutionDir)Dependencies\lib\assimp\assimp-vc143-mt.dll" "$(OutDir)assimp-vc143-mt.dll"
 copy /Y "$(SolutionDir)Dependencies\lib\glew\glew32.dll" "$(OutDir)glew32.dll"</Command>
     </PreBuildEvent>
@@ -132,11 +132,11 @@ copy /Y "$(SolutionDir)Dependencies\lib\glew\glew32.dll" "$(OutDir)glew32.dll"</
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>bootstrap.lib;glew32.lib;assimp-vc143-mt.lib;glfw3dll.lib;winmm.lib;kernel32.lib;opengl32.lib;gdi32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)temp\Bootstrap\$(Platform)\$(Configuration)\;$(SolutionDir)Dependencies\lib\glew\;$(SolutionDir)Dependencies\lib\glfw\;$(SolutionDir)Dependencies\lib\assimp\%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\lib\aie\bootstrap\;$(SolutionDir)Dependencies\lib\glew\;$(SolutionDir)Dependencies\lib\glfw\;$(SolutionDir)Dependencies\lib\assimp\%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PreBuildEvent>
       <Command>copy /Y "$(SolutionDir)Dependencies\lib\glfw\glfw3.dll" "$(OutDir)glfw3.dll"
-copy /Y  "$(SolutionDir)temp\Bootstrap\$(Platform)\$(Configuration)\Bootstrap.dll" "$(OutDir)Bootstrap.dll"
+copy /Y  "$(SolutionDir)Dependencies\lib\aie\bootstrap\Bootstrap.dll" "$(OutDir)Bootstrap.dll"
 copy /Y "$(SolutionDir)Dependencies\lib\assimp\assimp-vc143-mt.dll" "$(OutDir)assimp-vc143-mt.dll"
 copy /Y "$(SolutionDir)Dependencies\lib\glew\glew32.dll" "$(OutDir)glew32.dll"</Command>
     </PreBuildEvent>
@@ -158,11 +158,11 @@ copy /Y "$(SolutionDir)Dependencies\lib\glew\glew32.dll" "$(OutDir)glew32.dll"</
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>bootstrap.lib;glew32.lib;assimp-vc143-mt.lib;glfw3dll.lib;winmm.lib;kernel32.lib;opengl32.lib;gdi32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)temp\Bootstrap\$(Platform)\$(Configuration)\;$(SolutionDir)Dependencies\lib\glew\;$(SolutionDir)Dependencies\lib\glfw\;$(SolutionDir)Dependencies\lib\assimp\%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\lib\aie\bootstrap\;$(SolutionDir)Dependencies\lib\glew\;$(SolutionDir)Dependencies\lib\glfw\;$(SolutionDir)Dependencies\lib\assimp\%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PreBuildEvent>
       <Command>copy /Y "$(SolutionDir)Dependencies\lib\glfw\glfw3.dll" "$(OutDir)glfw3.dll"
-copy /Y  "$(SolutionDir)temp\Bootstrap\$(Platform)\$(Configuration)\Bootstrap.dll" "$(OutDir)Bootstrap.dll"
+copy /Y  "$(SolutionDir)Dependencies\lib\aie\bootstrap\Bootstrap.dll" "$(OutDir)Bootstrap.dll"
 copy /Y "$(SolutionDir)Dependencies\lib\assimp\assimp-vc143-mt.dll" "$(OutDir)assimp-vc143-mt.dll"
 copy /Y "$(SolutionDir)Dependencies\lib\glew\glew32.dll" "$(OutDir)glew32.dll"</Command>
     </PreBuildEvent>
@@ -184,11 +184,11 @@ copy /Y "$(SolutionDir)Dependencies\lib\glew\glew32.dll" "$(OutDir)glew32.dll"</
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>bootstrap.lib;glew32.lib;assimp-vc143-mt.lib;glfw3dll.lib;winmm.lib;kernel32.lib;opengl32.lib;gdi32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)temp\Bootstrap\$(Platform)\$(Configuration)\;$(SolutionDir)Dependencies\lib\glew\;$(SolutionDir)Dependencies\lib\glfw\;$(SolutionDir)Dependencies\lib\assimp\%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\lib\aie\bootstrap\;$(SolutionDir)Dependencies\lib\glew\;$(SolutionDir)Dependencies\lib\glfw\;$(SolutionDir)Dependencies\lib\assimp\%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PreBuildEvent>
       <Command>copy /Y "$(SolutionDir)Dependencies\lib\glfw\glfw3.dll" "$(OutDir)glfw3.dll"
-copy /Y  "$(SolutionDir)temp\Bootstrap\$(Platform)\$(Configuration)\Bootstrap.dll" "$(OutDir)Bootstrap.dll"
+copy /Y  "$(SolutionDir)Dependencies\lib\aie\bootstrap\Bootstrap.dll" "$(OutDir)Bootstrap.dll"
 copy /Y "$(SolutionDir)Dependencies\lib\assimp\assimp-vc143-mt.dll" "$(OutDir)assimp-vc143-mt.dll"
 copy /Y "$(SolutionDir)Dependencies\lib\glew\glew32.dll" "$(OutDir)glew32.dll"</Command>
     </PreBuildEvent>

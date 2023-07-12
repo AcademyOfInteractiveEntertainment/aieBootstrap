@@ -1,12 +1,12 @@
-#include "Renderer2D.h"
+#include "aie/bootstrap/Renderer2D.h"
 
 #include <glew/glew.h>
 #include <GLFW/glfw3.h>
 #include <glm/ext.hpp>
 #include <stb/stb_truetype.h>
 
-#include "Texture.h"
-#include "Font.h"
+#include "aie/bootstrap/Texture.h"
+#include "aie/bootstrap/Font.h"
 
 namespace aie {
 

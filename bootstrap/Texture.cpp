@@ -1,4 +1,4 @@
-#include "Texture.h"
+#include "aie/bootstrap/Texture.h"
 
 #include <glew/glew.h>
 
