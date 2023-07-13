@@ -41,7 +41,10 @@ namespace aie {
 		if (m_glHandle != 0)
 			glDeleteTextures(1, &m_glHandle);
 		if (m_loadedPixels != nullptr)
+		{
 			stbi_image_free(m_loadedPixels);
+			m_loadedPixels = nullptr;
+		}
 	}
 
 	bool Texture::Load(const char* filename) {
