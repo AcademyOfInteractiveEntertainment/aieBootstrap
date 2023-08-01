@@ -1,169 +1,234 @@
-#include "Application.h"
-#include "gl_core_4_4.h"
-#include <GLFW/glfw3.h>
+#include "aie/bootstrap/Application.h"
+
+#include <glew/glew.h>
+#include <glfw/glfw3.h>
+
 #include <glm/glm.hpp>
+
 #include <iostream>
-#include "Input.h"
-#include "imgui_glfw3.h"
+
+#include "aie/bootstrap/Input.h"
+
+#include "imgui/imgui_impl_glfw.h"
+#include "imgui/imgui_impl_opengl3.h"
 
 namespace aie {
 
-Application::Application()
-	: m_window(nullptr),
-	m_gameOver(false),
-	m_fps(0) {
-}
-
-Application::~Application() {
-}
-
-bool Application::createWindow(const char* title, int width, int height, bool fullscreen) {
-
-	if (glfwInit() == GL_FALSE)
-		return false;
-
-	m_window = glfwCreateWindow(width, height, title, (fullscreen ? glfwGetPrimaryMonitor() : nullptr), nullptr);
-	if (m_window == nullptr) {
-		glfwTerminate();
-		return false;
+	Application::Application()
+		: m_window(nullptr),
+		m_gameOver(false),
+		m_fps(0) {
 	}
 
-	glfwMakeContextCurrent(m_window);
+	Application::~Application() {
+	}
 
-	if (ogl_LoadFunctions() == ogl_LOAD_FAILED) {
+	bool Application::CreateWindow(const char* title, int width, int height, bool fullscreen) {
+
+		if (glfwInit() == GL_FALSE)
+			return false;
+
+		m_window = glfwCreateWindow(width, height, title, (fullscreen ? glfwGetPrimaryMonitor() : nullptr), nullptr);
+		if (m_window == nullptr) {
+			glfwTerminate();
+			return false;
+		}
+
+		glfwMakeContextCurrent(m_window);
+
+		glewExperimental = GL_TRUE;
+		if (glewInit() != GLEW_OK) {
+			glfwDestroyWindow(m_window);
+			glfwTerminate();
+			return false;
+		}
+
+		glfwSetWindowSizeCallback(m_window, [](GLFWwindow*, int w, int h) { glViewport(0, 0, w, h); });
+
+		glClearColor(0, 0, 0, 1);
+
+		glEnable(GL_DEPTH_TEST);
+		glEnable(GL_CULL_FACE);
+
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+		// start input manager
+		Input::Create();
+
+		InitImGui();
+
+		return true;
+	}
+
+	void Application::DestroyWindow() {
+
+		ShutdownImGui();
+		Input::Destroy();
+
 		glfwDestroyWindow(m_window);
 		glfwTerminate();
-		return false;
 	}
 
-	glfwSetWindowSizeCallback(m_window, [](GLFWwindow*, int w, int h){ glViewport(0, 0, w, h); });
+	void Application::InitImGui()
+	{
+		IMGUI_CHECKVERSION();
+		ImGui::CreateContext();
+		ImGuiIO& io = ImGui::GetIO();
+		io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
+		io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
+		io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;         // Enable Docking
+		io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;       // Enable Multi-Viewport / Platform Windows
 
-	glClearColor(0, 0, 0, 1);
+		ImGui::StyleColorsDark();
 
-	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_CULL_FACE);
+		// When viewports are enabled we tweak WindowRounding/WindowBg so platform windows can look identical to regular ones.
+		ImGuiStyle& style = ImGui::GetStyle();
+		if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+		{
+			style.WindowRounding = 0.0f;
+			style.Colors[ImGuiCol_WindowBg].w = 1.0f;
+		}
 
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		GLFWwindow* window = glfwGetCurrentContext();
+		// Setup Platform/Renderer backends
+		ImGui_ImplGlfw_InitForOpenGL(window, true);
+		ImGui_ImplOpenGL3_Init("#version 130");
+	}
 
-	// start input manager
-	Input::create();
+	void Application::ShutdownImGui()
+	{
+		ImGui_ImplOpenGL3_Shutdown();
+		ImGui_ImplGlfw_Shutdown();
+		ImGui::DestroyContext();
+	}
 
-	// imgui
-	ImGui_Init(m_window, true);
-	
-	return true;
-}
+	void Application::ImGuiNewFrame()
+	{
+		ImGui_ImplOpenGL3_NewFrame();
+		ImGui_ImplGlfw_NewFrame();
+		ImGui::NewFrame();
+	}
 
-void Application::destroyWindow() {
+	void Application::ImGuiRender()
+	{
+		ImGuiIO& io = ImGui::GetIO();
 
-	ImGui_Shutdown();
-	Input::destroy();
+		ImGui::Render();
+		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
-	glfwDestroyWindow(m_window);
-	glfwTerminate();
-}
-
-void Application::run(const char* title, int width, int height, bool fullscreen) {
-
-	// start game loop if successfully initialised
-	if (createWindow(title,width,height, fullscreen) &&
-		startup()) {
-
-		// variables for timing
-		double prevTime = glfwGetTime();
-		double currTime = 0;
-		double deltaTime = 0;
-		unsigned int frames = 0;
-		double fpsInterval = 0;
-
-		// loop while game is running
-		while (!m_gameOver) {
-
-			// update delta time
-			currTime = glfwGetTime();
-			deltaTime = currTime - prevTime;
-			if (deltaTime > 0.1f)
-				deltaTime = 0.1f;
-
-			prevTime = currTime;
-
-			// clear input
-			Input::getInstance()->clearStatus();
-
-			// update window events (input etc)
-			glfwPollEvents();
-
-			// skip if minimised
-			if (glfwGetWindowAttrib(m_window, GLFW_ICONIFIED) != 0)
-				continue;
-
-			// update fps every second
-			frames++;
-			fpsInterval += deltaTime;
-			if (fpsInterval >= 1.0f) {
-				m_fps = frames;
-				frames = 0;
-				fpsInterval -= 1.0f;
-			}
-
-			// clear imgui
-			ImGui_NewFrame();
-
-			update(float(deltaTime));
-
-			draw();
-
-			// draw IMGUI last
-			ImGui::Render();
-
-			//present backbuffer to the monitor
-			glfwSwapBuffers(m_window);
-
-			// should the game exit?
-			m_gameOver = m_gameOver || glfwWindowShouldClose(m_window) == GLFW_TRUE;
+		// Update and Render additional Platform Windows
+		// (Platform functions may change the current OpenGL context, so we save/restore it to make it easier to paste this code elsewhere.
+		//  For this specific demo app we could also call glfwMakeContextCurrent(window) directly)
+		if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+		{
+			GLFWwindow* backup_current_context = glfwGetCurrentContext();
+			ImGui::UpdatePlatformWindows();
+			ImGui::RenderPlatformWindowsDefault();
+			glfwMakeContextCurrent(backup_current_context);
 		}
 	}
 
-	// cleanup
-	shutdown();
-	destroyWindow();
-}
+	void Application::Run(const char* title, int width, int height, bool fullscreen) {
 
-bool Application::hasWindowClosed() {
-	return glfwWindowShouldClose(m_window) == GL_TRUE;
-}
+		// start game loop if successfully initialised
+		if (CreateWindow(title, width, height, fullscreen) &&
+			Startup()) {
 
-void Application::clearScreen() {
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
-}
+			// variables for timing
+			double prevTime = glfwGetTime();
+			double currTime = 0;
+			double deltaTime = 0;
+			unsigned int frames = 0;
+			double fpsInterval = 0;
 
-void Application::setBackgroundColour(float r, float g, float b, float a) {
-	glClearColor(r, g, b, a);
-}
+			// loop while game is running
+			while (!m_gameOver) {
 
-void Application::setVSync(bool enable) {
-	glfwSwapInterval(enable ? 1 : 0);
-}
+				// Update delta time
+				currTime = glfwGetTime();
+				deltaTime = currTime - prevTime;
+				if (deltaTime > 0.1f)
+					deltaTime = 0.1f;
 
-void Application::setShowCursor(bool visible) {
-	ShowCursor(visible);
-}
+				prevTime = currTime;
 
-unsigned int Application::getWindowWidth() const {
-	int w = 0, h = 0;
-	glfwGetWindowSize(m_window, &w, &h);
-	return w;
-}
+				// clear input
+				Input::GetInstance()->ClearStatus();
 
-unsigned int Application::getWindowHeight() const {
-	int w = 0, h = 0;
-	glfwGetWindowSize(m_window, &w, &h);
-	return h;
-}
+				// Update window events (input etc)
+				glfwPollEvents();
 
-float Application::getTime() const {
-	return (float)glfwGetTime();
-}
+				// skip if minimised
+				if (glfwGetWindowAttrib(m_window, GLFW_ICONIFIED) != 0)
+					continue;
+
+				// Update fps every second
+				frames++;
+				fpsInterval += deltaTime;
+				if (fpsInterval >= 1.0f) {
+					m_fps = frames;
+					frames = 0;
+					fpsInterval -= 1.0f;
+				}
+
+				// clear imgui
+				ImGuiNewFrame();
+
+				Update(float(deltaTime));
+
+				Draw();
+
+				// Draw IMGUI last
+				ImGuiRender();
+
+				//present backbuffer to the monitor
+				glfwSwapBuffers(m_window);
+
+				// should the game exit?
+				m_gameOver = m_gameOver || glfwWindowShouldClose(m_window) == GLFW_TRUE;
+			}
+		}
+
+		// cleanup
+		Shutdown();
+		DestroyWindow();
+	}
+
+	bool Application::HasWindowClosed() {
+		return glfwWindowShouldClose(m_window) == GL_TRUE;
+	}
+
+	void Application::ClearScreen() {
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+	}
+
+	void Application::SetBackgroundColour(float r, float g, float b, float a) {
+		glClearColor(r, g, b, a);
+	}
+
+	void Application::SetVSync(bool enable) {
+		glfwSwapInterval(enable ? 1 : 0);
+	}
+
+	void Application::SetShowCursor(bool visible) {
+		glfwSetInputMode(m_window, GLFW_CURSOR, visible ? GLFW_CURSOR_NORMAL : GLFW_CURSOR_HIDDEN);
+	}
+
+	unsigned int Application::GetWindowWidth() const {
+		int w = 0, h = 0;
+		glfwGetWindowSize(m_window, &w, &h);
+		return w;
+	}
+
+	unsigned int Application::GetWindowHeight() const {
+		int w = 0, h = 0;
+		glfwGetWindowSize(m_window, &w, &h);
+		return h;
+	}
+
+	float Application::GetTime() const {
+		return (float)glfwGetTime();
+	}
 
 } // namespace aie

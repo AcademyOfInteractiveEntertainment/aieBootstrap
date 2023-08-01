@@ -1,9 +1,9 @@
-#include "gl_core_4_4.h"
-#include "Font.h"
+#include "glew/glew.h"
+#include "aie/bootstrap/Font.h"
 #include <stdio.h>
 
 #define STB_TRUETYPE_IMPLEMENTATION
-#include <stb_truetype.h>
+#include <stb/stb_truetype.h>
 
 namespace aie {
 
@@ -73,7 +73,7 @@ Font::~Font() {
 	glDeleteBuffers(1, &m_pixelBufferHandle);
 }
 
-float Font::getStringWidth(const char* str) {
+float Font::GetStringWidth(const char* str) {
 
 	stbtt_aligned_quad Q = {};
 	float xPos = 0.0f;
@@ -93,7 +93,7 @@ float Font::getStringWidth(const char* str) {
 	return Q.x1;
 }
 
-float Font::getStringHeight(const char* str) {
+float Font::GetStringHeight(const char* str) {
 
 	stbtt_aligned_quad Q = {};
 	float low = 9999999, high = -9999999;
@@ -116,7 +116,7 @@ float Font::getStringHeight(const char* str) {
 	return high - low;
 }
 
-void Font::getStringSize(const char* str, float& width, float& height) {
+void Font::GetStringSize(const char* str, float& width, float& height) {
 
 	stbtt_aligned_quad Q = {};
 	float low = 9999999, high = -9999999;
@@ -140,7 +140,7 @@ void Font::getStringSize(const char* str, float& width, float& height) {
 	width = Q.x1;
 }
 
-void Font::getStringRectangle(const char* str, float& x0, float& y0, float& x1, float& y1) {
+void Font::GetStringRectangle(const char* str, float& x0, float& y0, float& x1, float& y1) {
 
 	stbtt_aligned_quad Q = {};
 	y1 = 9999999, y0 = -9999999;

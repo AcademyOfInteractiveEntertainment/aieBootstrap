@@ -26,26 +26,26 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -70,28 +70,28 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(SolutionDir)dependencies/imgui;$(SolutionDir)dependencies/glfw/include;$(SolutionDir)dependencies/glm;$(SolutionDir)dependencies/stb;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
-    <OutDir>$(SolutionDir)temp\$(ProjectName)\$(Platform)\$(Configuration)\</OutDir>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+    <OutDir>$(SolutionDir)dependencies\lib\aie\bootstrap\</OutDir>
     <IntDir>$(SolutionDir)temp\$(ProjectName)\$(Platform)\$(Configuration)\</IntDir>
     <LibraryPath>$(SolutionDir)dependencies/glfw/lib-vc2015;$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(NETFXKitsDir)Lib\um\x86</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LibraryPath>$(SolutionDir)dependencies/glfw/lib-vc2015/x64;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64</LibraryPath>
-    <IncludePath>$(SolutionDir)dependencies/imgui;$(SolutionDir)dependencies/glfw/include;$(SolutionDir)dependencies/glm;$(SolutionDir)dependencies/stb;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
-    <OutDir>$(SolutionDir)temp\$(ProjectName)\$(Platform)\$(Configuration)\</OutDir>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+    <OutDir>$(SolutionDir)dependencies\lib\aie\bootstrap\</OutDir>
     <IntDir>$(SolutionDir)temp\$(ProjectName)\$(Platform)\$(Configuration)\</IntDir>
     <TargetName>$(ProjectName)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>$(SolutionDir)dependencies/imgui;$(SolutionDir)dependencies/glfw/include;$(SolutionDir)dependencies/glm;$(SolutionDir)dependencies/stb;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
-    <OutDir>$(SolutionDir)temp\$(ProjectName)\$(Platform)\$(Configuration)\</OutDir>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+    <OutDir>$(SolutionDir)dependencies\lib\aie\bootstrap\</OutDir>
     <IntDir>$(SolutionDir)temp\$(ProjectName)\$(Platform)\$(Configuration)\</IntDir>
     <LibraryPath>$(SolutionDir)dependencies/glfw/lib-vc2015;$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(NETFXKitsDir)Lib\um\x86</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LibraryPath>$(SolutionDir)dependencies/glfw/lib-vc2015/x64;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64</LibraryPath>
-    <IncludePath>$(SolutionDir)dependencies/imgui;$(SolutionDir)dependencies/glfw/include;$(SolutionDir)dependencies/glm;$(SolutionDir)dependencies/stb;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
-    <OutDir>$(SolutionDir)temp\$(ProjectName)\$(Platform)\$(Configuration)\</OutDir>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+    <OutDir>$(SolutionDir)dependencies\lib\aie\bootstrap\</OutDir>
     <IntDir>$(SolutionDir)temp\$(ProjectName)\$(Platform)\$(Configuration)\</IntDir>
     <TargetName>$(ProjectName)</TargetName>
   </PropertyGroup>
@@ -101,11 +101,15 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_WIN32;WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>DLL_EXPORT;_WIN32;WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>$(SolutionDir)dependencies\include\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\lib\glew\;$(SolutionDir)Dependencies\lib\glfw\;$(SolutionDir)Dependencies\lib\assimp\</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glew32.lib;assimp-vc143-mt.lib;glfw3dll.lib;winmm.lib;kernel32.lib;opengl32.lib;gdi32.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Lib>
       <AdditionalDependencies>opengl32.lib;glfw3.lib;</AdditionalDependencies>
@@ -117,11 +121,15 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>DLL_EXPORT;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>$(SolutionDir)dependencies\include\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\lib\glew\;$(SolutionDir)Dependencies\lib\glfw\;$(SolutionDir)Dependencies\lib\assimp\</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glew32.lib;assimp-vc143-mt.lib;glfw3dll.lib;winmm.lib;kernel32.lib;opengl32.lib;gdi32.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Lib>
       <AdditionalDependencies>opengl32.lib;glfw3.lib;</AdditionalDependencies>
@@ -135,13 +143,17 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>_WIN32;WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>DLL_EXPORT;_WIN32;WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>$(SolutionDir)dependencies\include\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\lib\glew\;$(SolutionDir)Dependencies\lib\glfw\;$(SolutionDir)Dependencies\lib\assimp\</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glew32.lib;assimp-vc143-mt.lib;glfw3dll.lib;winmm.lib;kernel32.lib;opengl32.lib;gdi32.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Lib>
       <AdditionalDependencies>opengl32.lib;glfw3.lib;</AdditionalDependencies>
@@ -155,42 +167,53 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>DLL_EXPORT;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>$(SolutionDir)dependencies\include\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\lib\glew\;$(SolutionDir)Dependencies\lib\glfw\;$(SolutionDir)Dependencies\lib\assimp\</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glew32.lib;assimp-vc143-mt.lib;glfw3dll.lib;winmm.lib;kernel32.lib;opengl32.lib;gdi32.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Lib>
       <AdditionalDependencies>opengl32.lib;glfw3.lib;</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\dependencies\imgui\imgui.cpp" />
-    <ClCompile Include="..\dependencies\imgui\imgui_draw.cpp" />
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="Font.cpp" />
     <ClCompile Include="Gizmos.cpp" />
-    <ClCompile Include="gl_core_4_4.c" />
-    <ClCompile Include="imgui_glfw3.cpp" />
+    <ClCompile Include="imgui\imgui.cpp" />
+    <ClCompile Include="imgui\imgui_demo.cpp" />
+    <ClCompile Include="imgui\imgui_draw.cpp" />
+    <ClCompile Include="imgui\imgui_impl_glfw.cpp" />
+    <ClCompile Include="imgui\imgui_impl_opengl3.cpp" />
+    <ClCompile Include="imgui\imgui_tables.cpp" />
+    <ClCompile Include="imgui\imgui_widgets.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="Renderer2D.cpp" />
     <ClCompile Include="Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\dependencies\imgui\imconfig.h" />
-    <ClInclude Include="..\dependencies\imgui\imgui.h" />
-    <ClInclude Include="..\dependencies\imgui\imgui_internal.h" />
-    <ClInclude Include="Application.h" />
-    <ClInclude Include="Font.h" />
-    <ClInclude Include="Gizmos.h" />
-    <ClInclude Include="gl_core_4_4.h" />
-    <ClInclude Include="imgui_glfw3.h" />
-    <ClInclude Include="Input.h" />
-    <ClInclude Include="Renderer2D.h" />
-    <ClInclude Include="Texture.h" />
+    <ClInclude Include="..\dependencies\include\aie\bootstrap\Application.h" />
+    <ClInclude Include="..\dependencies\include\aie\bootstrap\Bootstrap.h" />
+    <ClInclude Include="..\dependencies\include\aie\bootstrap\Font.h" />
+    <ClInclude Include="..\dependencies\include\aie\bootstrap\Gizmos.h" />
+    <ClInclude Include="..\dependencies\include\aie\bootstrap\Input.h" />
+    <ClInclude Include="..\dependencies\include\aie\bootstrap\Renderer2D.h" />
+    <ClInclude Include="..\dependencies\include\aie\bootstrap\Texture.h" />
+    <ClInclude Include="..\dependencies\include\imgui\imgui.h" />
+    <ClInclude Include="..\dependencies\include\imgui\imgui_impl_glfw.h" />
+    <ClInclude Include="..\dependencies\include\imgui\imgui_impl_opengl3.h" />
+    <ClInclude Include="..\dependencies\include\imgui\imgui_impl_opengl3_loader.h" />
+    <ClInclude Include="..\dependencies\include\imgui\imgui_internal.h" />
+    <ClInclude Include="..\dependencies\include\imgui\imstb_rectpack.h" />
+    <ClInclude Include="..\dependencies\include\imgui\imstb_textedit.h" />
+    <ClInclude Include="..\dependencies\include\imgui\imstb_truetype.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
