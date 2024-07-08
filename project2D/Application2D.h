@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Application.h"
-#include "Renderer2D.h"
+#include "aie\bootstrap\Application.h"
+#include "aie\bootstrap\Renderer2D.h"
 
 class Application2D : public aie::Application {
 public:
@@ -9,11 +9,11 @@ public:
 	Application2D();
 	virtual ~Application2D();
 
-	virtual bool startup();
-	virtual void shutdown();
+	virtual bool Startup();
+	virtual void Shutdown();
 
-	virtual void update(float deltaTime);
-	virtual void draw();
+	virtual void Update(float deltaTime);
+	virtual void Draw();
 
 protected:
 
